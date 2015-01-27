@@ -14,15 +14,26 @@
     function user_social_network_menu()
     {
         add_menu_page( 'User Social Network', 'Social Network', 'manage_options', 'user-social-network', 'user_social_network_options' );
-        $subTitleArray = array( 'groups', 'users', 'comments' );
+        $subTitleArray = array( 'groups', 'users', 'comments');
         foreach ( $subTitleArray as &$title ) {
             add_submenu_page( 'user-social-network', 'User Social Network', ucfirst( $title ),
                             'manage_options', 'user-social-network-'.$title, $title.'_function');
-
         }
         add_submenu_page('user-social-network','Posts','Posts','manage_options','edit.php?post_type=sc_post');
         add_submenu_page('user-social-network','Categories','Categories','manage_options','edit-tags.php?taxonomy=sc_group&post_type=sc_post');
+
     }
+
+
+    function sc_category_menu_correction($parent_file) {
+        global $current_screen;
+        $taxonomy = $current_screen->taxonomy;
+        if ($taxonomy == 'sc_group')
+            $parent_file = 'user-social-network';
+        return $parent_file;
+    }
+    add_action('parent_file', 'sc_category_menu_correction');
+
 
     /** Step 3. */
     function user_social_network_options() {
