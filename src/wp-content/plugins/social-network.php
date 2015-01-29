@@ -19,13 +19,24 @@
             add_submenu_page( 'user-social-network', 'User Social Network', ucfirst( $title ),
                             'manage_options', 'user-social-network-'.$title, $title.'_function');
         }
-        add_submenu_page('user-social-network','Posts','Posts','manage_options','edit.php?post_type=sc_post');
-        add_submenu_page('user-social-network','Categories','Categories','manage_options','edit-tags.php?taxonomy=sc_group&post_type=sc_post');
+        add_submenu_page('user-social-network','Posts','Posts','manage_options','user-social-network-posts','sc_posts_show');
+//         add_submenu_page('user-social-network','Categories','Categories','manage_options','edit-tags.php?taxonomy=sc_group&post_type=sc_post');
 
     }
-
-
-    function sc_category_menu_correction($parent_file) {
+    
+    function sc_posts_show()
+    {
+    	//Our class extends the WP_List_Table class, so we need to make sure that it's there
+    	if ( !class_exists('WP_List_Table') ) {
+    		require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+    	};
+    	require_once( ABSPATH . 'wp-content/plugins/sc-post-table.php' );
+    	//Prepare Table of elements
+    	$wp_list_table = new Sc_Post_Table();
+    	$wp_list_table->prepare_items();
+    	$wp_list_table->display();
+    }
+  /*   function sc_category_menu_correction($parent_file) {
         global $current_screen;
         $taxonomy = $current_screen->taxonomy;
         if ($taxonomy == 'sc_group')
@@ -33,7 +44,7 @@
         return $parent_file;
     }
     add_action('parent_file', 'sc_category_menu_correction');
-
+ */
 
     /** Step 3. */
     function user_social_network_options() {
