@@ -115,6 +115,7 @@
 	$BM =& load_class('Benchmark', 'core');
 	$BM->mark('total_execution_time_start');
 	$BM->mark('loading_time:_base_classes_start');
+    $GLOBALS['BM'] = $BM;
 
 /*
  * ------------------------------------------------------
@@ -122,6 +123,7 @@
  * ------------------------------------------------------
  */
 	$EXT =& load_class('Hooks', 'core');
+    $GLOBALS['EXT'] = $EXT;
 
 /*
  * ------------------------------------------------------
@@ -136,6 +138,7 @@
  * ------------------------------------------------------
  */
 	$CFG =& load_class('Config', 'core');
+    $GLOBALS['CFG'] = $CFG;
 
 	// Do we have any manually set config items in the index.php file?
 	if (isset($assign_to_config))
@@ -156,6 +159,7 @@
  */
 
 	$UNI =& load_class('Utf8', 'core');
+    $GLOBALS['UNI'] = $UNI;
 
 /*
  * ------------------------------------------------------
@@ -163,6 +167,7 @@
  * ------------------------------------------------------
  */
 	$URI =& load_class('URI', 'core');
+    $GLOBALS['URI'] = $URI;
 
 /*
  * ------------------------------------------------------
@@ -171,6 +176,7 @@
  */
 	$RTR =& load_class('Router', 'core');
 	$RTR->_set_routing();
+    $GLOBALS['RTR'] = $RTR;
 
 	// Set any routing overrides that may exist in the main index file
 	if (isset($routing))
@@ -184,6 +190,7 @@
  * ------------------------------------------------------
  */
 	$OUT =& load_class('Output', 'core');
+    $GLOBALS['OUT'] = $OUT;
 
 /*
  * ------------------------------------------------------
@@ -204,6 +211,7 @@
  * -----------------------------------------------------
  */
 	$SEC =& load_class('Security', 'core');
+    $GLOBALS['SEC'] = $SEC;
 
 /*
  * ------------------------------------------------------
@@ -211,6 +219,7 @@
  * ------------------------------------------------------
  */
 	$IN	=& load_class('Input', 'core');
+    $GLOBALS['IN'] = $IN;
 
 /*
  * ------------------------------------------------------
@@ -218,6 +227,7 @@
  * ------------------------------------------------------
  */
 	$LANG =& load_class('Lang', 'core');
+    $GLOBALS['LANG'] = $LANG;
 
 /*
  * ------------------------------------------------------
