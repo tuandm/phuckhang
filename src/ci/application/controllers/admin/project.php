@@ -12,4 +12,9 @@ class Project extends CI_Controller {
         $this->load->view('admin/project/view_all');
     }
 
+    public function importProjects()
+    {
+        $this->load->view('admin/project/import_projects');
+    }
+
 }

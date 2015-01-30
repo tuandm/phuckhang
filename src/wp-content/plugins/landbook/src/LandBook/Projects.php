@@ -21,4 +21,8 @@ class LandBook_Projects extends LandBook_Admin {
         $this->forwardRequestToCI('project', 'viewAll');
     }
 
+    public function importProjects() {
+        $this->forwardRequestToCI('project', 'importProjects');
+    }
+
 }

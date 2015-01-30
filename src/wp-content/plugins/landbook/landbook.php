@@ -59,6 +59,9 @@ class LandBook {
         add_submenu_page( 'landbook', 'Landbook - Posts', 'Posts', 'manage_options', 'landbook-posts', array(
             LandBook_Posts::getInstance(), 'viewAll'
         ) );
+        add_submenu_page( 'landbook', 'Landbook - Import Projects', 'Import Projects', 'manage_options',
+            'landbook-import-projects', array(LandBook_Projects::getInstance(), 'importProjects'
+        ) );
     }
 
     public function settings()
