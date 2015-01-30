@@ -50,6 +50,12 @@ class LandBook {
     public function createMenuTtems()
     {
         add_menu_page( 'Landbook', 'Landbook', 'manage_options', 'landbook', array($this, 'settings') );
+        add_submenu_page( 'landbook', 'Landbook - Projects', 'Projects', 'manage_options', 'landbook-projects', array(
+            LandBook_Projects::getInstance(), 'viewAll'
+        ) );
+        add_submenu_page( 'landbook', 'Landbook - Products', 'Products', 'manage_options', 'landbook-products', array(
+            LandBook_Products::getInstance(), 'viewAll'
+        ) );
         add_submenu_page( 'landbook', 'Landbook - Posts', 'Posts', 'manage_options', 'landbook-posts', array(
             LandBook_Posts::getInstance(), 'viewAll'
         ) );
