@@ -2,7 +2,7 @@
 /**
  * Author: Duc Duong
  */
-class LandBook_Products extends LandBook_Admin {
+class LandBook_Groups extends LandBook_Admin {
 
     /** Holds the plugin instance */
     private static $instance = false;
@@ -18,7 +18,7 @@ class LandBook_Products extends LandBook_Admin {
     }
 
     protected function getInstanceName() {
-        return 'product';
+        return 'group';
     }
 
 }

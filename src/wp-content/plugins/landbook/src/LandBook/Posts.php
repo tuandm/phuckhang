@@ -17,8 +17,8 @@ class LandBook_Posts extends LandBook_Admin {
         return self::$instance;
     }
 
-    public function viewAll() {
-        $this->forwardRequestToCI('post', 'viewAll');
+    protected function getInstanceName() {
+        return 'post';
     }
 
 }

@@ -35,7 +35,7 @@ class LandBook {
     private function __construct()
     {
         if (is_admin()) {
-            add_action('admin_menu', array($this, 'createMenuTtems'), 999);
+            add_action('admin_menu', array($this, 'createMenuItems'), 999);
 
             // AJAX action is handled by wp-admin/admin-ajax.php
             $ajaxHandler = LandBook_Ajax::getInstance();
@@ -47,21 +47,23 @@ class LandBook {
         }
     }
 
-    public function createMenuTtems()
+    public function createMenuItems()
     {
+        $subMenus = [
+            ['projects', LandBook_Projects::getInstance()],
+            ['products', LandBook_Products::getInstance()],
+            ['groups', LandBook_Groups::getInstance()],
+            ['posts', LandBook_Posts::getInstance()],
+        ];
         add_menu_page( 'Landbook', 'Landbook', 'manage_options', 'landbook', array($this, 'settings') );
-        add_submenu_page( 'landbook', 'Landbook - Projects', 'Projects', 'manage_options', 'landbook-projects', array(
-            LandBook_Projects::getInstance(), 'viewAll'
-        ) );
-        add_submenu_page( 'landbook', 'Landbook - Products', 'Products', 'manage_options', 'landbook-products', array(
-            LandBook_Products::getInstance(), 'viewAll'
-        ) );
-        add_submenu_page( 'landbook', 'Landbook - Posts', 'Posts', 'manage_options', 'landbook-posts', array(
-            LandBook_Posts::getInstance(), 'viewAll'
-        ) );
-        add_submenu_page( 'landbook', 'Landbook - Import Projects', 'Import Projects', 'manage_options',
-            'landbook-import-projects', array(LandBook_Projects::getInstance(), 'importProjects'
-        ) );
+        foreach ($subMenus as $subMenu) {
+            $menuName = $subMenu[0];
+            $menuHandler = $subMenu[1];
+            $menuTitle = ucwords($menuName);
+            add_submenu_page( 'landbook', 'Landbook - ' . $menuTitle, $menuTitle, 'manage_options', 'landbook-' . $menuName, array(
+                $menuHandler, 'handleRequest'
+            ) );
+        }
     }
 
     public function settings()

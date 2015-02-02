@@ -2,9 +2,16 @@
 /**
  * Author: Duc Duong
  */
-class LandBook_Admin {
+abstract class LandBook_Admin {
 
-    protected  function forwardRequestToCI($controller = '', $action = '')
+    protected abstract function getInstanceName();
+
+    public function handleRequest() {
+        $act = isset($_REQUEST['act']) ? $_REQUEST['act'] : 'index';
+        $this->forwardRequestToCI($this->getInstanceName(), $act);
+    }
+
+    protected function forwardRequestToCI($controller = '', $action = '')
     {
         $_GET['d'] = CI_ADMIN_FOLDER;
         $_GET['c'] = $controller;
