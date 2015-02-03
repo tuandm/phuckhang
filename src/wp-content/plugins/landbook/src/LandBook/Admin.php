@@ -33,4 +33,12 @@ abstract class LandBook_Admin {
         echo $CI_OUTPUT;
     }
 
+    public abstract function getInstanceName();
+
+    public function handleRequest()
+    {
+        $act = (isset($_REQUEST['act']) ? $_REQUEST['act'] : 'index');
+        $this->forwardRequestToCI($this->getInstanceName(), $act);
+    }
+
 }

@@ -2,6 +2,7 @@
 /**
  * Author: Duc Duong
  */
+
 class LandBook_Projects extends LandBook_Admin {
 
     /** Holds the plugin instance */
