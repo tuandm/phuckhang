@@ -1,0 +1,383 @@
+/* lg */
+@media (min-width: 1200px) {
+
+  .dropdown:hover .dropdown-menu {
+      display: block;
+      -webkit-animation: fadeInUp 400ms;
+      animation: fadeInUp 400ms;
+  }
+
+  #portfolio .row {
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+
+  .navbar-nav {
+    margin-top: 25px;
+    margin-bottom: 0px;
+  }
+
+  .navbar-nav>li{
+    margin-left: 5px;
+    padding-bottom: 20px;
+  }
+
+  .navbar-inverse .navbar-nav > li > a {
+    padding: 3px 5px;
+  }
+
+  #social2{
+    margin-top: 25px;
+  }
+
+  .copyright{
+    float: right;
+  }
+
+  .project-wrap{
+    display: block;
+    padding: 20px 0px 20px 0px;
+    margin: 0px 0px 0px 0px;
+    outline: 1px solid #000;
+  }
+
+  .project-wrap.left{}
+
+  .project-wrap.right{}
+
+  .project-img{
+    display: block;
+    padding: 0px 10px 0px 0px;
+    margin: 0px 0px 0px 0px;
+  }
+
+  .project-desc{
+    padding: 0px 0px 0px 0px;
+    margin: 0px;
+    min-height: 263px;
+  }
+
+  .project-desc h3{
+    margin: 0px 0px 10px 0px;
+  }
+
+  .project-desc p{
+    padding-right: 20px;
+    text-align: justify;
+  }
+
+  .project-desc a{
+      margin-right: 15px;
+      margin-bottom: 15px;
+  }
+}
+
+/* md */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+  .dropdown:hover .dropdown-menu {
+      display: block;
+      -webkit-animation: fadeInUp 400ms;
+      animation: fadeInUp 400ms;
+  }
+
+  .navbar-nav > li {
+    margin-left: 10px;
+  }
+
+  .navbar-collapse {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .navbar {
+    border-radius: 0;
+    margin-bottom: 0px;
+    background: #FFFFFF;
+    padding: 5px 0;
+    padding-bottom: 0;
+  }
+
+  .navbar-nav{
+    margin-top: 18px;
+    margin-left: 25px;
+   }
+
+  .navbar-nav>li{
+    margin-left: 15px;
+    padding-bottom: 20px;
+  }
+
+  .navbar-inverse .navbar-nav > li > a {
+    padding: 5px 12px;
+  }
+
+  .navbar-inverse .navbar-nav > li > a:hover{
+    background-color: #009148;
+    color: #ffffff;
+  }
+
+  .navbar-inverse {
+    border: none;
+    box-shadow: 0px 5px 10px -10px #888888;
+  }
+
+  .navbar-inverse .navbar-brand {
+    font-size: 36px;
+    line-height: 50px;
+    color: #fff;
+  }
+
+  #logo{
+    width: 100%;
+    padding-bottom: 5px;
+  }
+
+  .copyright{
+    float: right;
+  }
+
+  .project-wrap{
+    padding: 15px 15px;
+    margin:  10px 15px;
+    border-bottom: #DDD 1px solid;
+    float: left;
+  }
+
+  .project-desc h3{
+    margin: 0px 0px 10px 0px;
+  }
+
+}
+
+
+/* sm */
+@media (min-width: 768px) and (max-width: 991px) {
+  /* Make Navigation Toggle on Desktop Hover */
+  .dropdown:hover .dropdown-menu {
+      display: block;
+      -webkit-animation: fadeInUp 400ms;
+      animation: fadeInUp 400ms;
+  }
+
+  .navbar-collapse {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .navbar-nav > li {
+    margin-left: 0;
+  }
+
+  #main-slider .carousel h1 {
+    font-size: 25px;
+  }
+
+  #main-slider .carousel h2 {
+    font-size: 20px;
+  }
+
+  .navbar {
+    border-radius: 0;
+    margin-bottom: 0;
+    background: #FFFFFF;
+    padding: 5px 0;
+    padding-bottom: 0;
+  }
+
+  .navbar-nav{
+    margin-top: 10px;
+    margin-left: 25px;
+   }
+
+  .navbar-nav>li{
+    margin-left: 8px;
+    padding-bottom: 10px;
+  }
+
+  .navbar-inverse .navbar-nav > li > a {
+    padding: 3px 6px;
+  }
+
+  .navbar-inverse .navbar-nav > li > a:hover{
+    background-color: #009148;
+    color: #ffffff;
+  }
+
+  .navbar-inverse {
+    border: none;
+    box-shadow: 0px 5px 10px -10px #888888;
+  }
+
+  .navbar-inverse .navbar-brand {
+    font-size: 36px;
+    line-height: 50px;
+    color: #fff;
+  }
+
+  #logo{
+    width: 100%;
+  }
+
+  .copyright{
+    float: right;
+  }
+
+  .project-wrap{
+    padding: 15px 15px;
+    margin:  10px 15px;
+    border-bottom: #DDD 1px solid;
+    float: left;
+  }
+
+  .project-desc h3{
+    margin: 0px 0px 10px 0px;
+  }
+
+}
+
+/* xs */
+@media (max-width: 767px) {
+  .container > .navbar-header, .container > .navbar-collapse{
+    margin-left: 0;
+  }
+
+  .top-number{
+    font-size: 18px;
+    padding-left: 15px;
+    font-weight: bold;
+  }
+
+  .navbar-nav > li {
+    padding-bottom: 0;
+  }
+
+  #main-slider .carousel h1 {
+    font-size: 25px;
+  }
+
+  #main-slider .carousel h2 {
+    font-size: 16px;
+  }
+
+  #footer .col-sm-6{
+      text-align:center;
+  }
+
+   #footer .pull-right{
+      float: none !important;
+  }
+
+  .navbar-inverse .navbar-toggle{
+      background-color: #009148;
+      margin-top: 20px;
+  }
+
+  .navbar-nav{
+    margin-top: 10px;
+    margin-left: 0px;
+   }
+
+  .navbar-nav>li{
+    margin-left: 0px;
+    margin-right: 10px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    width: 90%;
+    border-bottom: 1px solid #dedede;
+  }
+
+  .navbar-inverse .navbar-nav > li > a {
+    width: 100%;
+  }
+
+  .navbar-inverse .navbar-nav > li > a:hover{
+    background-color: #009148;
+    color: #ffffff;
+  }
+
+  .container > .navbar-header, .container > .navbar-collapse{
+    margin-right: -15px;
+  }
+
+  .copyright{
+    padding: 10px 0px 10px 0px;
+    display: inline-block;
+  }
+  /**
+   * Project code
+   */
+
+  .project-wrap{
+    padding: 15px 0px;
+  }
+
+  .project-desc{
+    padding-bottom: 15px;
+    border-bottom: #DDD 1px solid;
+  }
+
+}
+
+/* XS Portrait */
+@media (max-width: 480px) {
+
+  .navbar-inverse .navbar-toggle{
+      background-color: #009148;
+      margin-top: 20px;
+  }
+
+  .navbar-nav{
+    margin-top: 10px;
+    margin-left: 0px;
+   }
+
+  .navbar-nav>li{
+    margin-left: 0px;
+    margin-right: 10px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    width: 90%;
+    border-bottom: 1px solid #dedede;
+  }
+
+  .navbar-inverse .navbar-nav > li > a {
+    width: 100%;
+  }
+
+  .navbar-inverse .navbar-nav > li > a:hover{
+    background-color: #009148;
+    color: #ffffff;
+  }
+
+  .container > .navbar-header, .container > .navbar-collapse{
+    margin-right: -15px;
+  }
+
+  #footer ul > li {
+    margin-left: 5px;
+  }
+
+  .copyright{
+    padding: 10px 0px 10px 0px;
+    display: inline-block;
+  }
+
+  .navbar-brand img{
+      width: 100%;
+  }
+
+  /**
+   * Project code
+   */
+
+  .project-wrap{
+    padding: 15px 0px;
+  }
+
+  .project-desc{
+    padding-bottom: 15px;
+    border-bottom: #DDD 1px solid;
+  }
+}
+
