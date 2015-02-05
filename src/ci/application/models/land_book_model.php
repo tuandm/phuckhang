@@ -11,6 +11,12 @@ class Land_Book_Model extends CI_Model {
         parent::__construct();
     }
 
+    /**
+     * Description: Function add a row to database
+     * @param $table
+     * @param array $data
+     * @return bool
+     */
     protected function create($table,array $data)
     {
         $result = $this->db->insert($table, $data);
@@ -21,13 +27,23 @@ class Land_Book_Model extends CI_Model {
         }
     }
 
-    protected function getAll()
+    /**
+     * Description: Function get all rows of a table
+     * @return array rows of the table depend on the table name
+     */
+    protected function getAll($table)
     {
-        $row = $this->db->get($this->tableName)->result_array();
-        return $row;
+        $rows = $this->db->get($table)->result_array();
+        return $rows;
     }
 
-    protected function updateGroup($table,array $data)
+    /**
+     * Description:
+     * @param $table
+     * @param array $data
+     * @return mixed
+     */
+    protected function update($table,array $data)
     {
         $where = array('term_id' => $data['term_id']);
         unset($data['term_id']);
