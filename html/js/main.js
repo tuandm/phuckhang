@@ -63,8 +63,26 @@ jQuery(function($) {'use strict',
 		}, 500);
 	});	
 
-	//Pretty Photo
+	// Pretty Photo
 	$("a[rel^='prettyPhoto']").prettyPhoto({
 		social_tools: false
-	});	
+	});
+
+	$(".project-detail-slider").cycle({
+		fx: 'scrollLeft',
+		speed:  'fast'
+	});
+
+	// Slider on Project Details page
+	$menuContainer = $(".sub-nav-project-detail");
+	$menuContainer.find("a").click(function() {
+		$target = $(this);
+		$parent = $target.parent();
+		if ($parent.hasClass("current")) {
+			return;
+		}
+		$menuContainer.find("li.current").removeClass("current");
+		$parent.addClass("current");
+	});
+
 });
