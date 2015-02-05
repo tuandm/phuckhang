@@ -85,4 +85,11 @@ jQuery(function($) {'use strict',
 		$parent.addClass("current");
 	});
 
+    // Slider on Project Listing page
+	$(".project-wrap").each(function() {
+		$(this).hover(function() {
+			$(this).find(".project-cover").stop().slideToggle("slow");
+		});
+	});
+
 });
