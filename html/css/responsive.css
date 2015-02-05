@@ -73,6 +73,10 @@
       margin-right: 15px;
       margin-bottom: 15px;
   }
+
+  .project-onsale table{
+    width: 800px;
+  }
 }
 
 /* md */
