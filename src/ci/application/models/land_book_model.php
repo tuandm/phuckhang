@@ -6,6 +6,7 @@
  * Time: 1:21 PM
  */
 class Land_Book_Model extends CI_Model {
+
     public function __construct()
     {
         parent::__construct();

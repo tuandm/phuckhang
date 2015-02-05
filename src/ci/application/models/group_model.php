@@ -5,6 +5,7 @@
  * Date: 1/31/15
  * Time: 1:24 PM
  */
+require_once('land_book_model.php');
 class Group_Model extends Land_Book_Model {
 
     public function __construct()
@@ -14,30 +15,39 @@ class Group_Model extends Land_Book_Model {
 
     public function getListGroups()
     {
-        $sql = "SELECT pk_term_taxonomy.*, pk_terms.*, (SELECT COUNT(pk_sc_user_groups.user_id) FROM pk_sc_user_groups WHERE pk_sc_user_groups.group_id = pk_term_taxonomy.term_taxonomy_id ) as count_user_in_group FROM pk_term_taxonomy
-                    LEFT JOIN pk_terms ON pk_terms.term_id = pk_term_taxonomy.term_id
-                    WHERE pk_term_taxonomy.taxonomy = ?
-                    ORDER BY pk_terms.name ASC";
-        $groups = $this->db->query($sql, 'sc_group')->result_array();
+        $this->db
+            ->select('pk_terms.name, pk_terms.slug, pk_term_taxonomy.description, pk_term_taxonomy.term_id')
+            ->from('pk_term_taxonomy')
+            ->join('pk_terms', 'pk_terms.term_id = pk_term_taxonomy.term_id', 'left')
+            ->where('pk_term_taxonomy.taxonomy', 'sc_group')
+            ->order_by('pk_terms.name', 'ASC');
+        $groups = $this->db->get()->result_array();
         return $groups;
     }
 
-    public function countUsersInGroup($taxonomyId)
+    public function countUsersInGroup($termId)
     {
-        $sql = "SELECT COUNT(pk_sc_user_groups.user_id) as count_users_in_group FROM pk_sc_user_groups
-                    WHERE pk_sc_user_groups.group_id = ?";
-        $count = $this->db->query($sql,$taxonomyId)->result_array();
+        $select =   array(
+            'count(pk_sc_user_groups.user_id) as count_users_in_group'
+        );
+        $this->db
+            ->select($select)
+            ->from('pk_sc_user_groups')
+            ->where('pk_sc_user_groups.group_id', $termId);
+        $count = $this->db->get()->result_array();
         return $count[0]['count_users_in_group'];
     }
 
     public function getGroupsByTermId($termId)
     {
-        $sql = "SELECT pk_term_taxonomy.*, pk_terms.* FROM pk_term_taxonomy
-                    LEFT JOIN pk_terms ON pk_terms.term_id = pk_term_taxonomy.term_id AND pk_terms.term_id = ?
-                    WHERE pk_term_taxonomy.taxonomy = ? AND pk_term_taxonomy.term_id = ?
-                    ORDER BY pk_terms.name ASC";
-        $groups = $this->db->query($sql, array($termId, 'sc_group', $termId))->result_array();
-        return $groups[0];
+        $this->db
+            ->select('pk_terms.name, pk_terms.slug, pk_term_taxonomy.description, pk_term_taxonomy.term_id')
+            ->from('pk_term_taxonomy')
+            ->join('pk_terms', 'pk_terms.term_id = pk_term_taxonomy.term_id AND pk_terms.term_id = ' .$termId, 'left')
+            ->where('pk_term_taxonomy.taxonomy', 'sc_group')
+            ->where('pk_term_taxonomy.term_id', $termId);
+        $groups = $this->db->get()->row();
+        return $groups;
     }
 
     public function addNewGroupTaxonomy(array $data)

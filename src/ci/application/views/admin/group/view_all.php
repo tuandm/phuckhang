@@ -2,7 +2,6 @@
 /**
  * Author: Storm
  */
-$this->load->model('Group_Model', 'groupModel');
 ?>
 
 <h2>GROUP MANAGEMENT</h2>
@@ -26,14 +25,14 @@ $this->load->model('Group_Model', 'groupModel');
         </tr>
     </tfoot>
     <tbody id="the-list">
-        <?php foreach($groups as $gr): ?>
+        <?php foreach($groups as $group): ?>
             <tr>
-                <td><?php echo $gr['name']; ?></td>
-                <td><?php echo $gr['description']; ?></td>
-                <td><?php echo $gr['slug']; ?></td>
-                <td><?php echo $this->groupModel->countUsersInGroup($gr['term_taxonomy_id']); ?></td>
-                <td><a href="?page=landbook-groups&act=edit&termId=<?php echo $gr['term_id']; ?>">Edit</a></td>
-                <td><a href="?page=landbook-groups&act=delete&termId=<?php echo $gr['term_id']; ?>">Delete</a></td>
+                <td><?php echo $group['name']; ?></td>
+                <td><?php echo $group['description']; ?></td>
+                <td><?php echo $group['slug']; ?></td>
+                <td><?php echo $group['count_users_in_group']; ?></td>
+                <td><a href="?page=landbook-groups&act=edit&termId=<?php echo $group['term_id']; ?>">Edit</a></td>
+                <td><a href="?page=landbook-groups&act=delete&termId=<?php echo $group['term_id']; ?>">Delete</a></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

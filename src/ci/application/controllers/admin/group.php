@@ -11,14 +11,19 @@ class Group extends CI_Controller {
     {
         parent::__construct();
         $this->load->database();
-        $this->load->helper('url');
-        $this->load->model("Land_Book_Model");
         $this->load->model('Group_Model', 'groupModel');
     }
 
     public function index()
     {
         $groups = $this->groupModel->getListGroups();
+
+        foreach ($groups as &$group)
+        {
+            $totalUsers = $this->groupModel->countUsersInGroup($group['term_id']);
+            $group['count_users_in_group'] = $totalUsers;
+        }
+
         $this->load->view('admin/group/view_all', array(
             'groups' => $groups
         ));
@@ -29,17 +34,20 @@ class Group extends CI_Controller {
         $txtName = $this->input->post('txtName');
         $txtSlug = $this->input->post('txtSlug');
         $txtDescription = $this->input->post('txtDescription');
+
         $term = array(
             'name' => $txtName,
             'slug' => $txtSlug
         );
         $termId = $this->groupModel->addNewTerm($term);
+
         $groups = array(
             'taxonomy' => 'sc_group',
             'term_id' => $termId,
             'description' => $txtDescription
         );
         $result = $this->groupModel->addNewGroupTaxonomy($groups);
+
         if (!empty($result)) {
             echo "Add success!";
         } else {
@@ -49,10 +57,17 @@ class Group extends CI_Controller {
 
     public function edit()
     {
-        $termId = $this->input->get('termId');
-        $groups = $this->groupModel->getGroupsByTermId($termId);
+        $termId = intval($this->input->get('termId'));
+
+        if($termId <= 0)
+        {
+            echo "Invalid Group ID";
+            return;
+        }
+
+        $group = $this->groupModel->getGroupsByTermId($termId);
         $this->load->view('admin/group/edit', array(
-            'groups' => $groups
+            'group' => $group
         ));
     }
 
@@ -62,17 +77,20 @@ class Group extends CI_Controller {
         $slug = $this->input->post('slug');
         $description = $this->input->post('description');
         $id = $this->input->post('id');
-        $ugroup = array(
+
+        $group = array(
             'term_id' => $id,
             'name' => $name,
             'slug' => $slug
         );
-        $this->groupModel->saveTerm($ugroup);
+        $this->groupModel->saveTerm($group);
+
         $des = array(
             'term_id' => $id,
             'description' => $description
         );
         $this->groupModel->updateDescriptionGroup($des);
+
         echo "Edit success";
     }
 
