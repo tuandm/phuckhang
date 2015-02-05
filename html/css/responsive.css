@@ -148,6 +148,13 @@
     margin: 0px 0px 10px 0px;
   }
 
+  .project-detail h3{
+    border: #009148 3px solid;
+    padding: 5px 10px 5px 10px;
+    color: #FFF;
+    background: #009148;
+  }
+
 }
 
 
@@ -234,6 +241,13 @@
     margin: 0px 0px 10px 0px;
   }
 
+  .project-detail h3{
+    border: #009148 3px solid;
+    padding: 5px 10px 5px 10px;
+    color: #FFF;
+    background: #009148;
+  }
+
 }
 
 /* xs */
@@ -317,6 +331,13 @@
     border-bottom: #DDD 1px solid;
   }
 
+  .project-detail h3{
+    border: #009148 3px solid;
+    padding: 5px 10px 5px 10px;
+    color: #FFF;
+    background: #009148;
+  }
+
 }
 
 /* XS Portrait */
@@ -379,5 +400,22 @@
     padding-bottom: 15px;
     border-bottom: #DDD 1px solid;
   }
+
+  .project-detail h3{
+    border: #009148 3px solid;
+    padding: 5px 10px 5px 10px;
+    color: #FFF;
+    background: #009148;
+  }
+
+  .input-code{
+    width: 50px;
+  }
+
+  .select-price{
+    width: 80px;
+  }
+
+
 }
 

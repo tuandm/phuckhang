@@ -618,6 +618,7 @@ input.search-form:hover {
 
 .content{
   padding: 10px 0px;
+  min-height: 600px;
 }
 
 /********
@@ -671,6 +672,8 @@ a.link-detail{
   border-radius: 25px;
   text-align: center;
 }
+
+
 
 
 
