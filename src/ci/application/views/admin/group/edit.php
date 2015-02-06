@@ -13,14 +13,17 @@
             <tr class="form-field form-required term-name-wrap">
                 <th scope="row"><label for="name">Name</label></th>
                 <td><input name="name" id="name" value="<?php echo $group->name; ?>" size="40" aria-required="true" type="text">
+                <span style="color: red; font-style: italic; "><?php echo form_error('name'); ?></span>
             </tr>
             <tr class="form-field term-slug-wrap">
                 <th scope="row"><label for="slug">Slug</label></th>
                 <td><input name="slug" id="slug" value="<?php echo $group->slug; ?>" size="40" type="text">
+                <span style="color: red; font-style: italic; "><?php echo form_error('slug'); ?></span>
             </tr>
             <tr class="form-field term-description-wrap">
                 <th scope="row"><label for="description">Description</label></th>
                 <td><textarea name="description" id="description" rows="5" cols="50" class="large-text"><?php echo $group->description; ?></textarea>
+                <span style="color: red; font-style: italic; "><?php echo form_error('description'); ?></span>
             </tr>
         </tbody>
     </table>

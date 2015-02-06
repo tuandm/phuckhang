@@ -12,14 +12,14 @@ class Group extends CI_Controller {
         parent::__construct();
         $this->load->database();
         $this->load->model('Group_Model', 'groupModel');
+        $this->load->library('form_validation');
     }
 
     public function index()
     {
         $groups = $this->groupModel->getListGroups();
 
-        foreach ($groups as &$group)
-        {
+        foreach ($groups as &$group){
             $totalUsers = $this->groupModel->countUsersInGroup($group['term_id']);
             $group['count_users_in_group'] = $totalUsers;
         }
@@ -31,33 +31,42 @@ class Group extends CI_Controller {
 
     public function addNewGroup()
     {
-        $txtName = $this->input->post('txtName');
-        $txtSlug = $this->input->post('txtSlug');
-        $txtDescription = $this->input->post('txtDescription');
+        $this->form_validation->set_rules('txtName', 'Name', 'required');
+        $this->form_validation->set_rules('txtSlug', 'Slug', 'required');
+        $this->form_validation->set_rules('txtDescription', 'Description', 'required');
 
-        $term = array(
-            'name' => $txtName,
-            'slug' => $txtSlug
-        );
-        $termId = $this->groupModel->addNewTerm($term);
-
-        $groups = array(
-            'taxonomy' => 'sc_group',
-            'term_id' => $termId,
-            'description' => $txtDescription
-        );
-        $result = $this->groupModel->addNewGroupTaxonomy($groups);
-
-        if (!empty($result)) {
-            echo "Add success!";
+        if($this->form_validation->run()==FALSE)
+        {
+            return $this->index();
         } else {
-            echo "Add failed!";
+            $txtName = $this->input->post('txtName');
+            $txtSlug = $this->input->post('txtSlug');
+            $txtDescription = $this->input->post('txtDescription');
+            $term = array(
+                'name' => $txtName,
+                'slug' => $txtSlug
+            );
+            $termId = $this->groupModel->addNewTerm($term);
+
+            $groups = array(
+                'taxonomy' => 'sc_group',
+                'term_id' => $termId,
+                'description' => $txtDescription
+            );
+            $result = $this->groupModel->addNewGroupTaxonomy($groups);
+
+            if (!empty($result)) {
+                echo "Add success!";
+            } else {
+                echo "Add failed!";
+            }
         }
+
     }
 
     public function edit()
     {
-        $termId = intval($this->input->get('termId'));
+        $termId = (int)$this->input->get('termId');
 
         if($termId <= 0)
         {
@@ -65,7 +74,7 @@ class Group extends CI_Controller {
             return;
         }
 
-        $group = $this->groupModel->getGroupsByTermId($termId);
+        $group = $this->groupModel->getGroupByTermId($termId);
         $this->load->view('admin/group/edit', array(
             'group' => $group
         ));
@@ -73,25 +82,34 @@ class Group extends CI_Controller {
 
     public function updateGroup()
     {
-        $name = $this->input->post('name');
-        $slug = $this->input->post('slug');
-        $description = $this->input->post('description');
-        $id = $this->input->post('id');
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        $this->form_validation->set_rules('slug', 'Slug', 'required');
+        $this->form_validation->set_rules('description', 'Description', 'required');
 
-        $group = array(
-            'term_id' => $id,
-            'name' => $name,
-            'slug' => $slug
-        );
-        $this->groupModel->saveTerm($group);
+        if($this->form_validation->run()==FALSE)
+        {
+            return $this->edit();
+        } else {
+            $name = $this->input->post('name');
+            $slug = $this->input->post('slug');
+            $description = $this->input->post('description');
+            $id = $this->input->post('id');
 
-        $des = array(
-            'term_id' => $id,
-            'description' => $description
-        );
-        $this->groupModel->updateDescriptionGroup($des);
+            $group = array(
+                'term_id' => $id,
+                'name' => $name,
+                'slug' => $slug
+            );
+            $this->groupModel->saveTerm($group);
 
-        echo "Edit success";
+            $des = array(
+                'term_id' => $id,
+                'description' => $description
+            );
+            $this->groupModel->updateGroupDescription($des);
+
+            echo "Edit success";
+        }
     }
 
 }

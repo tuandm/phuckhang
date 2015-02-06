@@ -38,7 +38,7 @@ class Group_Model extends Land_Book_Model {
         return $count[0]['count_users_in_group'];
     }
 
-    public function getGroupsByTermId($termId)
+    public function getGroupByTermId($termId)
     {
         $this->db
             ->select('pk_terms.name, pk_terms.slug, pk_term_taxonomy.description, pk_term_taxonomy.term_id')
@@ -46,8 +46,8 @@ class Group_Model extends Land_Book_Model {
             ->join('pk_terms', 'pk_terms.term_id = pk_term_taxonomy.term_id AND pk_terms.term_id = ' .$termId, 'left')
             ->where('pk_term_taxonomy.taxonomy', 'sc_group')
             ->where('pk_term_taxonomy.term_id', $termId);
-        $groups = $this->db->get()->row();
-        return $groups;
+        $group = $this->db->get()->row();
+        return $group;
     }
 
     public function addNewGroupTaxonomy(array $data)
@@ -74,7 +74,7 @@ class Group_Model extends Land_Book_Model {
         }
     }
 
-    public function updateDescriptionGroup(array $des)
+    public function updateGroupDescription(array $des)
     {
         return $this->update('pk_term_taxonomy', $des);
     }

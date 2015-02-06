@@ -37,12 +37,14 @@
         <?php endforeach; ?>
     </tbody>
 </table>
-
 <h2>Add New Group</h2>
 <form id="frmAddGroup" class="validate" action="" method="POST">
     <input type="text" placeholder="Name Group" id="name" name="txtName" value="">
+    <span style="color: red; font-style: italic; "><?php echo form_error('txtName'); ?></span>
     <input type="text" placeholder="Slug Group" id="slug" name="txtSlug" value="">
+    <span style="color: red; font-style: italic; "><?php echo form_error('txtSlug'); ?></span>
     <textarea name="txtDescription"></textarea>
+    <span style="color: red; font-style: italic; "><?php echo form_error('txtDescription'); ?></span>
     <input type="hidden" id="action" name="act" value="addNewGroup">
     <input id='submit' type="submit" value="Add New Group" name="btnAddGroup">
 </form>
