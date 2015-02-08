@@ -10,17 +10,17 @@
     <table class="form-table">
         <tbody>
             <tr class="form-field form-required term-name-wrap">
-                <th scope="row"><label for="name">Name<span style="color: #ff0000">(*)</span></label></th>
+                <th scope="row"><label for="name">Name <span style="color: #ff0000">(*)</span></label></th>
                 <td><input name="name" id="txtGroupName" value="<?php echo $group->name; ?>" size="40" aria-required="true" type="text" required>
                 <span id="validation"><?php echo form_error('name'); ?></span>
             </tr>
             <tr class="form-field term-slug-wrap">
-                <th scope="row"><label for="slug">Slug<span style="color: #ff0000">(*)</span></label></th>
+                <th scope="row"><label for="slug">Slug <span style="color: #ff0000">(*)</span></label></th>
                 <td><input name="slug" id="slug" value="<?php echo $group->slug; ?>" size="40" type="text" required>
                 <span id="validation"><?php echo form_error('slug'); ?></span>
             </tr>
             <tr class="form-field term-description-wrap">
-                <th scope="row"><label for="description">Description<span style="color: #ff0000">(*)</span></label></th>
+                <th scope="row"><label for="description">Description <span style="color: #ff0000">(*)</span></label></th>
                 <td><textarea name="description" id="description" rows="5" cols="50" class="large-text" required><?php echo $group->description; ?></textarea>
                 <span id="notice"><?php echo form_error('description'); ?></span>
             </tr>
