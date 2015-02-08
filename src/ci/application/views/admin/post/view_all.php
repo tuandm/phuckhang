@@ -2,4 +2,5 @@
 /**
  * Author: Duc Duong
  */
-echo "View all posts";
+	echo "View all posts";
+	$post->display();
