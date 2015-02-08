@@ -55,22 +55,22 @@ class Group_Model extends Land_Book_Model {
         return $this->create('pk_term_taxonomy', $data);
     }
 
-    public function addNewTerm(array $data)
+    public function addNewGroup(array $data)
     {
         return $this->create('pk_terms', $data);
     }
 
-    public function updateTerm(array $term)
+    public function updateGroup(array $term)
     {
         return $this->update('pk_terms', $term);
     }
 
-    public function saveTerm(array $term)
+    public function saveGroup(array $term)
     {
         if (isset($term['term_id'])) {
-            return $this->updateTerm($term);
+            return $this->updateGroup($term);
         } else {
-            return $this->addNewTerm($term);
+            return $this->addNewGroup($term);
         }
     }
 
