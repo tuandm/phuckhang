@@ -57,6 +57,7 @@ class Group extends CI_Controller {
 
             if (!empty($result)) {
                 echo "Add success!";
+                $this->index();
             } else {
                 echo "Add failed!";
             }
