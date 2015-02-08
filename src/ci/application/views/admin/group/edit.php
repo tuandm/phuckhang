@@ -15,9 +15,8 @@
                 <span id="validation"><?php echo form_error('name'); ?></span>
             </tr>
             <tr class="form-field term-slug-wrap">
-                <th scope="row"><label for="slug">Slug <span style="color: #ff0000">(*)</span></label></th>
-                <td><input name="slug" id="slug" value="<?php echo $group->slug; ?>" size="40" type="text" required>
-                <span id="validation"><?php echo form_error('slug'); ?></span>
+                <th scope="row"><label for="slug">Slug</label></th>
+                <td><input name="slug" id="slug" value="<?php echo $group->slug; ?>" size="40" type="text">
             </tr>
             <tr class="form-field term-description-wrap">
                 <th scope="row"><label for="description">Description <span style="color: #ff0000">(*)</span></label></th>

@@ -32,7 +32,6 @@ class Group extends CI_Controller {
     public function addNewGroup()
     {
         $this->form_validation->set_rules('txtName', 'Name', 'required');
-        $this->form_validation->set_rules('txtSlug', 'Slug', 'required');
         $this->form_validation->set_rules('txtDescription', 'Description', 'required');
 
         if($this->form_validation->run()==FALSE)
@@ -41,13 +40,24 @@ class Group extends CI_Controller {
         } else {
             $txtName = $this->input->post('txtName');
             $txtSlug = $this->input->post('txtSlug');
-            $txtDescription = $this->input->post('txtDescription');
-            $term = array(
-                'name' => $txtName,
-                'slug' => $txtSlug
-            );
-            $termId = $this->groupModel->addNewTerm($term);
 
+            if($txtSlug == '')
+            {
+                $newSlug = preg_replace("/[\s_]/", "-", $txtName);
+                $term = array(
+                    'name' => $txtName,
+                    'slug' => $newSlug
+                );
+                $termId = $this->groupModel->addNewGroup($term);
+            } else {
+                $term = array(
+                    'name' => $txtName,
+                    'slug' => $txtSlug
+                );
+                $termId = $this->groupModel->addNewGroup($term);
+            }
+
+            $txtDescription = $this->input->post('txtDescription');
             $groups = array(
                 'taxonomy' => 'sc_group',
                 'term_id' => $termId,
@@ -84,7 +94,6 @@ class Group extends CI_Controller {
     public function updateGroup()
     {
         $this->form_validation->set_rules('name', 'Name', 'required');
-        $this->form_validation->set_rules('slug', 'Slug', 'required');
         $this->form_validation->set_rules('description', 'Description', 'required');
 
         if($this->form_validation->run()==FALSE)
@@ -96,12 +105,22 @@ class Group extends CI_Controller {
             $description = $this->input->post('description');
             $id = $this->input->post('id');
 
-            $group = array(
-                'term_id' => $id,
-                'name' => $name,
-                'slug' => $slug
-            );
-            $this->groupModel->saveTerm($group);
+            if($slug == '') {
+                $newSlug = preg_replace("/[\s_]/", "-", $name);
+                $group = array(
+                    'term_id' => $id,
+                    'name' => $name,
+                    'slug' => $newSlug
+                );
+                $this->groupModel->saveGroup($group);
+            } else {
+                $group = array(
+                    'term_id' => $id,
+                    'name' => $name,
+                    'slug' => $slug
+                );
+                $this->groupModel->saveGroup($group);
+            }
 
             $des = array(
                 'term_id' => $id,
@@ -110,6 +129,7 @@ class Group extends CI_Controller {
             $this->groupModel->updateGroupDescription($des);
 
             echo "Edit success";
+            $this->index();
         }
     }
 
