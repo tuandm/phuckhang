@@ -29,6 +29,7 @@
 		 */
 		function get_columns() {
 			return $columns = array(
+				'cb'			   => '<input type="checkbox" />',
 				'col_post_id'      => __('Post Id'),
 				'col_post_title'   => __('Title'),
 				'col_post_by'	   => __('Author'),
@@ -44,6 +45,17 @@
 					'col_post_title'=> array('post_title',false),
 					'col_post_by'	=> array('post_author',false)
 					
+			);
+		}
+		function get_bulk_actions() {
+			$actions = array(
+					'delete'    => 'Delete'
+			);
+			return $actions;
+		}
+		function column_cb($item) {
+			return sprintf(
+					'<input type="checkbox" name="%1$s[]" value="%2s" />', $this->_args['singular'], $item['ID']
 			);
 		}
 		/**
