@@ -31,7 +31,7 @@
                 <td><?php echo $group['description']; ?></td>
                 <td><?php echo $group['slug']; ?></td>
                 <td><?php echo $group['count_users_in_group']; ?></td>
-                <td><a href="?page=landbook-groups&act=edit&termId=<?php echo $group['term_id']; ?>">Edit</a></td>
+                <td><a href="?page=landbook-groups&act=edit&groupId=<?php echo $group['term_id']; ?>">Edit</a></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

@@ -44,17 +44,17 @@ class Group extends CI_Controller {
             if($txtSlug == '')
             {
                 $newSlug = preg_replace("/[\s_]/", "-", $txtName);
-                $term = array(
+                $group = array(
                     'name' => $txtName,
                     'slug' => $newSlug
                 );
-                $termId = $this->groupModel->addNewGroup($term);
+                $termId = $this->groupModel->addNewGroup($group);
             } else {
-                $term = array(
+                $group = array(
                     'name' => $txtName,
                     'slug' => $txtSlug
                 );
-                $termId = $this->groupModel->addNewGroup($term);
+                $termId = $this->groupModel->addNewGroup($group);
             }
 
             $txtDescription = $this->input->post('txtDescription');
@@ -65,7 +65,8 @@ class Group extends CI_Controller {
             );
             $result = $this->groupModel->addNewGroupTaxonomy($groups);
 
-            if (!empty($result)) {
+            if (!empty($result))
+            {
                 echo "Add success!";
                 $this->index();
             } else {
@@ -77,15 +78,15 @@ class Group extends CI_Controller {
 
     public function edit()
     {
-        $termId = (int)$this->input->get('termId');
+        $groupId = (int)$this->input->get('groupId');
 
-        if($termId <= 0)
+        if($groupId <= 0)
         {
             echo "Invalid Group ID";
             return;
         }
 
-        $group = $this->groupModel->getGroupByTermId($termId);
+        $group = $this->groupModel->getGroupByTermId($groupId);
         $this->load->view('admin/group/edit', array(
             'group' => $group
         ));
@@ -105,7 +106,8 @@ class Group extends CI_Controller {
             $description = $this->input->post('description');
             $id = $this->input->post('id');
 
-            if($slug == '') {
+            if($slug == '')
+            {
                 $newSlug = preg_replace("/[\s_]/", "-", $name);
                 $group = array(
                     'term_id' => $id,
