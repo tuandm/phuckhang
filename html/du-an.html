@@ -5,162 +5,274 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Lusman">
-    <title>Home | Phúc Khang</title>
-	
-	<!-- core CSS -->
+    <title>Dự Án | Phúc Khang</title>
+    <!-- Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/prettyPhoto.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link href="css/responsive.css" rel="stylesheet">
-
-    <link rel="stylesheet" type="text/css" href="css/demo.css">
-    <link rel="stylesheet" type="text/css" href="css/style_common.css">
-    <link rel="stylesheet" type="text/css" href="css/style5.css">
-    <link rel="stylesheet" type="text/css" href="css/demoadpacks.css">
-
-    <script src="js/demoad.js"></script>
-    <script type="text/javascript" async="" id="_carbonads_js" src="js/carbon.js"></script>
-
-
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
-    <![endif]-->       
+    <![endif]-->
     <link rel="shortcut icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
 </head><!--/head-->
-
 <body class="homepage">
 
     <header id="header">
-
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="banner">
+        <div class="top-bar visible-xs">
             <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="logo"></a>
-                </div>
-                
-                <div class="collapse navbar-collapse navbar-left">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="index.html">GIỚI THIỆU</a></li>
-                        <li><a href="du-an.html">DỰ ÁN</a></li>
-                        <li><a href="#">THÀNH VIÊN</a></li>
-                        <li><a href="#">TIN TỨC - SỰ KIỆN</a></li>
-                        <li><a href="#">TUYỂN DỤNG</a></li>                       
-                    </ul>
-
-                    <div class="col-sm-6 col-xs-8 social-custom">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6">
+                        <div class="top-number">
+                            <a href="tel:+84982823451">
+                                <p><i class="fa fa-phone-square"></i> 0982 823 451</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6">
                        <div class="social">
+                            <ul class="social-share">
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                <li><a href="#"><i class="fa fa-skype"></i></a></li>
+                            </ul>
                             <div class="search">
                                 <form role="form">
                                     <input type="text" class="search-form" autocomplete="off" placeholder="Search">
                                     <i class="fa fa-search"></i>
                                 </form>
                            </div>
-                            <ul class="social-share">
-                                <li><a href="#"><img src="images/facebook.png"></a></li>
-                                <li><a href="#"><img src="images/google+.png"></a></li> 
-                                <li><a href="#"><img src="images/youtube.png"></a></li>
+                       </div>
+                    </div>
+                </div>
+            </div><!--/.container-->
+        </div><!--/.top-bar-->
+
+        <nav class="navbar navbar-inverse" role="banner">
+            <div class="container">
+                <div class="row">
+                    <div class="navbar-header col-sm-3 col-md-3 col-lg-3">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="index.html">
+                            <img id="logo" src="images/logo.png" alt="logo" class="img-responsive">
+                        </a>
+                    </div>
+
+                    <div class="collapse navbar-collapse col-sm-9 col-md-9 col-lg-6">
+                        <ul class="nav navbar-nav">
+                            <li><a href="index.html">GIỚI THIỆU</a></li>
+                            <li class="active"><a href="du-an.html">DỰ ÁN</a></li>
+                            <li><a href="#">THÀNH VIÊN</a></li>
+                            <li><a href="#">TIN TỨC - SỰ KIỆN</a></li>
+                            <li><a href="#">TUYỂN DỤNG</a></li>
+                        </ul>
+                    </div>
+                     <div class="col-lg-3 visible-lg">
+                       <div id="social2">
+                            <div class="search">
+                                <form role="form">
+                                    <input type="text" class="search-form" autocomplete="off" placeholder="Search">
+                                    <i class="fa fa-search"></i>
+                                </form>
+                           </div>
+                           <ul class="social-share">
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                <li><a href="#"><i class="fa fa-skype"></i></a></li>
                             </ul>
                        </div>
                     </div>
-
                 </div>
             </div><!--/.container-->
         </nav><!--/nav-->
-		
+
     </header><!--/header-->
 
-    <section class="hover-effect" style="padding-top: 100px;">
-        <div class="row">
-            <div class="col-sm-6 padding-col">
-                <div class="view view-fifth">
-                    <div class="square-box">
-                        <h2>DỰ ÁN LÀNG SEN</h2>
-                        <p>Làng Sen Việt Nam là một sản phẩm của Phuc Khang Corporation, tọa lạc tại huyện Đức Hòa, tỉnh Long An, nằm gần khu trung tâm hành chính cận kề, hệ thống trường học các cấp, bệnh viện, siêu thị, chợ An Hạ…, chỉ cách trung tâm TP HCM khoảng 30 phút di chuyển.</p>
+    <section class="content">
+        <div class="row no-gutter">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 no-gutter">
+                <div class="row no-gutter">
+                    <div class="project-wrap left">
+
+						<div class="project-cover">
+							<div class="project-cover-inner">
+								<img src="images/1.jpg" class="img-responsive-cover" usemap="#coverImageMap1">
+                                <map name="coverImageMap1">
+                                    <area shape="rect" coords="40,150,230,210" href="chi-tiet-du-an.html" alt="Xem chi tiết">
+                                </map>
+								<a class="link-detail btn btn-danger" href="chi-tiet-du-an.html" style="display: none;">
+									Xem chi tiết
+								</a>
+							</div>
+						</div>
+
+                        <div class="project-img col-xs-12 col-sm-8 col-md-8 col-lg-6">
+                            <img src="images/1.jpg" class="img-responsive">
+                        </div>
+
+                        <div class="project-desc col-xs-12 col-sm-4 col-md-4 col-lg-6">
+
+                            <h3>DỰ ÁN LÀNG SEN</h3>
+                                <p>Làng Sen Việt Nam là một sản phẩm của Phuc Khang Corporation, tọa lạc tại huyện Đức Hòa, tỉnh Long An, nằm gần khu trung tâm hành chính cận kề, hệ thống trường học các cấp, bệnh viện, siêu thị, chợ An Hạ ..., chỉ cách trung tâm TP HCM khoảng 30 phút di chuyển.</p>
+
+                            <a class="link-detail btn btn-danger" href="chi-tiet-du-an.html">
+                                Xem chi tiết <i class="fa fa-caret-square-o-right fa-1x"></i>
+                            </a>
+                        </div>
+
                     </div>
-                    <a href="chi-tiet-du-an.html"><img src="images/1.jpg"  class="mask"></a>
                 </div>
             </div>
-            <div class="col-sm-6 padding-col">
-                <div class="view view-fifth">
-                    <div class="square-box">
-                        <h2>SUNFLOWER CITY</h2>
-                        <p>Một thành phố trẻ đã và đang hình thành
-                            tại Phía Đông Sài Gòn. Nơi lý tưởng cho 
-                            những cư dân năng động an cư. Các 
-                            dịch vụ tiện ích xung quanh đảm bảo cho 
-                            cuộc sống tiện nghi hòa trong thiên nhiên 
-                            trong lành. Một cuộc sống tươi đẹp, một 
-                            vận hội đầu tư lớn đang chờ bạn quyết 
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 no-gutter">
+                <div class="row no-gutter">
+                    <div class="project-wrap right">
+
+						<div class="project-cover">
+							<div class="project-cover-inner">
+                                <img src="images/2.jpg" class="img-responsive-cover" usemap="#coverImageMap2">
+                                <map name="coverImageMap2">
+                                    <area shape="rect" coords="40,150,230,210" href="chi-tiet-du-an.html" alt="Xem chi tiết">
+                                </map>
+                                <a class="link-detail btn btn-danger" href="chi-tiet-du-an.html" style="display: none;">
+                                    Xem chi tiết
+                                </a>
+							</div>
+						</div>
+
+                        <div class="project-img col-xs-12 col-sm-8 col-md-8 col-lg-6">
+                            <img src="images/2.jpg" class="img-responsive">
+                        </div>
+
+                        <div class="project-desc col-xs-12 col-sm-4 col-md-4 col-lg-6">
+
+                           <h3>SUNFLOWER CITY</h3>
+                            <p>Một thành phố trẻ đã và đang hình thành
+                            tại Phía Đông Sài Gòn. Nơi lý tưởng cho
+                            những cư dân năng động an cư. Các
+                            dịch vụ tiện ích xung quanh đảm bảo cho
+                            cuộc sống tiện nghi hòa trong thiên nhiên
+                            trong lành. Một cuộc sống tươi đẹp, một
+                            vận hội đầu tư lớn đang chờ bạn quyết
                             định ngay hôm nay.
-                        </p>
+                             </p>
+                             <a class="link-detail btn btn-danger" href="chi-tiet-du-an.html">
+                                Xem chi tiết <i class="fa fa-caret-square-o-right fa-1x"></i>
+                            </a>
+                        </div>
                     </div>
-                    <a href="#"><img src="images/2.jpg"  class="mask"></a>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6 padding-col">
-                <div class="view view-fifth">
-                    <div class="square-box">
-                        <h2>ECOSUN</h2>
-                        <p>Tại khu đô thị trẻ EcoSun, Mỗi ngôi nhà trong 
-                            dự án đều được nâng niu, chăm chút 
-                            với thiết kế xanh do Space Matrix 
-                            (Singapore) đảm nhận, lấy cảm hứng 
-                            từ nghệ thuật kiến trúc đương đại, tận 
-                            dụng tối đa không gian, ánh sáng, 
-                            hướng gió, nước mưa…dành tặng 
+
+        <div class="row no-gutter">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 no-gutter">
+                <div class="row no-gutter">
+                    <div class="project-wrap 3">
+
+						<div class="project-cover">
+							<div class="project-cover-inner">
+                                <img src="images/3.jpg" class="img-responsive-cover" usemap="#coverImageMap3">
+                                <map name="coverImageMap3">
+                                    <area shape="rect" coords="40,150,230,210" href="chi-tiet-du-an.html" alt="Xem chi tiết">
+                                </map>
+								<a class="link-detail btn btn-danger" href="chi-tiet-du-an.html">
+									Xem chi tiết
+								</a>
+							</div>
+						</div>
+
+                        <div class="project-img col-xs-12 col-sm-8 col-md-8 col-lg-6">
+                            <img src="images/3.jpg" class="img-responsive">
+                        </div>
+
+                        <div class="project-desc col-xs-12 col-sm-4 col-md-4 col-lg-6">
+                           <h3>ECOSUN</h3>
+                           <p>Tại khu đô thị trẻ EcoSun, Mỗi ngôi nhà trong
+                            dự án đều được nâng niu, chăm chút
+                            với thiết kế xanh do Space Matrix
+                            (Singapore) đảm nhận, lấy cảm hứng
+                            từ nghệ thuật kiến trúc đương đại, tận
+                            dụng tối đa không gian, ánh sáng,
+                            hướng gió, nước mưa…dành tặng
                             riêng cho khách hàng.
-                        </p>
+                             </p>
+
+                             <a class="link-detail btn btn-danger" href="chi-tiet-du-an.html">
+                                Xem chi tiết <i class="fa fa-caret-square-o-right fa-1x"></i>
+                            </a>
+                        </div>
                     </div>
-                    <a href="#"><img src="images/3.jpg"  class="mask"></a>
                 </div>
             </div>
-            <div class="col-sm-6 padding-col">
-                <div class="view view-fifth">
-                    <div class="square-box">
-                        <h2>ECO VILLAGE</h2>
-                        <p>Với thông điệp “Sống cùng thiên nhiên”, 
-                            Làng sinh thái du lịch – Eco Village do 
-                            Công ty Cổ phần Đầu tư và Xây dựng 
-                            Phúc Khang làm chủ đầu tư được xem 
-                            là một trong những dự án mới độc đáo 
-                            trên thị trường bất động sản phía Nam 
-                            được rất nhiều người quan tâm và yêu 
-                            thích.
-                        </p>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 no-gutter">
+                <div class="row no-gutter">
+                    <div class="project-wrap 4">
+
+						<div class="project-cover">
+							<div class="project-cover-inner">
+                                <img src="images/4.jpg" class="img-responsive-cover" usemap="#coverImageMap4">
+                                <map name="coverImageMap4">
+                                    <area shape="rect" coords="40,150,230,210" href="chi-tiet-du-an.html" alt="Xem chi tiết">
+                                </map>
+								<a class="link-detail btn btn-danger" href="chi-tiet-du-an.html">
+									Xem chi tiết
+								</a>
+							</div>
+						</div>
+
+                        <div class="project-img col-xs-12 col-sm-8 col-md-8 col-lg-6">
+                            <img src="images/4.jpg" class="img-responsive">
+                        </div>
+
+                        <div class="project-desc col-xs-12 col-sm-4 col-md-4 col-lg-6">
+                           <h3>ECO VILLAGE</h3>
+                           <p>Tại khu đô thị trẻ EcoSun, Mỗi ngôi nhà trong
+                            dự án đều được nâng niu, chăm chút
+                            với thiết kế xanh do Space Matrix
+                            (Singapore) đảm nhận, lấy cảm hứng
+                            từ nghệ thuật kiến trúc đương đại, tận
+                            dụng tối đa không gian, ánh sáng,
+                            hướng gió, nước mưa…dành tặng
+                            riêng cho khách hàng.
+                            </p>
+
+                            <a class="link-detail btn btn-danger" href="chi-tiet-du-an.html">
+                                Xem chi tiết <i class="fa fa-caret-square-o-right fa-1x"></i>
+                            </a>
+                        </div>
                     </div>
-                    <a href="#"><img src="images/4.jpg"  class="mask"></a>
                 </div>
             </div>
         </div>
+
     </section>
 
-    <footer id="footer" class="navbar-fixed-bottom">
+    <footer id="footer" class="navbar">
         <div class="container" style="padding-bottom: 15px">
             <div class="row">
-                <div class="col-sm-6">
-                    <ul class="pull-left">
-                        <li><img src="images/camera.png" style="padding-right: 10px;"><a href="#">HÌNH ẢNH</a></li>
-                        <li><img src="images/video.png" style="padding-right: 10px;"><a href="#">VIDEO</a></li>
-                        <li><img src="images/location.png" style="padding-right: 10px;"><a href="#">LIÊN HỆ</a></li>
+                <div class="col-xs-12 col-sm-6">
+                    <ul class="">
+                        <li><img src="images/camera.png"><a href="#"> HÌNH ẢNH</a></li>
+                        <li><img src="images/video.png"><a href="#"> VIDEO</a></li>
+                        <li><img src="images/location.png"><a href="#"> LIÊN HỆ</a></li>
                     </ul>
                 </div>
-                <div class="col-sm-6">
-                    <span class="pull-right">&copy; 2015 Phúc Khang. All Rights Reserved.</span>
+                <div class="col-xs-12 col-sm-6">
+                    <span class="copyright">&copy;2015 Phúc Khang. All Rights Reserved.</span>
                 </div>
             </div>
         </div>
@@ -170,6 +282,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/jquery.isotope.min.js"></script>
+    <script src="js/jquery.cycle2.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/wow.min.js"></script>
 </body>

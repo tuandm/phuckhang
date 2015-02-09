@@ -6,8 +6,8 @@
     <meta name="description" content="">
     <meta name="author" content="Lusman">
     <title>Home | Phúc Khang</title>
-	
-	<!-- core CSS -->
+
+    <!-- Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/animate.min.css" rel="stylesheet">
@@ -17,7 +17,7 @@
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
-    <![endif]-->       
+    <![endif]-->
     <link rel="shortcut icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
@@ -28,51 +28,81 @@
 <body class="homepage">
 
     <header id="header">
-
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="banner">
+        <div class="top-bar visible-xs">
             <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="logo"></a>
-                </div>
-				
-                <div class="collapse navbar-collapse navbar-left">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="index.html">GIỚI THIỆU</a></li>
-                        <li><a href="du-an.html">DỰ ÁN</a></li>
-                        <li><a href="#">THÀNH VIÊN</a></li>
-                        <li><a href="#">TIN TỨC - SỰ KIỆN</a></li>
-                        <li><a href="#">TUYỂN DỤNG</a></li>                       
-                    </ul>
-
-                    <div class="col-sm-6 col-xs-8 social-custom">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6">
+                        <div class="top-number">
+                            <a href="tel:+84982823451">
+                                <p><i class="fa fa-phone-square"></i> 0982 823 451</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6">
                        <div class="social">
+                            <ul class="social-share">
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                <li><a href="#"><i class="fa fa-skype"></i></a></li>
+                            </ul>
                             <div class="search">
                                 <form role="form">
                                     <input type="text" class="search-form" autocomplete="off" placeholder="Search">
                                     <i class="fa fa-search"></i>
                                 </form>
                            </div>
-                            <ul class="social-share">
-                                <li><a href="#"><img src="images/facebook.png"></a></li>
-                                <li><a href="#"><img src="images/google+.png"></a></li> 
-                                <li><a href="#"><img src="images/youtube.png"></a></li>
+                       </div>
+                    </div>
+                </div>
+            </div><!--/.container-->
+        </div><!--/.top-bar-->
+
+        <nav class="navbar navbar-inverse" role="banner">
+
+            <div class="container">
+                <div class="row">
+                    <div class="navbar-header col-sm-3 col-md-3 col-lg-3">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="index.html">
+                            <img id="logo" src="images/logo.png" alt="logo" class="img-responsive">
+                        </a>
+                    </div>
+
+                    <div class="collapse navbar-collapse col-sm-9 col-md-9 col-lg-6">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="index.html">GIỚI THIỆU</a></li>
+                            <li><a href="du-an.html">DỰ ÁN</a></li>
+                            <li><a href="#">THÀNH VIÊN</a></li>
+                            <li><a href="#">TIN TỨC - SỰ KIỆN</a></li>
+                            <li><a href="#">TUYỂN DỤNG</a></li>
+                        </ul>
+                    </div>
+                     <div class="col-lg-3 visible-lg">
+                       <div id="social2">
+                            <div class="search">
+                                <form role="form">
+                                    <input type="text" class="search-form" autocomplete="off" placeholder="Search">
+                                    <i class="fa fa-search"></i>
+                                </form>
+                           </div>
+                           <ul class="social-share">
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                <li><a href="#"><i class="fa fa-skype"></i></a></li>
                             </ul>
                        </div>
                     </div>
-
                 </div>
             </div><!--/.container-->
         </nav><!--/nav-->
-		
     </header><!--/header-->
 
-    <section id="main-slider" class="no-margin" style="padding-top: 100px;">
+    <section id="main-slider" class="no-margin" style="padding-top: 10px;">
         <div class="carousel slide">
             <ol class="carousel-indicators">
                 <li data-target="#main-slider" data-slide-to="0" class="active"></li>
@@ -95,18 +125,18 @@
         </a>
     </section><!--/#main-slider-->
 
-    <footer id="footer" class="navbar-fixed-bottom">
+    <footer id="footer" class="navbar">
         <div class="container" style="padding-bottom: 15px">
             <div class="row">
-                <div class="col-sm-6">
-                    <ul class="pull-left">
-                        <li><img src="images/camera.png" style="padding-right: 10px;"><a href="#">HÌNH ẢNH</a></li>
-                        <li><img src="images/video.png" style="padding-right: 10px;"><a href="#">VIDEO</a></li>
-                        <li><img src="images/location.png" style="padding-right: 10px;"><a href="#">LIÊN HỆ</a></li>
+                <div class="col-xs-12 col-sm-6">
+                    <ul class="">
+                        <li><img src="images/camera.png"><a href="#"> HÌNH ẢNH</a></li>
+                        <li><img src="images/video.png"><a href="#"> VIDEO</a></li>
+                        <li><img src="images/location.png"><a href="#"> LIÊN HỆ</a></li>
                     </ul>
                 </div>
-                <div class="col-sm-6">
-                    <span class="pull-right">&copy; 2015 Phúc Khang. All Rights Reserved.</span>
+                <div class="col-xs-12 col-sm-6">
+                    <span class="copyright">&copy;2015 Phúc Khang. All Rights Reserved.</span>
                 </div>
             </div>
         </div>
