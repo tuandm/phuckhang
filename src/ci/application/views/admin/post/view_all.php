@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
- * Author: Duc Duong
- */
+	/**
+	* Author: Duc Duong
+	*/
 ?>
 <form method="post">
 <input type="hidden" name="page" value="ttest_list_table">

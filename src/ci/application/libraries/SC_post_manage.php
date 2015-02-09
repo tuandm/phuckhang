@@ -6,9 +6,9 @@ class CI_SC_Post_Manage extends WP_List_Table {
 	*/
 	function __construct() {
 		parent::__construct(array(
-			'singular' => 'sc-post',
-			'plural'   => 'sc-posts',
-			'ajax'	   => true
+			'singular'	=> 'sc-post',
+			'plural'	=> 'sc-posts',
+			'ajax'		=> true
 		));
 	}
 	
@@ -31,11 +31,11 @@ class CI_SC_Post_Manage extends WP_List_Table {
 	*/
 	function get_columns() {
 		return $columns = array(
-				'cb'			   => '<input type="checkbox" />',
-				'col_post_id'      => __('Post Id'),
-				'col_post_title'   => __('Title'),
-				'col_post_by'	   => __('Author'),
-				'col_post_cat'	   	=> __('Categories'),
+				'cb'			=> '<input type="checkbox" />',
+				'col_post_id'	=> __('Post Id'),
+				'col_post_title'=> __('Title'),
+				'col_post_by'	=> __('Author'),
+				'col_post_cat'	=> __('Categories'),
 				);
 	}
 	
@@ -45,16 +45,16 @@ class CI_SC_Post_Manage extends WP_List_Table {
 	*/
 	public function get_sortable_columns() {
 		return $sortable = array(
-				'col_post_id'   => array('ID',false),
-				'col_post_title'=> array('post_title',false),
-				'col_post_by'	=> array('post_author',false),
-				'col_post_cat'	=> array('ID',false)
+				'col_post_id'		=> array('ID',false),
+				'col_post_title'	=> array('post_title',false),
+				'col_post_by'		=> array('post_author',false),
+				'col_post_cat'		=> array('ID',false)
 				);
 	}
 	
 	function get_bulk_actions() {
 		$actions = array(
-				'delete'    => 'Delete'
+				'delete'	=> 'Delete'
 		);
 		return $actions;
 	}
@@ -81,14 +81,14 @@ class CI_SC_Post_Manage extends WP_List_Table {
 			$this->items = new WP_Query($args);
 		}
 		$totalItems = $this->items->found_posts; 
-		$totalPages = ceil($totalItems/10); 
+		$totalPages = ceil($totalItems / 10); 
 		$this->set_pagination_args(array(
-			"total_items" => $totalItems,
-			"total_pages" => $totalPages,
-			"per_page" => 10,
+			"total_items"	=> $totalItems,
+			"total_pages"	=> $totalPages,
+			"per_page"		=> 10,
 		));
 		$columns = $this->get_columns();
-		$this->_column_headers = array($columns, array(), $this->get_sortable_columns());			
+		$this->_column_headers = array($columns, array(), $this->get_sortable_columns());
 	}
 	
 	/**
@@ -112,10 +112,10 @@ class CI_SC_Post_Manage extends WP_List_Table {
 						$style = ' style="display:none;"';
 					}
 					$attributes = "$class$style";		
-					$editScPost  = '/wp-admin/post.php?action=edit&post=' . (int) $rec->ID;
+					$editScPost = '/wp-admin/post.php?action=edit&post=' . (int) $rec->ID;
 					switch ($column_name) {
 						case 'cb' : echo '<th scope="row" class="check-column">' . $this->column_cb($rec) . '</th>'; break;
-						case 'col_post_id' :  echo '<td '.$attributes.'><strong><a href="' . $editScPost . '" title="Edit">' . stripslashes($rec->ID) . '</a></strong></td>'; break;
+						case 'col_post_id' : echo '<td '.$attributes.'><strong><a href="' . $editScPost . '" title="Edit">' . stripslashes($rec->ID) . '</a></strong></td>'; break;
 						case 'col_post_title' : echo '<td ' . $attributes . '>' . stripslashes($rec->post_title) . '</td>'; break;
 						case 'col_post_by' : echo '<td ' . $attributes . '>' . stripslashes($userData->user_nicename) . '</td>'; break;
 						case 'col_post_cat' : echo '<td ' . $attributes . '>' . stripslashes($catName) . '</td>'; break;
