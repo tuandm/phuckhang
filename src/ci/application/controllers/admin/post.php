@@ -1,7 +1,7 @@
 <?php
-	/**
- 	* User: Duc Duong
- 	*/
+    /**
+    * User: Duc Duong
+    */
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
