@@ -38,7 +38,7 @@ class Group_Model extends Land_Book_Model {
         return $count[0]['count_users_in_group'];
     }
 
-    public function getGroupByTermId($groupId)
+    public function getGroupById($groupId)
     {
         $this->db
             ->select('pk_terms.name, pk_terms.slug, pk_term_taxonomy.description, pk_term_taxonomy.term_id')
