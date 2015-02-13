@@ -34,8 +34,7 @@ class Group extends CI_Controller {
         $this->form_validation->set_rules('txtName', 'Name', 'required');
         $this->form_validation->set_rules('txtDescription', 'Description', 'required');
 
-        if ($this->form_validation->run()==FALSE)
-        {
+        if ($this->form_validation->run() == FALSE) {
             return $this->index();
         } else {
             $txtName = $this->input->post('txtName');
@@ -54,8 +53,7 @@ class Group extends CI_Controller {
             );
             $result = $this->groupModel->addNewGroupTaxonomy($groups);
 
-            if (!empty($result))
-            {
+            if (!empty($result)) {
                 echo "Add success!";
                 $this->index();
             } else {
@@ -65,12 +63,11 @@ class Group extends CI_Controller {
 
     }
 
-    public function edit()
+    public function editGroup()
     {
         $groupId = (int)$this->input->get('groupId');
 
-        if ($groupId <= 0)
-        {
+        if ($groupId <= 0) {
             echo "Invalid Group ID";
             return;
         }
@@ -86,8 +83,7 @@ class Group extends CI_Controller {
         $this->form_validation->set_rules('name', 'Name', 'required');
         $this->form_validation->set_rules('description', 'Description', 'required');
 
-        if ($this->form_validation->run()==FALSE)
-        {
+        if ($this->form_validation->run() == FALSE) {
             return $this->edit();
         } else {
             $name = $this->input->post('name');
