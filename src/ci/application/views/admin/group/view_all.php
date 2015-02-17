@@ -31,7 +31,7 @@
                 <td><?php echo $group['description']; ?></td>
                 <td><?php echo $group['slug']; ?></td>
                 <td><?php echo $group['count_users_in_group']; ?></td>
-                <td><a href="?page=landbook-groups&act=edit&termId=<?php echo $group['term_id']; ?>">Edit</a></td>
+                <td><a href="?page=landbook-groups&act=editGroup&groupId=<?php echo $group['term_id']; ?>">Edit</a></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
@@ -41,7 +41,7 @@
     <table class="form-table">
         <tbody>
             <tr class="form-field form-required term-name-wrap">
-                <th scope="row"><label for="name">Name <span style="color: #ff0000">(*)</span></label></th>
+                <th scope="row"><label for="name">Name <span class="content-required">(*)</span></label></th>
                 <td><input type="text" placeholder="Name Group" id="name" name="txtName" value="" required></td>
                 <span style="color: red; font-style: italic; "><?php echo form_error('txtName'); ?></span>
             </tr>
@@ -50,7 +50,7 @@
                 <td><input type="text" placeholder="Slug Group" id="slug" name="txtSlug" value=""></td>
             </tr>
             <tr class="form-field term-description-wrap">
-                <th scope="row"><label for="name">Description <span style="color: #ff0000">(*)</span></label></th>
+                <th scope="row"><label for="name">Description <span class="content-required">(*)</span></label></th>
                 <td><textarea name="txtDescription" placeholder="Description Group" required></textarea></td>
                 <span style="color: red; font-style: italic; "><?php echo form_error('txtDescription'); ?></span>
         </tbody>

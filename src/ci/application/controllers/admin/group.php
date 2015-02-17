@@ -19,7 +19,7 @@ class Group extends CI_Controller {
     {
         $groups = $this->groupModel->getListGroups();
 
-        foreach ($groups as &$group){
+        foreach ($groups as &$group) {
             $totalUsers = $this->groupModel->countUsersInGroup($group['term_id']);
             $group['count_users_in_group'] = $totalUsers;
         }
@@ -34,33 +34,21 @@ class Group extends CI_Controller {
         $this->form_validation->set_rules('txtName', 'Name', 'required');
         $this->form_validation->set_rules('txtDescription', 'Description', 'required');
 
-        if($this->form_validation->run()==FALSE)
-        {
+        if ($this->form_validation->run() == FALSE) {
             return $this->index();
         } else {
             $txtName = $this->input->post('txtName');
             $txtSlug = $this->input->post('txtSlug');
 
-            if($txtSlug == '')
-            {
-                $newSlug = preg_replace("/[\s_]/", "-", $txtName);
-                $term = array(
-                    'name' => $txtName,
-                    'slug' => $newSlug
-                );
-                $termId = $this->groupModel->addNewGroup($term);
-            } else {
-                $term = array(
-                    'name' => $txtName,
-                    'slug' => $txtSlug
-                );
-                $termId = $this->groupModel->addNewGroup($term);
-            }
+            $groupId = $this->groupModel->addNewGroup([
+                'slug'  => $txtSlug == "" ? preg_replace("/[\s_]/", "-", $txtName) : $txtSlug,
+                'name'  => $txtName
+            ]);
 
             $txtDescription = $this->input->post('txtDescription');
             $groups = array(
                 'taxonomy' => 'sc_group',
-                'term_id' => $termId,
+                'term_id' => $groupId,
                 'description' => $txtDescription
             );
             $result = $this->groupModel->addNewGroupTaxonomy($groups);
@@ -75,17 +63,16 @@ class Group extends CI_Controller {
 
     }
 
-    public function edit()
+    public function editGroup()
     {
-        $termId = (int)$this->input->get('termId');
+        $groupId = (int)$this->input->get('groupId');
 
-        if($termId <= 0)
-        {
+        if ($groupId <= 0) {
             echo "Invalid Group ID";
             return;
         }
 
-        $group = $this->groupModel->getGroupByTermId($termId);
+        $group = $this->groupModel->getGroupById($groupId);
         $this->load->view('admin/group/edit', array(
             'group' => $group
         ));
@@ -96,8 +83,7 @@ class Group extends CI_Controller {
         $this->form_validation->set_rules('name', 'Name', 'required');
         $this->form_validation->set_rules('description', 'Description', 'required');
 
-        if($this->form_validation->run()==FALSE)
-        {
+        if ($this->form_validation->run() == FALSE) {
             return $this->edit();
         } else {
             $name = $this->input->post('name');
@@ -105,22 +91,11 @@ class Group extends CI_Controller {
             $description = $this->input->post('description');
             $id = $this->input->post('id');
 
-            if($slug == '') {
-                $newSlug = preg_replace("/[\s_]/", "-", $name);
-                $group = array(
-                    'term_id' => $id,
-                    'name' => $name,
-                    'slug' => $newSlug
-                );
-                $this->groupModel->saveGroup($group);
-            } else {
-                $group = array(
-                    'term_id' => $id,
-                    'name' => $name,
-                    'slug' => $slug
-                );
-                $this->groupModel->saveGroup($group);
-            }
+            $this->groupModel->saveGroup([
+                'slug'  => $slug == "" ? preg_replace("/[\s_]/", "-", $name) : $slug,
+                'name'  => $name,
+                'term_id' => $id
+            ]);
 
             $des = array(
                 'term_id' => $id,
