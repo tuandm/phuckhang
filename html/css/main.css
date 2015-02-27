@@ -218,6 +218,211 @@ body{
 			width: 420px;
 		}
 
+/**
+ * Start Project
+ */
+
+.project-wrap{
+	/*width: 630px;
+	max-width: 630px;*/
+	float: left;
+}
+
+.project-up{
+	display: block;
+	margin: 25px 0px;
+	height: 70px;
+}
+
+.project-left{
+	display: block;
+	height: 70px;
+	float: left;
+	border-left: #818181 2px solid;
+	padding-left: 18px;
+	margin-left: 28px;
+}
+
+.project-sub{
+	display: block;
+	color: #818181;
+	text-transform: uppercase;
+	font-family: 'Roboto Condensed', sans-serif;
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 20px;
+}
+
+.project-title{
+	display: block;
+	color: #1a8e40;
+	text-transform: uppercase;
+	font-family: 'Roboto Condensed', sans-serif;
+	font-weight: 300;
+	font-size: 30px;
+	line-height: 35px;
+}
+
+.project-link, .project-link a{
+	display: block;
+	color: #818181;
+	font-family: 'Roboto Condensed', sans-serif;
+	font-weight: 300;
+	font-size: 14px;
+	line-height: 21px;
+	text-decoration: none;
+}
+
+.project-right{
+	display: block;
+	float: right;
+	height: 70px;
+	padding-right: 20px;
+}
+
+	.project-right a{
+		color:#c0c0c0;
+		text-decoration: none;
+		margin-top: 15px;
+		display: block;
+	}
+
+	.project-right img{
+		margin-right: 10px;
+	}
+
+
+.project-down{
+	display: block;
+	margin: 0;
+	height: 346px;
+}
+
+	.project-down.last{
+		border-left: 1px solid #fff;
+	}
+	.project-description{
+		background: #5d5d5d;
+		width: 210px;
+		padding: 18px 24px;
+		float: right;
+		min-height: 100%;
+	}
+		.project-description p{
+			color: #fff;
+			font-weight: 300;
+			font-size: 14px;
+			line-height: 21px;
+		}
+
+	.project-langsen{
+		background: url('../images/project/langsen.jpg') center center no-repeat;
+		background-size: cover;
+	}
+
+	.project-sunflower{
+		background: url('../images/project/sunflower.jpg') center center no-repeat;
+		background-size: cover;
+	}
+
+.project-down:hover{
+	background: #1f9149;
+	-webkit-transition: all 0.6s ease;
+	-moz-transition: all 0.6s ease;
+	-o-transition: all 0.6s ease;
+}
+
+.project-down:hover .project-description{
+		background: none;
+		width: 100%;
+		padding: 18px 24px;
+}
+
+.detail-link{
+		display: none;
+		text-align: center;
+		position: relative;
+
+		width: 132px;
+		height: 132px;
+		vertical-align: middle;
+
+		-webkit-border-radius: 132px;
+			-moz-border-radius: 132px;
+			border-radius: 132px;
+			margin: 30px auto;
+			background-color: #549151;
+	}
+		.detail-link a{
+			color: #fff;
+			font-weight: 300;
+			font-size: 14px;
+			line-height: 21px;
+			text-align: center;
+			text-decoration: none;
+			cursor: pointer;
+			position: relative;
+
+			display: inline-block;
+			height: 66px;
+			width: 66px;
+
+		  top: 50%;
+		    -webkit-transform: translateY(-50%);
+		    -ms-transform: translateY(-50%);
+		    transform: translateY(-50%);
+		}
+
+		.detail-link img{
+			display: block;
+			margin: 0 auto;
+		}
+
+.project-down:hover .detail-link{
+		display: block;
+}
+
+
+/**
+ * Project navigation
+ */
+
+.project-nav{
+	width: 100%;
+	text-align: center;
+}
+
+ol.project-indicators{
+	display: block;
+	margin: 10px 0px 10px 0px;
+	padding: 0px;
+}
+
+ol.project-indicators li{
+	background-color: #a7a7a7;
+	border: 1px solid #a7a7a7;
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	margin: 1px;
+	text-indent: -999px;
+	cursor: pointer;
+	-webkit-border-radius: 10px;
+			-moz-border-radius: 10px;
+			border-radius: 10px;
+	list-style: none;
+}
+
+ol.project-indicators li.active{
+	background-color: #209347;
+	border: 1px solid #209347;
+}
+
+
+/**
+ * End Project
+ */
+
 #footer{
 	color: #878787;
 	font-weight: 300;
@@ -247,6 +452,10 @@ body{
 			width: 420px;
 		}
 
+		.project-wrap{
+			width: 630px;
+			float: left;
+		}
 }
 
 /* md */
@@ -302,6 +511,9 @@ body{
 		  background-size: 100%; //propotional resize
 		}
 
+		.project-wrap{
+			width: 100% !important;
+		}
 }
 
 /* xs */
@@ -342,6 +554,10 @@ body{
 
 		.navbar-toggle {
 			margin-top: 30px;
+		}
+
+		.project-wrap{
+			width: 100% !important;
 		}
 
 }
@@ -389,6 +605,20 @@ body{
 		#footer{
 			padding-bottom: 15px;
 		}
+
+		.project-wrap{
+			width: 100% !important;
+		}
+
+		.project-down{
+			height: 420px;
+		}
+
+		.project-right{
+			float: left;
+			margin: 20px 48px;
+		}
+
 }
 
 
