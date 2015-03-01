@@ -13,6 +13,10 @@ define('SRC_FOLDER', "src");
 
 spl_autoload_register('LandBook::autoload');
 
+/**
+ * @author PN
+ *
+ */
 class LandBook {
 
     /** Holds the plugin instance */
@@ -36,6 +40,12 @@ class LandBook {
     {
         if (is_admin()) {
             add_action('admin_menu', array($this, 'createMenuItems'), 999);
+
+            // a filter hook to redirect post location after it is edited
+            add_filter('redirect_post_location', array($this,'redirectPage'), 10, 3);
+
+            //hook into the init action and call createScGroupTaxonomy when it fires
+            add_action( 'init', array($this, 'createScGroupTaxonomy'), 0);
 
             // AJAX action is handled by wp-admin/admin-ajax.php
             $ajaxHandler = LandBook_Ajax::getInstance();
@@ -64,6 +74,38 @@ class LandBook {
                 $menuHandler, 'handleRequest'
             ) );
         }
+    }
+
+    /**
+     * Redirect to land-post after edit a post which belongs to sc_group
+     * 
+     * @param string $location
+     * @return string $location
+     */
+    public function redirectPage($location)
+    {
+        global $post;
+        if (
+            (isset($_POST['publish']) || isset($_POST['save'])) &&
+            preg_match('/post=([0-9]*)/', $location, $match) &&
+            $post &&
+            $post->ID == $match[1] &&
+            is_object_in_term( $post->ID, 'sc_group') &&
+            (isset($_POST['publish']) || $post->post_status == 'publish') &&
+            $pl = get_permalink($post->ID)
+        ) {
+            if (isset($_POST['publish'])) {
+                // Homepage for new posts only
+                $location = home_url();
+            } elseif ($ref = wp_get_original_referer()) {
+                // Referer for edited posts
+                $location = home_url('/wp-admin/admin.php?page=landbook-posts');
+            } else {
+                // Post page as a last resort
+                $location = $pl;
+            }
+        }
+        return $location;
     }
 
     public function settings()
@@ -101,6 +143,20 @@ class LandBook {
         require SRC_FOLDER . DIRECTORY_SEPARATOR . $fileName;
     }
 
+    /**
+     * Register Taxonomy sc_group
+     * 
+     */
+    function createScGroupTaxonomy() 
+    {
+        // Now register the taxonomy
+        register_taxonomy('sc_group', array('post'), array(
+                                                        'hierarchical'      => true,
+                                                        'show_ui'           => true,
+                                                        'show_admin_column' => true,
+                                                        'query_var'         => true,
+                        ));
+    }
 }
 
 add_action('plugins_loaded', array('LandBook', 'getInstance'));

@@ -13,7 +13,8 @@
                     'hierarchical'      => 1,
                     'show_count'        => 1,
                     'orderby'           => 'name',
-                    'selected'          => $cat
+                    'selected'          => $cat,
+                    'taxonomy'          =>'sc_group'
                 );
     wp_dropdown_categories($args); 
 ?>

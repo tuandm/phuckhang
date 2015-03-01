@@ -31,7 +31,7 @@ class Post extends CI_Controller {
                 $this->load->view('admin/post/edit', array('post' => $result->posts[0]));
             }
             else {
-                echo "Invalid Post ID";
+                echo 'Invalid Post ID';
                 return;
             }
         }
@@ -74,7 +74,7 @@ class Post extends CI_Controller {
                 wp_delete_post($postId);
                 $this->index();
             } else {
-                echo "Invalid Post ID";
+                echo 'Invalid Post ID';
                 return;
             }
         } else {

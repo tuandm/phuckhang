@@ -25,6 +25,7 @@ class Posts extends CI_Model
         return $catName;
     }
 
+
     /**
      * Get all Post
      * 
@@ -32,6 +33,7 @@ class Posts extends CI_Model
      */
     public function getAllPosts()
     {
+        
         $posts = new MY_SC_Post_Manage();
         $posts->prepare_items();
         return $posts;

@@ -6,7 +6,7 @@
      * @author PN
      *
     */
-define("PERPAGE", 10);
+define('PERPAGE', 10);
 
 class MY_SC_Post_Manage extends WP_List_Table
 {
@@ -18,9 +18,9 @@ class MY_SC_Post_Manage extends WP_List_Table
     function __construct()
     {
         parent::__construct(array(
-            'singular' => 'sc-post',
-            'plural' => 'sc-posts',
-            'ajax' => true
+            'singular'  => 'sc-post',
+            'plural'    => 'sc-posts',
+            'ajax'      => true
         ));
     }
 
@@ -36,7 +36,7 @@ class MY_SC_Post_Manage extends WP_List_Table
             'col_post_id'       => __('Post Id'),
             'col_post_title'    => __('Title'),
             'col_post_by'       => __('Author'),
-            'col_post_cat'      => __('Categories')
+            'col_post_group'    => __('Groups')
             );
     }
 
@@ -48,10 +48,10 @@ class MY_SC_Post_Manage extends WP_List_Table
     public function get_sortable_columns()
     {
         return $sortable = array(
-            'col_post_id' => array('ID', false),
-            'col_post_title' => array('post_title', false),
-            'col_post_by' => array('post_author', false),
-            'col_post_cat' => array('ID', false)
+            'col_post_id'       => array('ID', false),
+            'col_post_title'    => array('post_title', false),
+            'col_post_by'       => array('post_author', false),
+            'col_post_group'    => array('ID', false)
         );
     }
 
@@ -74,8 +74,8 @@ class MY_SC_Post_Manage extends WP_List_Table
     function postAction($item)
     {
         $actions = array(
-            'edit' => sprintf('<a href="?page=%s&act=%s&post=%s">Edit</a>',
-                 $_REQUEST['page'], 'edit', $item->ID),
+            'edit' => sprintf('<a href="post.php?post=%s&action=%s">Edit</a>',
+                  $item->ID, 'edit'),
             'delete' => sprintf('<a href="?page=%s&act=%s&post=%s">Delete</a>', 
                 $_REQUEST['page'], 'delete', $item->ID)
         );
@@ -106,15 +106,26 @@ class MY_SC_Post_Manage extends WP_List_Table
     function prepare_items()
     {
         global $wpdb, $_column_headers, $cat;
-        $screen = get_current_screen();
-        $orderBy = ! empty($_GET['oderBy']) ? $_GET['oderBy'] : 'col_post_id';
-        $order = ! empty($_GET['order']) ? $_GET['order'] : 'ASC';
-        $cat = ! empty($_POST['cat']) ? $_POST['cat'] : 0;
+        $orderBy = !empty($_GET['oderBy']) ? $_GET['oderBy'] : 'col_post_id';
+        $order = !empty($_GET['order']) ? $_GET['order'] : 'ASC';
+        $cat = !empty($_POST['cat']) ? $_POST['cat'] : 0;
         $postTitle = ! empty($_REQUEST['s']) ? $_REQUEST['s'] : false;
-        if (! empty($orderBy) & ! empty($order)) {
+        if ($cat == 0) {
+            $groupId = wp_list_pluck(get_terms('sc_group'), 'term_id');
+        }
+        else {
+            $groupId = $cat;
+        }
+        if (!empty($orderBy) & !empty($order)) {
             $args = array(
                 'searchTitle'       => $postTitle,
-                'cat'               => $cat,
+                'post_type'         => 'post',
+                'tax_query'         => array(
+                                        array(
+                                            'taxonomy' => 'sc_group',
+                                            'field'     => 'term_id',
+                                            'terms'     => $groupId
+                                        )),
                 'orderby'           => $orderBy,
                 'order'             => $order,
                 'posts_per_page'    => PERPAGE
@@ -144,28 +155,26 @@ class MY_SC_Post_Manage extends WP_List_Table
     {
         static $row_class = '';
         $row_class = ($row_class == '' ? ' class="alternate"' : '');
-        $records = $this->items->posts;
         list ($columns, $hidden, $sortableCol) = $this->get_column_info();
-        if (! empty($records)) {
+        $records = $this->items->posts;
+        if ($this->items->have_posts()) {
             foreach ($records as $rec) {
                 echo '<tr ' . $row_class . 'id="record_' . $rec->ID . '">';
                 foreach ($columns as $column_name => $column_display_name) {
                     $userData = get_userdata($rec->post_author);
-                    $catName = get_the_category($rec->ID)[0]->cat_name;
+                    $groupName = wp_get_post_terms($rec->ID,'sc_group')[0]->name;
                     $class = "class='$column_name column_$column_name'";
                     $style = "";
                     if (in_array($column_name, $hidden)) {
                         $style = ' style="display:none;"';
                     }
                     $attributes = "$class$style";
-                    $editScPost = '/wp-admin/post.php?action=edit&post=' . (int) $rec->ID;
                     switch ($column_name) {
                         case 'cb':
                             echo '<th scope="row" class="check-column">' . $this->columnCb($rec) . '</th>';
                             break;
                         case 'col_post_id':
-                            echo '<td ' . $attributes . '><strong>
-                                    <a href="' . $editScPost . '" title="Edit">' 
+                            echo '<td ' . $attributes . '><strong>'
                                     . stripslashes($rec->ID) . '</a></strong>';
                             if (method_exists($this, 'postAction')) {
                                 echo call_user_func(array($this, 'postAction'), $rec);
@@ -178,13 +187,17 @@ class MY_SC_Post_Manage extends WP_List_Table
                         case 'col_post_by':
                             echo '<td ' . $attributes . '>' . stripslashes($userData->user_nicename) . '</td>';
                             break;
-                        case 'col_post_cat':
-                            echo '<td ' . $attributes . '>' . stripslashes($catName) . '</td>';
+                        case 'col_post_group':
+                            echo '<td ' . $attributes . '>' . stripslashes($groupName) . '</td>';
                             break;
                     }
                 }
                 echo '</tr>';
             }
+        } else {
+                echo '<tr class="no-items"><td class="colspanchange" colspan="' . $this->get_column_count() . '">';
+                $this->no_items();
+                echo '</td></tr>';
         }
     }
 }
