@@ -42,16 +42,16 @@ class LandBook {
             add_action('admin_menu', array($this, 'createMenuItems'), 999);
 
             // a filter hook to redirect post location after it is edited
-            add_filter('redirect_post_location', array($this,'redirectPage'), 10, 3);
+            add_filter('redirect_post_location', array($this, 'redirectPage'), 10, 3);
 
             //hook into the init action and call createScGroupTaxonomy when it fires
-            add_action( 'init', array($this, 'createScGroupTaxonomy'), 0);
+            add_action('init', array($this, 'createScGroupTaxonomy'), 0);
 
             // AJAX action is handled by wp-admin/admin-ajax.php
             $ajaxHandler = LandBook_Ajax::getInstance();
 
             // sample ajax action binding
-            add_action( 'wp_ajax_project_products', array($ajaxHandler, 'projectProducts'));
+            add_action('wp_ajax_project_products', array($ajaxHandler, 'projectProducts'));
         } else {
             add_shortcode('landbook', array($this, 'process'));
         }
@@ -85,25 +85,16 @@ class LandBook {
     public function redirectPage($location)
     {
         global $post;
-        if (
-            (isset($_POST['publish']) || isset($_POST['save'])) &&
-            preg_match('/post=([0-9]*)/', $location, $match) &&
-            $post &&
-            $post->ID == $match[1] &&
-            is_object_in_term( $post->ID, 'sc_group') &&
-            (isset($_POST['publish']) || $post->post_status == 'publish') &&
-            $pl = get_permalink($post->ID)
-        ) {
-            if (isset($_POST['publish'])) {
-                // Homepage for new posts only
-                $location = home_url();
-            } elseif ($ref = wp_get_original_referer()) {
-                // Referer for edited posts
-                $location = home_url('/wp-admin/admin.php?page=landbook-posts');
-            } else {
-                // Post page as a last resort
-                $location = $pl;
+        $pl = get_permalink($post->ID);
+        if (filter_input(INPUT_POST,'publish') ||filter_input(INPUT_POST,'save')) {
+            if (preg_match('/post=([0-9]*)/', $location, $match) && $post->ID == $match[1]) {
+                if (is_object_in_term( $post->ID, 'sc_group') && ($post->post_status == 'publish') && $pl) {
+                    $location = home_url('/wp-admin/admin.php?page=landbook-posts');
+                }
             }
+        } else {
+            // Post page as a last resort
+            $location = $pl;
         }
         return $location;
     }
@@ -152,7 +143,7 @@ class LandBook {
         // Now register the taxonomy
         register_taxonomy('sc_group', array('post'), array(
                                                         'hierarchical'      => true,
-                                                        'show_ui'           => true,
+                                                        'show_ui'           => false,
                                                         'show_admin_column' => true,
                                                         'query_var'         => true,
                         ));

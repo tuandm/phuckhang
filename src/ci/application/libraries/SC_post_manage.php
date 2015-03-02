@@ -77,7 +77,7 @@ class MY_SC_Post_Manage extends WP_List_Table
             'edit' => sprintf('<a href="post.php?post=%s&action=%s">Edit</a>',
                   $item->ID, 'edit'),
             'delete' => sprintf('<a href="?page=%s&act=%s&post=%s">Delete</a>', 
-                $_REQUEST['page'], 'delete', $item->ID)
+                filter_input(INPUT_POST, 'page'), 'delete', $item->ID)
         );
         return sprintf('%1$s %2$s', $item->col_post_id, $this->row_actions($actions));
     }
@@ -106,33 +106,26 @@ class MY_SC_Post_Manage extends WP_List_Table
     function prepare_items()
     {
         global $wpdb, $_column_headers, $cat;
-        $orderBy = !empty($_GET['oderBy']) ? $_GET['oderBy'] : 'col_post_id';
-        $order = !empty($_GET['order']) ? $_GET['order'] : 'ASC';
-        $cat = !empty($_POST['cat']) ? $_POST['cat'] : 0;
-        $postTitle = ! empty($_REQUEST['s']) ? $_REQUEST['s'] : false;
-        if ($cat == 0) {
-            $groupId = wp_list_pluck(get_terms('sc_group'), 'term_id');
-        }
-        else {
-            $groupId = $cat;
-        }
-        if (!empty($orderBy) & !empty($order)) {
-            $args = array(
-                'searchTitle'       => $postTitle,
-                'post_type'         => 'post',
-                'tax_query'         => array(
-                                        array(
-                                            'taxonomy' => 'sc_group',
-                                            'field'     => 'term_id',
-                                            'terms'     => $groupId
-                                        )),
-                'orderby'           => $orderBy,
-                'order'             => $order,
-                'posts_per_page'    => PERPAGE
+        $orderBy = !empty(filter_input(INPUT_GET, 'orderBy')) ? filter_input(INPUT_GET, 'orderBy') : 'col_post_id';
+        $order = !empty(filter_input(INPUT_GET, 'order')) ? filter_input(INPUT_GET, 'order') : 'ASC';
+        $cat = !empty(filter_input(INPUT_POST, 'cat')) ? filter_input(INPUT_POST, 'cat') : 0;
+        $postTitle = !empty(filter_input(INPUT_POST, 's')) ? filter_input(INPUT_POST, 's') : false;
+        $groupId = ($cat == 0) ? wp_list_pluck(get_terms('sc_group'), 'term_id') : $cat;
+        $args = array(
+            'searchTitle'       => $postTitle,
+            'post_type'         => 'post',
+            'tax_query'         => array(
+                                    array(
+                                    'taxonomy'  => 'sc_group',
+                                    'field'     => 'term_id',
+                                    'terms'     => $groupId
+                                    )),
+            'orderby'           => $orderBy,
+            'order'             => $order,
+            'posts_per_page'    => PERPAGE
             );
-            add_filter('posts_where', array($this, 'titleFilter'), 10, 2);
-            $this->items = new WP_Query($args);
-        }
+        add_filter('posts_where', array($this, 'titleFilter'), 10, 2);
+        $this->items = new WP_Query($args);
         $totalItems = $this->items->found_posts;
         $totalPages = ceil($totalItems / PERPAGE);
         $this->set_pagination_args(array(
@@ -162,7 +155,7 @@ class MY_SC_Post_Manage extends WP_List_Table
                 echo '<tr ' . $row_class . 'id="record_' . $rec->ID . '">';
                 foreach ($columns as $column_name => $column_display_name) {
                     $userData = get_userdata($rec->post_author);
-                    $groupName = wp_get_post_terms($rec->ID,'sc_group')[0]->name;
+                    $groupName = wp_get_post_terms($rec->ID, 'sc_group')[0]->name;
                     $class = "class='$column_name column_$column_name'";
                     $style = "";
                     if (in_array($column_name, $hidden)) {
@@ -195,9 +188,9 @@ class MY_SC_Post_Manage extends WP_List_Table
                 echo '</tr>';
             }
         } else {
-                echo '<tr class="no-items"><td class="colspanchange" colspan="' . $this->get_column_count() . '">';
-                $this->no_items();
-                echo '</td></tr>';
+            echo '<tr class="no-items"><td class="colspanchange" colspan="' . $this->get_column_count() . '">';
+            $this->no_items();
+            echo '</td></tr>';
         }
     }
 }

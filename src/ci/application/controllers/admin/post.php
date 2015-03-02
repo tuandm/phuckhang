@@ -29,13 +29,11 @@ class Post extends CI_Controller {
             {
                 $result = $this->postModel->getPostById($postId);
                 $this->load->view('admin/post/edit', array('post' => $result->posts[0]));
-            }
-            else {
+            } else {
                 echo 'Invalid Post ID';
                 return;
             }
-        }
-        else {
+        } else {
             die('You dont have permission to edit');
         }
     }
