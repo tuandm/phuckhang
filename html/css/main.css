@@ -329,15 +329,22 @@ body{
 
 .project-down:hover{
 	background: #1f9149;
-	-webkit-transition: all 1s ease;
-	-moz-transition: all 1s ease;
-	-o-transition: all 1s ease;
+	-webkit-transition: all 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750);
+   -moz-transition: all 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750);
+     -o-transition: all 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750);
+        transition: all 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750);
+
 }
 
 .project-down:hover .project-description{
-		background: none;
+		max-height: 346px;
 		width: 100%;
 		padding: 18px 24px;
+		-webkit-transition: all .5s ease;
+			 -moz-transition: all .5s ease;
+			   -o-transition: all .5s ease;
+
+    background: none;
 }
 
 .detail-link{
@@ -353,7 +360,7 @@ body{
 			-moz-border-radius: 132px;
 			border-radius: 132px;
 			margin: 30px auto;
-			background-color: #549151;
+			border:#DEDEDE 1px solid;
 	}
 		.detail-link a{
 			color: #fff;
@@ -381,7 +388,10 @@ body{
 		}
 
 .project-down:hover .detail-link{
-		display: block;
+	display: block;
+	-webkit-transition: all .5s ease;
+			 -moz-transition: all .5s ease;
+			   -o-transition: all .5s ease;
 }
 
 
