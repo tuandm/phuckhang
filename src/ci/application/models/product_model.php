@@ -17,4 +17,10 @@ class Product_Model extends Land_Book_Model
     {
         return $this->create('pk_lb_products', $product);
     }
+
+    public function addProject($project)
+    {
+        return $this->create('pk_lb_projects', $project);
+    }
+
 }
