@@ -1,8 +1,8 @@
 <?php
     $this->load->helper('form');
-    var_dump($proj);
 ?>
-<form name="edit-proj" id="edit-proj" method="post" action="" class="validate" >
+
+<form name="edit-proj" id="edit-proj" method="post" action="<?php echo get_option('siteurl'); ?>/wp-admin/admin.php?page=landbook-projects&amp;noheader=true" class="validate" >
     <table class="form-table">
         <tbody>
             <tr class="form-field form-required term-name-wrap">
@@ -12,7 +12,7 @@
             </tr>
             <tr class="form-field term-slug-wrap">
                 <th scope="row"><label for="post-content">Status<span style="color: #ff0000">(*)</span></label></th>
-                <td> <?php echo form_dropdown('status', $statusNames ,$proj->status); ?> </td>
+                <td><?php echo form_dropdown('status', $statusNames ,$proj->status); ?></td>
             </tr>
         </tbody>
     </table>

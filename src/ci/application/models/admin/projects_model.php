@@ -1,9 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Storm
- * Date: 1/31/15
- * Time: 1:24 PM
+ * User: Phat Nguyen
+ * 
  */
 require_once(dirname(dirname(__FILE__)) . "/land_book_model.php");
 class Projects_Model extends Land_Book_Model {
@@ -19,10 +17,7 @@ class Projects_Model extends Land_Book_Model {
         $this->db
             ->select('*')
             ->from('pk_lb_projects')
-//             ->join('pk_terms', 'pk_terms.term_id = pk_term_taxonomy.term_id', 'left')
-//             ->where('pk_term_taxonomy.taxonomy', 'sc_group')
             ->order_by('pk_lb_projects.name', 'ASC');
-//         var_dump($projects);
         $projects = $this->db->get()->result_array();
         return $projects;
     }
@@ -59,11 +54,6 @@ class Projects_Model extends Land_Book_Model {
         return $statusName;
     }
 
-    public function addNewProject(array $data)
-    {
-        return $this->create('pk_term_taxonomy', $data);
-    }
-
     public function updateProject(array $data)
     {
         $where = array('lb_project_id' => $data['lb_project_id']);
@@ -71,18 +61,23 @@ class Projects_Model extends Land_Book_Model {
         return $this->db->update('pk_lb_projects', $data, $where);
     }
 
-    public function saveTerm(array $term)
+    public function create($table, array $data)
     {
-        if (isset($term['term_id'])) {
-            return $this->updateTerm($term);
+        $result = $this->db->insert($table, $data);
+        if ($result == true) {
+            return $this->db->insert_id();
         } else {
-            return $this->addNewTerm($term);
+            return false;
         }
     }
 
-    public function updateGroupDescription(array $des)
+    /**
+     * 
+     * @param unknown $data
+    */
+    public function deleteProject($data)
     {
-        return $this->update('pk_term_taxonomy', $des);
+        return $this->db->delete('pk_lb_projects', array('lb_project_id' => $data));
     }
 
 }

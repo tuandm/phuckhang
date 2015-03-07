@@ -1,7 +1,7 @@
 <?php
 
     /**
-     * Library for Post Management class
+     * Library for Project Management class
      * 
      * @author PN
      *
@@ -19,7 +19,7 @@ class MY_LB_Project_Manage extends WP_List_Table
     {
         parent::__construct(array(
             'singular'  => 'lb-proj',
-            'plural'    => 'lb-proj',
+            'plural'    => 'lb-projs',
             'ajax'      => true
         ));
     }
@@ -35,7 +35,7 @@ class MY_LB_Project_Manage extends WP_List_Table
             'cb'                => '<input type="checkbox" />',
             'col_proj_id'       => __('Project Id'),
             'col_proj_name'     => __('Name'),
-            'col_proj_status'   => __('Status'),
+            'col_proj_status'   => __('Status')
             );
     }
 
@@ -49,7 +49,7 @@ class MY_LB_Project_Manage extends WP_List_Table
         return $sortable = array(
             'col_proj_id'       => array('lb_proj_id', false),
             'col_proj_name'     => array('name', false),
-            'col_proj_status'   => array('status', false),
+            'col_proj_status'   => array('status', false)
         );
     }
 
@@ -72,12 +72,12 @@ class MY_LB_Project_Manage extends WP_List_Table
     function projAction($item)
     {
         $actions = array(
-            'edit' => sprintf('<a href="?page=landbook-projects&proj=%s&act=%s">Edit</a>',
-                  $item['lb_project_id'], 'edit'),
-            'delete' => sprintf('<a href="?page=%s&act=%s&post=%s">Delete</a>', 
-                filter_input(INPUT_POST, 'page'), 'delete', $item['lb_project_id'])
+            'edit'      => sprintf('<a href="?page=landbook-projects&proj=%s&act=%s">Edit</a>',
+                $item['lb_project_id'], 'edit'),
+            'delete'    => sprintf('<a href="?page=landbook-projects&proj=%s&act=%s&amp;noheader=true">Delete</a>',
+                $item['lb_project_id'], 'delete')
         );
-        return sprintf(' %2s', $this->row_actions($actions));
+        return sprintf('%2s', $this->row_actions($actions));
     }
 
     /**
@@ -86,35 +86,33 @@ class MY_LB_Project_Manage extends WP_List_Table
      * @param string $wp_query            
      * @return string
      */
+
     function titleFilter($where, &$wp_query)
     {
         global $wpdb;
         $searchTerm = $wp_query->get('searchTitle');
         if ($searchTerm) {
-            $where .= ' AND ' . $wpdb->posts . '.post_title LIKE \'%' . esc_sql($searchTerm) . '%\'';
+            $where .= 'AND' . $wpdb->posts . '.post_title LIKE \'%' . esc_sql($searchTerm) . '%\'';
         }
         return $where;
     }
 
     /**
      * (non-PHPdoc)
-     *
      * @see WP_List_Table::prepare_items()
      */
     function prepare_items($projects, $numProj)
     {
         global $wpdb, $_column_headers, $cat;
-        $orderBy = !empty(filter_input(INPUT_GET, 'orderBy')) ? filter_input(INPUT_GET, 'orderBy') : 'col_post_id';
+        $orderBy = !empty(filter_input(INPUT_GET, 'orderBy')) ? filter_input(INPUT_GET, 'orderBy') : 'col_proj_id';
         $order = !empty(filter_input(INPUT_GET, 'order')) ? filter_input(INPUT_GET, 'order') : 'ASC';
-//         $cat = !empty(filter_input(INPUT_POST, 'cat')) ? filter_input(INPUT_POST, 'cat') : 0;
-//         $postTitle = !empty(filter_input(INPUT_POST, 's')) ? filter_input(INPUT_POST, 's') : false;
-        $this->items = $projects;
         $totalPages = ceil($numProj / PERPAGE);
         $this->set_pagination_args(array(
             'total_items'   => $numProj,
             'total_pages'   => $totalPages,
             'per_page'      => PERPAGE
         ));
+        $this->items = $projects;
         $columns = $this->get_columns();
         $this->_column_headers = array($columns, array(), $this->get_sortable_columns());
     }
@@ -132,10 +130,8 @@ class MY_LB_Project_Manage extends WP_List_Table
         $row_class = ($row_class == '' ? ' class="alternate"' : '');
         list ($columns, $hidden, $sortableCol) = $this->get_column_info();
         $records = $this->items;
-        var_dump($records);
         if (!empty($this->items)) {
             foreach ($records as $rec) {
-                var_dump($rec['lb_project_id']);
                 echo '<tr ' . $row_class . 'id="record_' . $rec['lb_project_id'] . '">';
                 foreach ($columns as $column_name => $column_display_name) {
                     $class = "class='$column_name column_$column_name'";
@@ -146,9 +142,9 @@ class MY_LB_Project_Manage extends WP_List_Table
                     switch ($rec['status']) {
                         case 1: $statusName = 'Sold';
                             break;
-                        case 2: $statusName = 'Unsold';
+                        case 2: $statusName = 'Selling';
                             break;
-                        case 3: $statusName = 'Selling';
+                        case 3: $statusName = 'Unsold';
                             break;
                     }
                     $attributes = "$class$style";
