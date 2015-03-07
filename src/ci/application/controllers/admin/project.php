@@ -7,7 +7,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Project extends CI_Controller {
 
-    private $statusValues = array(1, 2, 3);
+    private $statusValues = array(0, 1, 2, 3);
     private $statusNames;
     private $projTable;
     private $projects;
@@ -21,7 +21,6 @@ class Project extends CI_Controller {
         $this->load->database();
         $this->load->helper('url');
         $this->projTable = new MY_LB_Project_Manage();
-
         foreach ($this->statusValues as $value) {
             $this->statusNames[$value] = $this->projModel->getNameStatusByNumber($value);
         }
@@ -33,37 +32,54 @@ class Project extends CI_Controller {
     public function index()
     {
         $msg = '';
-        $this->projects = $this->projModel->getAll('pk_lb_projects');
+        $orderBy = !empty($this->input->get('orderBy')) ? $this->input->get('orderBy') : 'lb_project_id';
+        $order = !empty($this->input->get('order')) ? $this->input->get('order') : 'ASC';
+        $this->projects = $this->projModel->getAllProjects($order, $orderBy);
         $numProj = $this->projModel->countAllProjects();
         $this->projTable->prepare_items($this->projects, $numProj);
         $this->load->view('admin/project/view_all', 
                             array(
                                 'projTable'     => $this->projTable,
                                 'msg'           => $msg,
-                                'statusNames'   => $this->statusNames
+                                'statusNames'   => $this->statusNames,
                             ));
     }
 
+    /**
+     * 
+     */
     public function addProject()
     {
+        $addStatusVal = array(1, 2, 3);
+        foreach ($addStatusVal as $value) {
+            $addStatusNames[$value] = $this->projModel->getNameStatusByNumber($value);
+        }
         if(!is_admin()) {
             die('You dont have permission to add a project');
-        };
-        $this->load->view('admin/project/add_project', array('statusNames' =>$this->statusNames));
+        }
+        $this->load->view('admin/project/add_project', array('statusNames' => $addStatusNames));
     }
 
+    /**
+     * 
+     */
     public function createProject()
     {
-        $name = $this->input->post('proj-name');
-        $status = $this->input->post('status');
-        $args = array(
+        $this->form_validation->set_rules('proj-name', 'proj-name', '|min_length[5]|max_length[12]|is_unique[pk_lb_projects.name]');
+        if($this->form_validation->run()==FALSE) {
+            return $this->addProject();
+        } else {
+            $name = $this->input->post('proj-name');
+            $status = $this->input->post('status');
+            $args = array(
                     'name'      => $name,
                     'status'    => $status
                     );
-        if ($this->projModel->create('pk_lb_projects', $args)) {
-            wp_redirect(get_option('siteurl') . '/wp-admin/admin.php?page=landbook-projects');
-        } else {
-            die('Server is busy');
+            if ($this->projModel->create('pk_lb_projects', $args)) {
+                wp_redirect(get_option('siteurl') . '/wp-admin/admin.php?page=landbook-projects');
+            } else {
+                die('Server is busy');
+            }
         }
     }
 
@@ -75,7 +91,7 @@ class Project extends CI_Controller {
         if(!is_admin()) {
             die('You dont have permission to edit');
         }
-        $projId = (int)$this->input->get('proj');
+        $projId = $this->input->get('proj');
         if($projId <= 0) {
             echo 'Invalid Proj ID';
             return;
@@ -83,11 +99,14 @@ class Project extends CI_Controller {
         $projects = $this->projModel->getAll('pk_lb_projects');
         $proj = $this->projModel->getProjById($projId);
         $this->load->view('admin/project/edit', array(
-                                                    'proj'          => $proj,
-                                                    'statusNames'   => $this->statusNames
-                                                ));
+            'proj'          => $proj,
+            'statusNames'   => $this->statusNames
+        ));
     }
 
+    /**
+     * 
+     */
     public function delete()
     {
         global $msg;
@@ -107,37 +126,49 @@ class Project extends CI_Controller {
             return;
         }
     }
+
+    /**
+     * 
+     */
     public function update()
     {
-        $this->form_validation->set_rules('proj-name', 'proj-name', '|min_length[5]|max_length[12]|is_unique[pk_lb_projects.name]');
-        if($this->form_validation->run()==FALSE) {
-            return $this->edit();
+        $name = $this->input->post('proj-name');
+        $status = $this->input->post('status');
+        $id = $this->input->post('proj-id');
+        $proj = array(
+            'lb_project_id' => $id,
+            'name'          => $name,
+            'status'        => $status
+        );
+        if ($this->projModel->updateProject($proj)) {
+            wp_redirect(get_option('siteurl') . '/wp-admin/admin.php?page=landbook-projects');
         } else {
-            $name = $this->input->post('proj-name');
-            $status = $this->input->post('status');
-            $id = $this->input->post('proj-id');
-            $proj = array(
-                            'lb_project_id'     => $id,
-                            'name'              => $name,
-                            'status'            => $status
-                );
-            if ($this->projModel->updateProject($proj)) {
-                wp_redirect(get_option('siteurl') . '/wp-admin/admin.php?page=landbook-projects');
-            } else { 
-                die('Server is busy');
-            }
+            die('Server is busy');
         }
     }
 
+    /**
+     * 
+     */
     public function filterAction()
     {
-        $projects = $this->projModel->getAll('pk_lb_projects');
-        $numProj = $this->projModel->countAllProjects();
+        $s = $this->input->post('s');
+        $status = $this->input->post('status');
+        $orderBy = !empty($this->input->get('orderBy')) ? $this->input->get('orderBy') : 'lb_project_id';
+        $order = !empty($this->input->get('order')) ? $this->input->get('order') : 'ASC';
+        $projects = $this->projModel->filterProject($s, $status, $orderBy, $order);
+        $numProj = $this->projModel->countFilterProject($s, $status);
         $projTable = new MY_LB_Project_Manage();
         $projTable->prepare_items($projects, $numProj);
-        $this->load->view('admin/project/view_all', array('projTable' => $projTable));
+        $this->load->view('admin/project/view_all', array(
+            'projTable'     => $projTable,
+            'statusNames'   => $this->statusNames
+        ));
     }
 
+    /**
+     * 
+     */
     public function importProjects()
     {
         $this->load->view('admin/project/import_projects');
