@@ -12,12 +12,12 @@ class Projects_Model extends Land_Book_Model {
         $this->load->database();
     }
 
-    public function getAllProjects()
+    public function getAllProjects($order, $orderBy)
     {
         $this->db
             ->select('*')
             ->from('pk_lb_projects')
-            ->order_by('pk_lb_projects.name', 'ASC');
+            ->order_by($orderBy, $order);
         $projects = $this->db->get()->result_array();
         return $projects;
     }
@@ -44,11 +44,13 @@ class Projects_Model extends Land_Book_Model {
     {
         $statusName = '';
         switch($statusNum) {
-            case 1: $statusName = 'sold';
+            case 0: $statusName = 'All Status';
                 break;
-            case 2: $statusName = 'selling';
+            case 1: $statusName = 'Sold';
                 break;
-            case 3: $statusName = 'unsold';
+            case 2: $statusName = 'Selling';
+                break;
+            case 3: $statusName = 'Unsold';
                 break;
         }
         return $statusName;
@@ -78,6 +80,39 @@ class Projects_Model extends Land_Book_Model {
     public function deleteProject($data)
     {
         return $this->db->delete('pk_lb_projects', array('lb_project_id' => $data));
+    }
+
+    public function filterProject($name, $status, $orderBy, $order)
+    {
+        if ($status == 0) {
+            $this->db->select('*')
+                    ->like('name',$name)
+                    ->order_by($orderBy, $order);;
+            $results = $this->db->get('pk_lb_projects')->result_array();
+        } else {
+            $this->db->select('*')
+                    ->where('status', $status)
+                    ->like('name',$name)
+                    ->order_by($orderBy, $order);;
+            $results = $this->db->get('pk_lb_projects')->result_array();
+        }
+        return $results;
+    }
+
+    public function countFilterProject($name, $status)
+    {
+        if ($status == 0) {
+            $results = $this->db->select('*')
+                            ->from('pk_lb_projects')
+                            ->count_all_results();
+        } else {
+            $results = $this->db->select('*')
+                            ->from('pk_lb_projects')
+                            ->where('status', $status)
+                            ->like('name', $name)
+                            ->count_all_results();
+        }
+        return $results;
     }
 
 }

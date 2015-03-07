@@ -55,7 +55,7 @@ class MY_LB_Project_Manage extends WP_List_Table
 
     /**
      *
-     * @param array $item            
+     * @param array $item
      * @return string
      */
     function columnCb($item)
@@ -81,31 +81,12 @@ class MY_LB_Project_Manage extends WP_List_Table
     }
 
     /**
-     *
-     * @param string $where            
-     * @param string $wp_query            
-     * @return string
-     */
-
-    function titleFilter($where, &$wp_query)
-    {
-        global $wpdb;
-        $searchTerm = $wp_query->get('searchTitle');
-        if ($searchTerm) {
-            $where .= 'AND' . $wpdb->posts . '.post_title LIKE \'%' . esc_sql($searchTerm) . '%\'';
-        }
-        return $where;
-    }
-
-    /**
      * (non-PHPdoc)
      * @see WP_List_Table::prepare_items()
      */
     function prepare_items($projects, $numProj)
     {
         global $wpdb, $_column_headers, $cat;
-        $orderBy = !empty(filter_input(INPUT_GET, 'orderBy')) ? filter_input(INPUT_GET, 'orderBy') : 'col_proj_id';
-        $order = !empty(filter_input(INPUT_GET, 'order')) ? filter_input(INPUT_GET, 'order') : 'ASC';
         $totalPages = ceil($numProj / PERPAGE);
         $this->set_pagination_args(array(
             'total_items'   => $numProj,
@@ -164,7 +145,7 @@ class MY_LB_Project_Manage extends WP_List_Table
                             echo '<td ' . $attributes . '>' . stripslashes($rec['name']) . '</td>';
                             break;
                         case 'col_proj_status':
-                            echo '<td ' . $attributes . '>' . stripslashes("$statusName") . '</td>';
+                            echo '<td ' . $attributes . '>' . stripslashes($statusName) . '</td>';
                             break;
                     }
                 }
