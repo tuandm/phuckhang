@@ -3,6 +3,7 @@
  * Author: Duc Duong
  */
 ?>
+<h2>PROJECTS MANAGEMENT</h2>
 <div class="alignleft actions">
 <form id="filter" class="filter" action='' method="post">
     <input type="hidden" id="action" name="act" value="filterAction"><br>

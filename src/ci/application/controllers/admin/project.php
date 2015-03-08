@@ -88,6 +88,8 @@ class Project extends CI_Controller {
      */
     public function edit()
     {
+        $orderBy = !empty($this->input->get('orderBy')) ? $this->input->get('orderBy') : 'lb_project_id';
+        $order = !empty($this->input->get('order')) ? $this->input->get('order') : 'ASC';
         if(!is_admin()) {
             die('You dont have permission to edit');
         }
@@ -96,7 +98,7 @@ class Project extends CI_Controller {
             echo 'Invalid Proj ID';
             return;
         }
-        $projects = $this->projModel->getAll('pk_lb_projects');
+        $projects = $this->projModel->getAllProjects($order, $orderBy);;
         $proj = $this->projModel->getProjById($projId);
         $this->load->view('admin/project/edit', array(
             'proj'          => $proj,

@@ -1,7 +1,7 @@
 <?php
     $this->load->helper('form');
 ?>
-
+<h2>EDIT PROJECT</h2>
 <form name="edit-proj" id="edit-proj" method="post" action="<?php echo get_option('siteurl'); ?>/wp-admin/admin.php?page=landbook-projects&amp;noheader=true" class="validate" >
     <table class="form-table">
         <tbody>
