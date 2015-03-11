@@ -86,7 +86,7 @@ class LandBook {
     {
         global $post;
         $pl = get_permalink($post->ID);
-        if (filter_input(INPUT_POST,'publish') || filter_input(INPUT_POST,'save')) {
+        if (filter_input(INPUT_POST, 'publish') || filter_input(INPUT_POST, 'save')) {
             if (preg_match('/post=([0-9]*)/', $location, $match) && $post->ID == $match[1]) {
                 if (is_object_in_term( $post->ID, 'sc_group') && ($post->post_status == 'publish') && $pl) {
                     $location = home_url('/wp-admin/admin.php?page=landbook-posts');
