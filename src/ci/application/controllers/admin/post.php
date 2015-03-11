@@ -43,7 +43,7 @@ class Post extends CI_Controller {
             die('You dont have permission to edit');
         }
     }
-    
+
     public function update()
     {
         $this->form_validation->set_rules('post-title', 'Title', 'required');
