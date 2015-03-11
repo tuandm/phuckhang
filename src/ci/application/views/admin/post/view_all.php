@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (! defined('BASEPATH')) exit('No direct script access allowed');
     /**
     * Author: Phat Nguyen
     */
@@ -18,10 +18,10 @@
                 );
     wp_dropdown_categories($args); 
 ?>
-    <input type="hidden" id="action" name="act" value="filterAction"><br>
+    <input type="hidden" id="action" name="act" value="filter"><br>
     <input class="button" type="submit" name="filter_action" value="Filter" />
 <?php
-    echo '<input type="hidden" name="act" value="filterAction"><br>';
+    echo '<input type="hidden" name="act" value="filter"><br>';
     $posts->search_box('search', 'search_id');
 ?>
     </form>

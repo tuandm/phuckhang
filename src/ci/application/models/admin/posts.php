@@ -1,17 +1,20 @@
 <?php
-
+/**
+ * 
+ * @author Phat Nguyen
+ *
+ */
 class Posts extends CI_Model
 {
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('sc_post_manage');
-        // $this->posts = new MY_SC_Post_Manage();
+        $this->load->library('ScPostManage');
     }
 
     /**
-     * Get category by Id
+     * Get Category by Id
      * 
      * @param int $id The Id of post
      * @return category name
@@ -25,15 +28,14 @@ class Posts extends CI_Model
         return $catName;
     }
 
-
     /**
-     * Get all Post
+     * Get All Posts
      * 
      * @return post object
      */
     public function getAllPosts()
     {
-        $posts = new MY_SC_Post_Manage();
+        $posts = new MY_SCPostManage();
         $posts->prepare_items();
         return $posts;
     }
