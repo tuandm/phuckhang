@@ -50,6 +50,10 @@ class LandBook {
             // AJAX action is handled by wp-admin/admin-ajax.php
             $ajaxHandler = LandBook_Ajax::getInstance();
 
+            add_action('show_user_profile', array($this, 'selectGroup'));
+            add_action('edit_user_profile', array($this, 'selectGroup'));
+            add_action('user_new_form', array($this, 'selectGroup'));
+
             // sample ajax action binding
             add_action('wp_ajax_project_products', array($ajaxHandler, 'projectProducts'));
         } else {
@@ -99,6 +103,56 @@ class LandBook {
         }
         return $location;
     }
+//     add_action( 'show_user_profile', 'my_show_extra_profile_fields' );
+    
+    public function selectGroup($user)
+    { 
+    $tax = get_taxonomy('sc_group');
+    /* Make sure the user can assign terms of the profession taxonomy before proceeding. */
+    if (!current_user_can($tax->cap->assign_terms))
+        return;
+    
+    /* Get the terms of the 'profession' taxonomy. */
+    $terms = get_terms('sc_group', array( 'hide_empty' => false ) ); 
+    ?>
+    <h3><?php _e( 'Group' ); ?></h3>
+    <table class="form-table">
+        <tr>
+            <th><label for="group"><?php _e( 'Select Group' ); ?></label></th>
+            <td><?php
+            /* If there are any profession terms, loop through them and display checkboxes. */
+            if (!empty($terms)) {
+            foreach ($terms as $term) {?>
+                    <input type="checkbox" name="group" id="group-<?php echo $term->slug; ?>" 
+                    value="<?php echo $term->slug; ?>" 
+                    <?php checked( $term->slug, 1 ); ?> /> 
+                    <label for="group-<?php echo esc_attr( $term->slug ); ?>">
+                    <?php echo $term->name; ?></label> <br />
+                <?php }
+            }
+
+            /* If there are no profession terms, display a message. */
+            else {
+                _e( 'There are no professions available.' );
+            }
+            ?></td>
+        </tr>
+    </table>
+        <h3>Extra profile information</h3>
+    
+        <table class="form-table">
+    
+            <tr>
+            <th><label for="twitter">Twitter</label></th>
+    
+                <td>
+                    <input type="text" name="twitter" id="twitter" value="<?php echo esc_attr( get_the_author_meta( 'twitter', $user->ID ) ); ?>" class="regular-text" /><br />
+                    <span class="description">Please enter your Twitter username.</span>
+                </td>
+            </tr>
+    
+        </table>
+    <?php }
 
     public function settings()
     {
