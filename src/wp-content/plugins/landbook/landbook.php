@@ -54,6 +54,7 @@ class LandBook {
             ['products', LandBook_Products::getInstance()],
             ['groups', LandBook_Groups::getInstance()],
             ['posts', LandBook_Posts::getInstance()],
+            ['comments', LandBook_Comments::getInstance()],
         ];
         add_menu_page( 'Landbook', 'Landbook', 'manage_options', 'landbook', array($this, 'settings') );
         foreach ($subMenus as $subMenu) {
