@@ -86,11 +86,15 @@ class LandBook {
     {
         global $post;
         $pl = get_permalink($post->ID);
+        $taxInput = filter_input(INPUT_POST, 'tax_input', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
         if (filter_input(INPUT_POST, 'publish') || filter_input(INPUT_POST, 'save')) {
             if (preg_match('/post=([0-9]*)/', $location, $match) && $post->ID == $match[1]) {
-                if (is_object_in_term( $post->ID, 'sc_group') && ($post->post_status == 'publish') && $pl) {
+                if (is_object_in_term( $post->ID, 'sc_group') && ($post->post_status == 'publish')) {
                     $location = home_url('/wp-admin/admin.php?page=landbook-posts');
                 }
+            }
+            elseif((count($taxInput) > 1) && ($post->post_status == 'publish')) {
+                $location = home_url('/wp-admin/admin.php?page=landbook-posts');
             }
         } else {
             // Post page as a last resort
@@ -143,7 +147,7 @@ class LandBook {
         // Now register the taxonomy
         register_taxonomy('sc_group', array('post'), array(
                                                         'hierarchical'      => true,
-                                                        'show_ui'           => false,
+                                                        'show_ui'           => true,
                                                         'show_admin_column' => true,
                                                         'query_var'         => true,
                         ));

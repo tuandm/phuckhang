@@ -11,7 +11,7 @@ class Post extends CI_Controller {
     {
         parent::__construct();
         $this->load->library('ScPostManage');
-        $this->load->model('admin/Posts','postModel');
+        $this->load->model('admin/Posts', 'postModel');
         $this->load->library('form_validation');
     }
 
@@ -72,8 +72,8 @@ class Post extends CI_Controller {
 
     public function delete()
     {
-        if (!is_admin()) {
-            $postId = (int)$this->input->get('post');
+        if (is_admin()) {
+            $postId = (int) $this->input->get('post');
             if ($postId > 0) {
                 wp_delete_post($postId);
                 $this->index();

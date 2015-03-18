@@ -24,6 +24,11 @@
     echo '<input type="hidden" name="act" value="filter"><br>';
     $posts->search_box('search', 'search_id');
 ?>
+    <div>
+    <a href="/wp-admin/post-new.php">
+        <input name="Add Post" id="button" class="button button-primary" value="Add Post" type="button">
+    </a>
+    </div>
     </form>
 </div>
 <?php
