@@ -8,12 +8,12 @@
 <?php
     global $cat;
     $args = array(
-                    'show_option_all' => __('All categories'),
-                    'hide_empty' => 0,
-                    'hierarchical' => 1,
-                    'show_count' => 1,
-                    'orderby' => 'name',
-                    'selected' => $cat
+                    'show_option_all'   => __('All categories'),
+                    'hide_empty'        => 0,
+                    'hierarchical'      => 1,
+                    'show_count'        => 1,
+                    'orderby'           => 'name',
+                    'selected'          => $cat
                 );
     wp_dropdown_categories($args); 
 ?>

@@ -36,15 +36,21 @@ class LandBook {
     {
         if (is_admin()) {
             add_action('admin_menu', array($this, 'createMenuItems'), 999);
-
+            $this->register_css();
             // AJAX action is handled by wp-admin/admin-ajax.php
             $ajaxHandler = LandBook_Ajax::getInstance();
 
             // sample ajax action binding
             add_action( 'wp_ajax_project_products', array($ajaxHandler, 'projectProducts'));
+
         } else {
             add_shortcode('landbook', array($this, 'process'));
         }
+    }
+
+    public function register_css() {
+        wp_register_style('lbstyle', plugins_url('/css/lbstyle.css',__FILE__ ), array(), '20120208', 'all');
+        wp_enqueue_style('lbstyle');
     }
 
     public function createMenuItems()
