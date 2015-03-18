@@ -8,7 +8,7 @@
     */
 define('PERPAGE', 10);
 
-class MY_LB_Product_Manage extends WP_List_Table
+class MY_LBProductManage extends WP_List_Table
 {
     /**
      * Constructor, we override the parent to pass our own arguments
@@ -88,7 +88,7 @@ class MY_LB_Product_Manage extends WP_List_Table
      */
     function prepare_items($products, $numProc)
     {
-        global $_column_headers;
+        global $wpdb, $_column_headers;
         $totalPages = ceil($numProc / PERPAGE);
         $this->set_pagination_args(array(
             'total_items'   => $numProc,
@@ -96,6 +96,9 @@ class MY_LB_Product_Manage extends WP_List_Table
             'per_page'      => PERPAGE
         ));
         $this->items = $products;
+        foreach ($this->items as &$item) {
+            $item['name'] = $wpdb->get_col('SELECT name FROM pk_lb_projects WHERE lb_project_id =' . $item['lb_project_id'])[0];
+        }
         $columns = $this->get_columns();
         $this->_column_headers = array($columns, array(), $this->get_sortable_columns());
     }
@@ -123,11 +126,11 @@ class MY_LB_Product_Manage extends WP_List_Table
                         $style = ' style="display:none;"';
                     }
                     switch ($rec['status']) {
-                        case 1: $statusName = 'ĐÃ ĐẶT CỌC';
+                        case 1: $statusName = 'Ä�Ãƒ Ä�áº¶T Cá»ŒC';
                             break;
-                        case 2: $statusName = 'ĐÃ BÁN';
+                        case 2: $statusName = 'Ä�Ãƒ BÃ�N';
                             break;
-                        case 3: $statusName = 'CHƯA BÁN';
+                        case 3: $statusName = 'CHÆ¯A BÃ�N';
                             break;
                     }
                     $attributes = "$class$style";
@@ -150,7 +153,7 @@ class MY_LB_Product_Manage extends WP_List_Table
                             echo '<td ' . $attributes . '>' . stripslashes($statusName) . '</td>';
                             break;
                         case 'col_proc_proj':
-                            echo '<td ' . $attributes . '>' . stripslashes($rec['lb_project_id']) . '</td>';
+                            echo '<td ' . $attributes . '>' . stripslashes($rec['name']) . '</td>';
                             break;
                     }
                 }
