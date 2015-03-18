@@ -1,6 +1,5 @@
 <?php
     /**
-<<<<<<< HEAD
      * @author Phat Nguyen
      *
      */
