@@ -6,7 +6,7 @@
      * @author PN
      *
     */
-define('PERPAGE', 10);
+define('PERPAGE', 5);
 
 class MY_LB_Project_Manage extends WP_List_Table
 {
@@ -47,7 +47,7 @@ class MY_LB_Project_Manage extends WP_List_Table
     public function get_sortable_columns()
     {
         return $sortable = array(
-            'col_proj_id'       => array('lb_proj_id', false),
+            'col_proj_id'       => array('lb_project_id', false),
             'col_proj_name'     => array('name', false),
             'col_proj_status'   => array('status', false)
         );
@@ -86,14 +86,15 @@ class MY_LB_Project_Manage extends WP_List_Table
      */
     function prepare_items($projects, $numProj)
     {
-        global $wpdb, $_column_headers, $cat;
+        global $_column_headers;
         $totalPages = ceil($numProj / PERPAGE);
         $this->set_pagination_args(array(
             'total_items'   => $numProj,
             'total_pages'   => $totalPages,
             'per_page'      => PERPAGE
         ));
-        $this->items = $projects;
+        $current_page = $this->get_pagenum();
+        $this->items = array_slice($projects, (($current_page - 1) * PERPAGE), PERPAGE);
         $columns = $this->get_columns();
         $this->_column_headers = array($columns, array(), $this->get_sortable_columns());
     }

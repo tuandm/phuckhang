@@ -8,7 +8,7 @@
             <tr class="form-field form-required term-name-wrap">
                 <th scope="row"><label for="proj-name">Name<span style="color: #ff0000">(*)</span></label></th>
                 <td><input name="proj-name" id="proj-name" value="<?php echo $proj->name; ?>" size="40" aria-required="true" type="text" required>
-                <span id="validation"><?php echo form_error('proj-name'); ?></span>
+                <span id="validation" style="color:red"><?php echo form_error('proj-name'); ?></span>
             </tr>
             <tr class="form-field term-slug-wrap">
                 <th scope="row"><label for="post-content">Status<span style="color: #ff0000">(*)</span></label></th>

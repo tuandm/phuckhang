@@ -40,6 +40,16 @@ class Projects_Model extends Land_Book_Model {
         return $proj;
     }
 
+    public function getProjByName($projName)
+    {
+        $this->db
+        ->select('pk_lb_projects.lb_project_id')
+        ->from('pk_lb_projects')
+        ->where('pk_lb_projects.name', $projName);
+        $proj = $this->db->get()->row();
+        return $proj;
+    }
+
     public function getNameStatusByNumber($statusNum)
     {
         $statusName = '';
@@ -86,13 +96,13 @@ class Projects_Model extends Land_Book_Model {
     {
         if ($status == 0) {
             $this->db->select('*')
-                    ->like('name',$name)
+                    ->like('name', $name)
                     ->order_by($orderBy, $order);;
             $results = $this->db->get('pk_lb_projects')->result_array();
         } else {
             $this->db->select('*')
                     ->where('status', $status)
-                    ->like('name',$name)
+                    ->like('name', $name)
                     ->order_by($orderBy, $order);;
             $results = $this->db->get('pk_lb_projects')->result_array();
         }
