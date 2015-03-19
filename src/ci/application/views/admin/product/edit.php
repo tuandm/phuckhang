@@ -8,17 +8,16 @@
             <tr class="form-field form-required term-name-wrap">
                 <th scope="row"><label for="product-code">Code<span style="color: #ff0000">(*)</span></label></th>
                 <td><input name="product-code" id="product-code" value="<?php echo $product->code; ?>" size="40" aria-required="true" type="text" required>
-                <span id="validation"><?php echo form_error('product-name'); ?></span>
+                <span id="validation" style="color:red"><?php echo form_error('product-code'); ?></span>
             </tr>
             <tr class="form-field form-required term-name-wrap">
                 <th scope="row"><label for="price">Price<span style="color: #ff0000">(*)</span></label></th>
                 <td><input name="price" id="price" value="<?php echo $product->price; ?>" size="40" aria-required="true" type="text" required>
-                <span id="validation"><?php echo form_error('price'); ?></span>
+                <span id="validation" style="color:red"><?php echo form_error('price'); ?></span>
             </tr>
             <tr class="form-field form-required term-name-wrap">
-                <th scope="row"><label for="proj-id">Project<span style="color: #ff0000">(*)</span></label></th>
-                <td><input name="proj-id" id="proj-id" value="<?php echo $product->lb_project_id; ?>" size="40" aria-required="true" type="text" required>
-                <span id="validation"><?php echo form_error('proj-id'); ?></span>
+                <th scope="row"><label for="project-name">Project<span style="color: #ff0000">(*)</span></label></th>
+                <td><?php echo form_dropdown('project-name', $projects ,$projectName); ?></td>
             </tr>
                 <tr class="form-field term-slug-wrap">
                 <th scope="row"><label for="post-content">Status<span style="color: #ff0000">(*)</span></label></th>

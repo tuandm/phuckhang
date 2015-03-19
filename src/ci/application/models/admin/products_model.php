@@ -47,6 +47,46 @@ class Products_Model extends Land_Book_Model
         return $product;
     }
 
+    public function getProductByCode($code)
+    {
+        $this->db
+        ->select('pk_lb_products.lb_product_id')
+        ->from('pk_lb_products')
+        ->where('pk_lb_products.code', $code);
+        $productId = $this->db->get()->row();
+        return $productId;
+    }
+
+    public function getProjectById($projectId)
+    {
+        $this->db
+        ->select('pk_lb_projects.name')
+        ->from('pk_lb_projects')
+        ->where('pk_lb_projects.lb_project_id', $projectId);
+        $project = $this->db->get()->row();
+        return $project;
+    }
+
+    public function getProjectByName($projectName)
+    {
+        $this->db
+        ->select('pk_lb_projects.lb_project_id')
+        ->from('pk_lb_projects')
+        ->where('pk_lb_projects.name', $projectName);
+        $project = $this->db->get()->row();
+        return $project;
+    }
+
+    public function getAllProjects()
+    {
+        $this->db
+        ->select('pk_lb_projects.lb_project_id, pk_lb_projects.name')
+        ->from('pk_lb_projects');
+        $projects = $this->db->get()->result_array();
+        return $projects;
+    }
+    
+
     public function getNameStatusByNumber($statusNum)
     {
         $statusName = '';

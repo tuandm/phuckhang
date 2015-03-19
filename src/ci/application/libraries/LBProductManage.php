@@ -76,7 +76,7 @@ class MY_LBProductManage extends WP_List_Table
         $actions = array(
             'edit'      => sprintf('<a href="?page=landbook-products&proc=%s&act=%s">Edit</a>',
                 $item['lb_product_id'], 'edit'),
-            'delete'    => sprintf('<a href="?page=landbook-products&proc=%s&act=%s&amp;noheader=true" onclick="return confirm(\'Do you want to delete %s?\')>Delete</a>',
+            'delete'    => sprintf('<a href="?page=landbook-products&proc=%s&act=%s&amp;noheader=true" onclick="return confirm(\'Do you want to delete %s?\')">Delete</a>',
                 $item['lb_product_id'], 'delete', $item['code'])
         );
         return sprintf('%2s', $this->row_actions($actions));
@@ -96,7 +96,7 @@ class MY_LBProductManage extends WP_List_Table
             'per_page'      => PERPAGE
         ));
         $current_page = $this->get_pagenum();
-        $this->items = array_slice($projects, (($current_page - 1) * PERPAGE), PERPAGE);
+        $this->items = array_slice($products, (($current_page - 1) * PERPAGE), PERPAGE);
         foreach ($this->items as &$item) {
             $item['name'] = $wpdb->get_col('SELECT name FROM pk_lb_projects WHERE lb_project_id =' . $item['lb_project_id'])[0];
         }
@@ -127,11 +127,11 @@ class MY_LBProductManage extends WP_List_Table
                         $style = ' style="display:none;"';
                     }
                     switch ($rec['status']) {
-                        case 1: $statusName = 'Ä�áº·t Cá»�c';
+                        case 1: $statusName = 'Đặt Cọc';
                             break;
-                        case 2: $statusName = 'Ä�Ã£ BÃ¡n';
+                        case 2: $statusName = 'Đã Bán';
                             break;
-                        case 3: $statusName = 'ChÆ°a BÃ¡n';
+                        case 3: $statusName = 'Chưa Bán';
                             break;
                     }
                     $attributes = "$class$style";
