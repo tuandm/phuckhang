@@ -49,7 +49,7 @@ class Posts extends CI_Model
     public function getPostById($postId)
     {
         $args = array('ID' => $postId);
-        $post = new WP_Query("p=$postId");
+        $post = new WP_Query("p = $postId");
         return $post;
     }
 
