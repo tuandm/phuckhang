@@ -22,11 +22,6 @@
 </form>
 </div>
 <?php
-if (isset($msg) && !empty($msg)) {
-    echo '<script language="javascript">';
-    echo "alert(\"$msg\")";
-    echo '</script>';
-}
 $productTable->display();
 
 ?>
