@@ -74,8 +74,8 @@ class MY_LB_Project_Manage extends WP_List_Table
         $actions = array(
             'edit'      => sprintf('<a href="?page=landbook-projects&proj=%s&act=%s">Edit</a>',
                 $item['lb_project_id'], 'edit'),
-            'delete'    => sprintf('<a href="?page=landbook-projects&proj=%s&act=%s&amp;noheader=true">Delete</a>',
-                $item['lb_project_id'], 'delete')
+            'delete'    => sprintf('<a href="?page=landbook-projects&proj=%s&act=%s&amp;noheader=true" onclick="return confirm(\'Do you want to delete %s?\')">Delete</a>'
+                , $item['lb_project_id'], 'delete', $item['name'])
         );
         return sprintf('%2s', $this->row_actions($actions));
     }
