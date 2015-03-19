@@ -11,7 +11,7 @@
         <?php   $statusVal = $this->input->post('status'); ?>
         <?php else :?>
         <?php   $statusVal = 0;
-                echo form_dropdown('status', $statusNames , $statusVal);
+                echo form_dropdown('status', $statusNames, $statusVal);
         ?>
         <?php endif?>
         <input class="button" type="submit" name="filter_action" value="Filter"/>
