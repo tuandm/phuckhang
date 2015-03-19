@@ -126,11 +126,11 @@ class MY_LBProductManage extends WP_List_Table
                         $style = ' style="display:none;"';
                     }
                     switch ($rec['status']) {
-                        case 1: $statusName = 'Ä�Ãƒ Ä�áº¶T Cá»ŒC';
+                        case 1: $statusName = 'Đặt Cọc';
                             break;
-                        case 2: $statusName = 'Ä�Ãƒ BÃ�N';
+                        case 2: $statusName = 'Đã Bán';
                             break;
-                        case 3: $statusName = 'CHÆ¯A BÃ�N';
+                        case 3: $statusName = 'Chưa Bán';
                             break;
                     }
                     $attributes = "$class$style";
