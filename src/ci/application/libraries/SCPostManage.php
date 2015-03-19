@@ -76,8 +76,8 @@ class MY_SCPostManage extends WP_List_Table
         $actions = array(
             'edit' => sprintf('<a href="post.php?post=%s&action=%s">Edit</a>',
                   $item->ID, 'edit'),
-            'delete' => sprintf('<a href="?page=%s&act=%s&post=%s">Delete</a>', 
-                filter_input(INPUT_POST, 'page'), 'delete', $item->ID)
+            'delete' => sprintf('<a href="?page=%s&act=%s&post=%s" onclick="return confirm(\'Do you want to delete post %s?\')">Delete</a>', 
+                filter_input(INPUT_GET, 'page'), 'delete', $item->ID, $item->ID)
         );
         return sprintf('%1$s %2$s', $item->col_post_id, $this->row_actions($actions));
     }
