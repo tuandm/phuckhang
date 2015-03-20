@@ -4,7 +4,7 @@
  */
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once APPPATH."./third_party/PHPExcel/IOFactory.php";
+require_once APPPATH . "./third_party/PHPExcel/IOFactory.php";
 
 class Product extends CI_Controller {
 
@@ -96,7 +96,7 @@ class Product extends CI_Controller {
             return;
         }
         if ($this->productModel->deleteProduct($productId)) {
-            wp_redirect(get_option('siteurl') .'/wp-admin/admin.php?page=landbook-products');
+            wp_redirect(get_option('siteurl') . '/wp-admin/admin.php?page=landbook-products');
         } else {
             echo 'Can not delete this product';
             return;
@@ -108,7 +108,7 @@ class Product extends CI_Controller {
      */
     public function update()
     {
-        $this->form_validation->set_rules('product-code', 'Code', 'required|callback_checkProductCode');
+        $this->form_validation->set_rules('product-code', 'Code', 'min_length[3]|max_length[10]|required|callback_checkProductCode');
         $this->form_validation->set_rules('price', 'Price', 'required|is_natural_no_zero');
         if ($this->form_validation->run() == FALSE) {
             return $this->edit();

@@ -13,7 +13,7 @@
     } else {
         $statusVal = 0;
     }
-    echo form_dropdown('status', $statusNames , $statusVal);?>
+    echo form_dropdown('status', $statusNames, $statusVal);?>
     <input class="button" type="submit" name="filter_action" value="Filter"/>
 <?php
     echo '<input type="hidden" name="act" value="filterAction"><br>';

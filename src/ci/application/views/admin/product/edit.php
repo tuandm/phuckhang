@@ -17,11 +17,11 @@
             </tr>
             <tr class="form-field form-required term-name-wrap">
                 <th scope="row"><label for="project-name">Project<span style="color: #ff0000">(*)</span></label></th>
-                <td><?php echo form_dropdown('project-name', $projects ,$projectName); ?></td>
+                <td><?php echo form_dropdown('project-name', $projects, $projectName); ?></td>
             </tr>
                 <tr class="form-field term-slug-wrap">
                 <th scope="row"><label for="post-content">Status<span style="color: #ff0000">(*)</span></label></th>
-                <td><?php echo form_dropdown('status', $statusNames ,$product->status); ?></td>
+                <td><?php echo form_dropdown('status', $statusNames, $product->status); ?></td>
             </tr>
         </tbody>
     </table>
