@@ -73,7 +73,6 @@ class Product extends CI_Controller {
         $projectName = $this->productModel->getProjectById($product->lb_project_id);
         $projects = $this->productModel->getAllProjects();
         $projectsNameArray = wp_list_pluck($projects, 'name', 'lb_project_id');
-        var_dump($projectsNameArray);
         $this->load->view('admin/product/edit', array(
             'product'       => $product,
             'statusNames'   => $statusEditNames,
@@ -152,14 +151,13 @@ class Product extends CI_Controller {
      */
     public function filterAction()
     {
-        $s = $this->input->post('s');
-        $status = $this->input->post('status');
-        $products = $this->productModel->filterProduct($s, $status, $this->orderBy, $this->order);
+        $s = $this->input->get('s');
+        $status = $this->input->get('status');
+        $this->products = $this->productModel->filterProduct($s, $status, $this->orderBy, $this->order);
         $numProduct = $this->productModel->countFilterProduct($s, $status);
-        $productTable = new MY_LB_Product_Manage();
-        $productTable->prepare_items($products, $numProduct);
+        $this->productTable->prepare_items($this->products, $numProduct);
         $this->load->view('admin/product/view_all', array(
-            'productTable'  => $productTable,
+            'productTable'  => $this->productTable,
             'statusNames'   => $this->statusNames
         ));
     }
