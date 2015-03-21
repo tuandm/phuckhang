@@ -4,7 +4,8 @@
     */
 ?>
 <div class="alignleft actions">
-    <form id="category-select" class="category-select" action='' method="post">
+    <form id="category-select" class="category-select" action='' method="get">
+    <input type="hidden" id="action" name="page" value="landbook-posts"><br>
 <?php
     global $cat;
     $args = array(
