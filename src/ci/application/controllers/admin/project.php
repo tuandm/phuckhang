@@ -185,14 +185,13 @@ class Project extends CI_Controller {
      */
     public function filterAction()
     {
-        $s = $this->input->post('s');
-        $status = $this->input->post('status');
-        $projects = $this->projModel->filterProject($s, $status, $this->orderBy, $this->order);
+        $s = $this->input->get('s');
+        $status = $this->input->get('status');
+        $this->projects = $this->projModel->filterProject($s, $status, $this->orderBy, $this->order);
         $numProj = $this->projModel->countFilterProject($s, $status);
-        $projTable = new MY_LB_Project_Manage();
-        $projTable->prepare_items($projects, $numProj);
+        $this->projTable->prepare_items($this->projects, $numProj);
         $this->load->view('admin/project/view_all', array(
-            'projTable'     => $projTable,
+            'projTable'     => $this->projTable,
             'statusNames'   => $this->statusNames
         ));
     }
