@@ -15,21 +15,12 @@ class Users_Model extends Land_Book_Model {
     public function getAllUsers($order, $orderBy)
     {
         $this->db
+            ->distinct()
             ->select('*')
             ->group_by('pk_users.ID')
             ->from('pk_users')
             ->join('pk_sc_user_groups', 'pk_users.id = pk_sc_user_groups.user_id')
             ->order_by($orderBy, $order);
-        $users = $this->db->get()->result_array();
-        return $users;
-    }
-
-    public function getGroupsByUser($userId)
-    {
-        $this->db
-        ->select('pk_sc_user_groups.group_id')
-        ->from('pk_sc_user_groups')
-        ->where('pk_sc_user_groups.user_id', $userId);
         $users = $this->db->get()->result_array();
         return $users;
     }
@@ -46,96 +37,63 @@ class Users_Model extends Land_Book_Model {
 
     public function countAllUsers()
     {
-        return $this->db
+        $results = $this->db
+                    ->distinct()
                     ->select('*')
+                    ->group_by('pk_users.ID')
                     ->from('pk_users')
                     ->join('pk_sc_user_groups', 'pk_users.id = pk_sc_user_groups.user_id')
-                    ->count_all_results();
+                    ->get()->result_array();
+        return count($results);
     }
 
-//     public function getProjById($projId)
-//     {
-//         $this->db
-//             ->select('pk_lb_projects.name, pk_lb_projects.status, pk_lb_projects.lb_project_id')
-//             ->from('pk_lb_projects')
-//             ->where('pk_lb_projects.lb_project_id', $projId);
-//         $proj = $this->db->get()->row();
-//         return $proj;
-//     }
+    public function filterUser($name, $groupId, $orderBy, $order)
+    {
+        if ($groupId == 0) {
+            $results = $this->db
+                        ->distinct()
+                        ->select('user_id, pk_users.*')
+                        ->from('pk_users')
+                        ->join('pk_sc_user_groups', 'pk_users.id = pk_sc_user_groups.user_id')
+                        ->like('pk_users.user_nicename', $name)
+                        ->order_by($orderBy, $order)
+                        ->get()
+                        ->result_array();
+        } else {
+            $results = $this->db->select('user_id, pk_users.*')
+                    ->distinct()
+                    ->from('pk_users')
+                    ->join('pk_sc_user_groups', 'pk_users.id = pk_sc_user_groups.user_id')
+                    ->where('group_id', $groupId)
+                    ->like('pk_users.user_nicename', $name)
+                    ->order_by($orderBy, $order)
+                    ->get()
+                    ->result_array();
+        }
+        return $results;
+    }
 
-//     public function getNameStatusByNumber($statusNum)
-//     {
-//         $statusName = '';
-//         switch($statusNum) {
-//             case 0: $statusName = 'All Status';
-//                 break;
-//             case 1: $statusName = 'Sold';
-//                 break;
-//             case 2: $statusName = 'Selling';
-//                 break;
-//             case 3: $statusName = 'Unsold';
-//                 break;
-//         }
-//         return $statusName;
-//     }
-
-//     public function updateProject(array $data)
-//     {
-//         $where = array('lb_project_id' => $data['lb_project_id']);
-//         unset($data['lb_project_id']);
-//         return $this->db->update('pk_lb_projects', $data, $where);
-//     }
-
-//     public function create($table, array $data)
-//     {
-//         $result = $this->db->insert($table, $data);
-//         if ($result == true) {
-//             return $this->db->insert_id();
-//         } else {
-//             return false;
-//         }
-//     }
-
-//     /**
-//      * 
-//      * @param unknown $data
-//     */
-//     public function deleteProject($data)
-//     {
-//         return $this->db->delete('pk_lb_projects', array('lb_project_id' => $data));
-//     }
-
-//     public function filterProject($name, $status, $orderBy, $order)
-//     {
-//         if ($status == 0) {
-//             $this->db->select('*')
-//                     ->like('name',$name)
-//                     ->order_by($orderBy, $order);;
-//             $results = $this->db->get('pk_lb_projects')->result_array();
-//         } else {
-//             $this->db->select('*')
-//                     ->where('status', $status)
-//                     ->like('name',$name)
-//                     ->order_by($orderBy, $order);;
-//             $results = $this->db->get('pk_lb_projects')->result_array();
-//         }
-//         return $results;
-//     }
-
-//     public function countFilterProject($name, $status)
-//     {
-//         if ($status == 0) {
-//             $results = $this->db->select('*')
-//                             ->from('pk_lb_projects')
-//                             ->count_all_results();
-//         } else {
-//             $results = $this->db->select('*')
-//                             ->from('pk_lb_projects')
-//                             ->where('status', $status)
-//                             ->like('name', $name)
-//                             ->count_all_results();
-//         }
-//         return $results;
-//     }
+    public function countFilterUsers($name, $groupId)
+    {
+        if ($groupId == 0) {
+            $results = $this->db->select('user_id, pk_users.*')
+                        ->distinct()
+                        ->from('pk_users')
+                        ->join('pk_sc_user_groups', 'pk_users.id =  pk_sc_user_groups.user_id')
+                        ->like('pk_users.user_nicename', $name)
+                        ->get()
+                        ->result_array();
+        } else {
+            $results = $this->db->select('user_id, pk_users.*')
+                    ->distinct()
+                    ->from('pk_users')
+                    ->join('pk_sc_user_groups', 'pk_users.id = pk_sc_user_groups.user_id')
+                    ->where('group_id', $groupId)
+                    ->like('pk_users.user_nicename', $name)
+                    ->get()
+                    ->result_array();
+        }
+        return count($results);
+    }
 
 }

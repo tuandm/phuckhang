@@ -6,7 +6,7 @@
      * @author PN
      *
     */
-define('PERPAGE', 5);
+define('PERPAGE', 10);
 
 class MY_SCUserManage extends WP_List_Table
 {
@@ -35,6 +35,7 @@ class MY_SCUserManage extends WP_List_Table
             'cb'                => '<input type="checkbox" />',
             'col_user_id'       => __('User Id'),
             'col_user_name'     => __('User name'),
+            'col_user_email'    => __('User Email'),
             'col_user_group'    => __('Group'),
             );
     }
@@ -49,7 +50,7 @@ class MY_SCUserManage extends WP_List_Table
         return $sortable = array(
             'col_user_id'       => array('ID', false),
             'col_user_name'     => array('display_name', false),
-            'col_user_group'    => array('pc_sc_user_groups->group_id', false),
+            'col_user_email'    => array('user_email', false),
         );
     }
 
@@ -72,27 +73,14 @@ class MY_SCUserManage extends WP_List_Table
     function userAction($item)
     {
         $actions = array(
-            'edit' => sprintf('<a href=".php?post=%s&action=%s">Edit</a>',
-                  $item['ID'], 'edit'),
-            'delete' => sprintf('<a href="?page=%s&act=%s&post=%s">Delete</a>', 
-                filter_input(INPUT_POST, 'page'), 'delete', $item['ID'])
+            'edit' => sprintf('<a href="user-edit.php?user_id=%s">Edit</a>',
+                  $item['ID']),
+            'delete' => sprintf('<a href="?page=%s&act=%s&userId=%s&amp;noheader=true" onclick="return confirm(\'Do you want to delete %s?\')">Delete</a>', 
+                filter_input(INPUT_GET, 'page'), 'deleteUser', $item['ID'], $item['user_nicename'])
         );
         return sprintf('%2s', $this->row_actions($actions));
     }
 
-    function delete($item)
-    {
-        $actions = array(
-                        'delete' => sprintf('<a href="?page=%s&act=%s&post=%s">Delete</a>',
-                                filter_input(INPUT_POST, 'page'), 'delete', $item['group_id'])
-        );
-        return sprintf('%2s', $this->row_actions($actions));
-    }
-
-    function findItems()
-    {
-        
-    }
     /**
      * (non-PHPdoc)
      *
@@ -100,14 +88,15 @@ class MY_SCUserManage extends WP_List_Table
      */
     function prepare_items($users, $numUsers)
     {
-        global $wpdb, $_column_headers, $cat;
+        global $wpdb, $_column_headers;
         $totalPages = ceil($numUsers / PERPAGE);
         $this->set_pagination_args(array(
             'total_items'   => $numUsers,
             'total_pages'   => $totalPages,
             'per_page'      => PERPAGE
         ));
-        $this->items = $users;
+        $current_page = $this->get_pagenum();
+        $this->items = array_slice($users, (($current_page - 1) * PERPAGE), PERPAGE);
         $columns = $this->get_columns();
         $this->_column_headers = array($columns, array(), $this->get_sortable_columns());
     }
@@ -144,22 +133,26 @@ class MY_SCUserManage extends WP_List_Table
                                     . stripslashes($rec['ID']) . '</a></strong>';
                             if (method_exists($this, 'userAction')) {
                                 echo call_user_func(array($this, 'userAction'), $rec);
-                                echo "</td>";
+                                echo '</td>';
                             }
                             break;
                         case 'col_user_name':
                             echo '<td ' . $attributes . '>' . stripslashes($rec['user_nicename']) . '</td>';
                             break;
+                        case 'col_user_email':
+                            echo '<td ' . $attributes . '>' . stripslashes($rec['user_email']) . '</td>';
+                            break;
                         case 'col_user_group':
                             echo '<td ' . $attributes . '>';
                             foreach ($rec['group_ids'] as $group) {
-                                echo '<div>';
                                 $groupName = get_term($group['group_id'], 'sc_group');
-                                echo stripslashes("$groupName->name");
-                                if (method_exists($this, 'delete')) {
-                                    echo call_user_func(array($this, 'delete'), $group);
+                                echo '<div class="' . '">';
+                                echo "$groupName->name" . str_repeat('&nbsp', 3) 
+                                    . sprintf('<a href="?page=%s&act=%s&userId=%s&group=%s&amp&noheader=true"
+                                        onclick="return confirm(\'Do you want to delete %s?\')">Delete</a>',
+                                        filter_input(INPUT_GET, 'page'), 
+                                        'deleteGroup', $rec['ID'], $group['group_id'], $groupName->name);
                                 echo '</div>';
-                                }
                             }
                             echo '</td>';
                             break;

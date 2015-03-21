@@ -49,10 +49,13 @@ class LandBook {
 
             // AJAX action is handled by wp-admin/admin-ajax.php
             $ajaxHandler = LandBook_Ajax::getInstance();
-
+            // Hook to user edit a custom field select box
             add_action('show_user_profile', array($this, 'selectGroup'));
             add_action('edit_user_profile', array($this, 'selectGroup'));
-            add_action('user_new_form', array($this, 'selectGroup'));
+
+            add_action('profile_update', array($this, 'profileRedirect'));
+
+            add_action('edit_user_profile_update', array($this, 'updateUserGroups'));
 
             // sample ajax action binding
             add_action('wp_ajax_project_products', array($ajaxHandler, 'projectProducts'));
@@ -98,61 +101,106 @@ class LandBook {
                 }
             }
         } else {
-            // Post page as a last resort
             $location = $pl;
         }
         return $location;
     }
-//     add_action( 'show_user_profile', 'my_show_extra_profile_fields' );
-    
-    public function selectGroup($user)
-    { 
-    $tax = get_taxonomy('sc_group');
-    /* Make sure the user can assign terms of the profession taxonomy before proceeding. */
-    if (!current_user_can($tax->cap->assign_terms))
-        return;
-    
-    /* Get the terms of the 'profession' taxonomy. */
-    $terms = get_terms('sc_group', array( 'hide_empty' => false ) ); 
-    ?>
-    <h3><?php _e( 'Group' ); ?></h3>
-    <table class="form-table">
-        <tr>
-            <th><label for="group"><?php _e( 'Select Group' ); ?></label></th>
-            <td><?php
-            /* If there are any profession terms, loop through them and display checkboxes. */
-            if (!empty($terms)) {
-            foreach ($terms as $term) {?>
-                    <input type="checkbox" name="group" id="group-<?php echo $term->slug; ?>" 
-                    value="<?php echo $term->slug; ?>" 
-                    <?php checked( $term->slug, 1 ); ?> /> 
-                    <label for="group-<?php echo esc_attr( $term->slug ); ?>">
-                    <?php echo $term->name; ?></label> <br />
-                <?php }
-            }
 
-            /* If there are no profession terms, display a message. */
-            else {
-                _e( 'There are no professions available.' );
+    /**
+    * 
+    * @param unknown $userId
+     */
+    function updateUserGroups($userId)
+    {
+        global $wpdb;
+        $updateData = filter_input_array(INPUT_POST);
+        $terms = get_terms('sc_group', array('hide_empty' => false));
+        $userId = filter_input(INPUT_POST, 'user_id');
+        $postUserGroups = filter_input(INPUT_POST, 'group', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        $numPostUserGroups = count($postUserGroups);
+        $results = $wpdb->get_results("SELECT group_id, pk_terms.name FROM pk_sc_user_groups 
+            INNER JOIN pk_terms ON pk_sc_user_groups.group_id = pk_terms.term_id WHERE pk_sc_user_groups.user_id = $userId", ARRAY_A);
+        $currentUserGroups = wp_list_pluck($results, 'name', 'group_id');
+        $numCurrentUserGroups = count($currentUserGroups);
+        $termArray = wp_list_pluck($terms, 'name', 'term_id');
+        if (!is_admin()) {
+            die ('You do not have permission to edit this user');
+        }
+        if ($postUserGroups == null) {
+            $result = $wpdb->delete('pk_sc_user_groups', array('user_id' => $userId));
+        }
+        if ($numPostUserGroups > $numCurrentUserGroups) {
+            $updateResults = $wpdb->update('pk_users', $updateData, $userId);
+            foreach ($postUserGroups as $postUserGroup) {
+                $checkGroup = in_array($postUserGroup, $currentUserGroups) ? 1 : 0;
+                if ($checkGroup == 0) {
+                    $groupId = $wpdb->get_col("SELECT term_id FROM pk_terms WHERE pk_terms.name = '$postUserGroup'")[0];
+                    $data = array(
+                        'user_id'   => $userId,
+                        'group_id'  => $groupId
+                    );
+                    $insertResult = $wpdb->insert('pk_sc_user_groups', $data);
+                }
             }
-            ?></td>
-        </tr>
-    </table>
-        <h3>Extra profile information</h3>
-    
-        <table class="form-table">
-    
-            <tr>
-            <th><label for="twitter">Twitter</label></th>
-    
-                <td>
-                    <input type="text" name="twitter" id="twitter" value="<?php echo esc_attr( get_the_author_meta( 'twitter', $user->ID ) ); ?>" class="regular-text" /><br />
-                    <span class="description">Please enter your Twitter username.</span>
-                </td>
-            </tr>
-    
-        </table>
-    <?php }
+        } elseif ($numPostUserGroups < $numCurrentUserGroups) {
+            $updateResults = $wpdb->update('pk_users', $updateData, $userId);
+            foreach ($currentUserGroups as $groupId => $currentUserGroup) {
+                $checkGroup = in_array($currentUserGroup, $postUserGroups) ? 1 : 0;
+                if ($checkGroup == 0) {
+                    $wpdb->delete('pk_sc_user_groups', array(
+                        'group_id'  => $groupId,
+                        'user_id'   => $userId
+                    ));
+                }
+            }
+        }
+    }
+
+    /**
+     * 
+     * @param unknown $user
+     */
+    public function selectGroup($user)
+    {
+        global $wpdb;
+        $tax = get_taxonomy('sc_group');
+        $results = $wpdb->get_col("SELECT group_id FROM pk_sc_user_groups WHERE user_id = $user->ID");
+        /* Make sure the user can assign terms of the profession taxonomy before proceeding. */
+        if (!current_user_can($tax->cap->assign_terms))
+            return;
+        /* Get the terms of the 'profession' taxonomy. */
+        $terms = get_terms('sc_group', array( 'hide_empty' => false ));
+    /* If there are any profession terms, loop through them and display checkboxes. */
+    ?>
+<h3><?php _e('Group');?></h3>
+<table class="form-table">
+    <tr>
+        <th><label for="group"><?php _e('Select Group'); ?></label></th>
+        <td><?php if (!empty($terms)) :?>
+                <?php foreach ($terms as $term) :?>
+                <?php $checkValue = in_array($term->term_id, $results)? 1 : 0 ;?>
+                <input type="checkbox" name="group[]" id="group-<?php echo $term->name;?>"
+                value="<?php echo $term->name; ?>"
+                <?php checked($checkValue, 1); ?> /> 
+                <label for="group-<?php echo esc_attr($term->name); ?>">
+                    <?php echo $term->name; ?>
+                </label> <br />
+                <?php endforeach;?>
+    <!--    If there are no groups terms, display a message.   -->
+            <?php else :?>
+                _e( 'There are no groups available.' );
+            }
+            <?php endif;?>
+        </td>
+    </tr>
+</table>
+<?php }
+
+    public function profileRedirect()
+    {
+        wp_redirect(home_url('/wp-admin/admin.php?page=landbook-users'));
+        exit;
+    }
 
     public function settings()
     {
