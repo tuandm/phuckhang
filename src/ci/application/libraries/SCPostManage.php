@@ -108,8 +108,8 @@ class MY_SCPostManage extends WP_List_Table
         global $wpdb, $_column_headers, $cat;
         $orderBy = !empty(filter_input(INPUT_GET, 'orderby')) ? filter_input(INPUT_GET, 'orderby') : 'col_post_id';
         $order = !empty(filter_input(INPUT_GET, 'order')) ? filter_input(INPUT_GET, 'order') : 'ASC';
-        $cat = !empty(filter_input(INPUT_POST, 'cat')) ? filter_input(INPUT_POST, 'cat') : 0;
-        $postTitle = !empty(filter_input(INPUT_POST, 's')) ? filter_input(INPUT_POST, 's') : false;
+        $cat = !empty(filter_input(INPUT_GET, 'cat')) ? filter_input(INPUT_GET, 'cat') : 0;
+        $postTitle = !empty(filter_input(INPUT_GET, 's')) ? filter_input(INPUT_GET, 's') : false;
         $groupId = ($cat == 0) ? wp_list_pluck(get_terms('sc_group'), 'term_id') : $cat;
         $args = array(
             'searchTitle'   => $postTitle,
@@ -157,7 +157,7 @@ class MY_SCPostManage extends WP_List_Table
                 echo '<tr ' . $row_class . 'id="record_' . $rec->ID . '">';
                 foreach ($columns as $column_name => $column_display_name) {
                     $userData = get_userdata($rec->post_author);
-                    $groupName = wp_get_post_terms($rec->ID, 'sc_group')[0]->name;
+                    $groupNames = wp_get_post_terms($rec->ID, 'sc_group');
                     $class = "class='$column_name column_$column_name'";
                     $style = "";
                     if (in_array($column_name, $hidden)) {
@@ -183,7 +183,12 @@ class MY_SCPostManage extends WP_List_Table
                             echo '<td ' . $attributes . '>' . stripslashes($userData->user_nicename) . '</td>';
                             break;
                         case 'col_post_group':
-                            echo '<td ' . $attributes . '>' . stripslashes($groupName) . '</td>';
+                            echo '<td ' . $attributes . '>';
+                            foreach ($groupNames as $groupName) {
+                                echo stripslashes($groupName->name);
+                                echo str_repeat('&nbsp', 3);
+                            }
+                            echo '</td>';
                             break;
                     }
                 }
