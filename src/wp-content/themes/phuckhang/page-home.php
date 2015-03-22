@@ -83,7 +83,7 @@
         <div class="box box-news box-last">
 
           <div class="vertical-center">
-            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/LinhNguyen.jpg" height="66" width="66" alt="Linh Nguyen" class="img-circle"  style="float: left;">
+            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/linhnguyen.jpg" height="66" width="66" alt="Linh Nguyen" class="img-circle"  style="float: left;">
             <p>
               <span class="author">Linh Nguyen</span> <br />
               <a href="#">

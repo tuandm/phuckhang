@@ -2,11 +2,9 @@
   get_header();
 ?>
 
-  <div id="primary" class="content-area">
-    <main id="main" class="site-main" role="main">
+  <div id="primary" class="content">
 
     <?php if ( have_posts() ) : ?>
-
       <?php if ( is_home() && ! is_front_page() ) : ?>
         <header>
           <h1 class="page-title screen-reader-text">
@@ -31,19 +29,17 @@
 
       // Previous/next page navigation.
       the_posts_pagination( array(
-        'prev_text'          => __( 'Previous page', 'twentyfifteen' ),
-        'next_text'          => __( 'Next page', 'twentyfifteen' ),
-        'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentyfifteen' ) . ' </span>',
+        'prev_text'          => __( 'Previous page', 'phuckhang' ),
+        'next_text'          => __( 'Next page', 'phuckhang' ),
+        'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'phuckhang' ) . ' </span>',
       ) );
 
     // If no content, include the "No posts found" template.
     else :
       get_template_part( 'content', 'none' );
-
     endif;
     ?>
 
-    </main><!-- .site-main -->
-  </div><!-- .content-area -->
+  </div><!-- .content -->
 
 <?php get_footer(); ?>
