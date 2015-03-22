@@ -6,7 +6,6 @@
  * Version: 0.0.1
  */
 
-define('CODEIGNITER_PATH', "../ci");
 define('CI_ADMIN_FOLDER', "admin");
 
 define('SRC_FOLDER', "src");
@@ -42,9 +41,9 @@ class LandBook {
 
             // sample ajax action binding
             add_action( 'wp_ajax_project_products', array($ajaxHandler, 'projectProducts'));
-
         } else {
-            add_shortcode('landbook', array($this, 'process'));
+            // Register shortcode handler
+            add_shortcode('landbook', array($this, 'handleShortcode'));
         }
     }
 
@@ -72,6 +71,18 @@ class LandBook {
         }
     }
 
+    public function handleShortcode($attributes) {
+        // Get optional attributes and assign default values if not present
+        $page = isset($attributes['page']) ? $attributes['page'] : 'home';
+        $action = isset($_REQUEST['act']) ? $_REQUEST['act'] : 'index';
+        $landBookContent = LandBook_Controller::getInstance()->forwardRequestToCI([
+            'controller' => $page,
+            'action' => $action
+        ], false);
+
+        return $landBookContent;
+    }
+
     public function settings()
     {
         echo '<div class="wrap">';
@@ -94,7 +105,6 @@ class LandBook {
         }
         $className = ltrim($className, '\\');
         $fileName  = '';
-        $namespace = '';
         if ($lastNsPos = strrpos($className, '\\')) {
             $namespace = substr($className, 0, $lastNsPos);
             $className = substr($className, $lastNsPos + 1);
