@@ -100,4 +100,72 @@ class User extends CI_Controller
         ));
     }
 
+    public function editGroup()
+    {
+        global $wpdb;
+        $userId = $this->input->get('userId');
+        $tax = get_taxonomy('sc_group');
+        $results = $wpdb->get_col("SELECT group_id FROM pk_sc_user_groups WHERE user_id = $userId");
+        /* Make sure the user can assign terms of the profession taxonomy before proceeding. */
+        if (!current_user_can($tax->cap->assign_terms))
+            return;
+        /* Get the terms of the 'profession' taxonomy. */
+        $terms = get_terms('sc_group', array('hide_empty' => false));
+        $this->load->view('admin/user/edit_group', array(
+                        'terms'     => $terms,
+                        'results'   => $results,
+                        'userId'    => $userId
+        ));
+    }
+
+    /**
+     *
+     * @param unknown $userId
+     */
+    function updateUserGroups()
+    {
+        global $wpdb;
+        $updateData = $this->input->post();
+        $terms = get_terms('sc_group', array('hide_empty' => false));
+        $userId = filter_input(INPUT_POST, 'user_id');
+        $postUserGroups = filter_input(INPUT_POST, 'group', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        $numPostUserGroups = count($postUserGroups);
+        $results = $wpdb->get_results("SELECT group_id, pk_terms.name FROM pk_sc_user_groups
+                INNER JOIN pk_terms ON pk_sc_user_groups.group_id = pk_terms.term_id WHERE pk_sc_user_groups.user_id = $userId", ARRAY_A);
+        $currentUserGroups = wp_list_pluck($results, 'name', 'group_id');
+        $numCurrentUserGroups = count($currentUserGroups);
+        $termArray = wp_list_pluck($terms, 'name', 'term_id');
+        if (!is_admin()) {
+            die ('You do not have permission to edit this user');
+        }
+        if ($postUserGroups == null) {
+            $result = $wpdb->delete('pk_sc_user_groups', array('user_id' => $userId));
+        }
+        foreach ($postUserGroups as $postUserGroup) {
+            $checkGroup = in_array($postUserGroup, $currentUserGroups) ? 1 : 0;
+            if ($checkGroup == 0) {
+                $groupId = $wpdb->get_col("SELECT term_id FROM pk_terms WHERE pk_terms.name = '$postUserGroup'")[0];
+                $data = array(
+                        'user_id'   => $userId,
+                        'group_id'  => $groupId
+                    );
+                $insertResult = $wpdb->insert('pk_sc_user_groups', $data);
+                }
+        }
+        foreach ($currentUserGroups as $groupId => $currentUserGroup) {
+            $checkGroup = in_array($currentUserGroup, $postUserGroups) ? 1 : 0;
+            if ($checkGroup == 0) {
+                $deleteResult = $wpdb->delete('pk_sc_user_groups', array(
+                                    'group_id'  => $groupId,
+                                    'user_id'   => $userId
+                                ));
+            }
+        }
+        if ($insertResult && $deleteResult) {
+            redirect(get_option('siteurl') . '/wp-admin/admin.php?page=landbook-users', 'refresh');
+        } else {
+            die('Update group is not successful');
+        }
+    }
+
 }

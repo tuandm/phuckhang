@@ -96,7 +96,7 @@ class LandBook {
         $pl = get_permalink($post->ID);
         if (filter_input(INPUT_POST, 'publish') || filter_input(INPUT_POST, 'save')) {
             if (preg_match('/post=([0-9]*)/', $location, $match) && $post->ID == $match[1]) {
-                if (is_object_in_term( $post->ID, 'sc_group') && ($post->post_status == 'publish') && $pl) {
+                if (is_object_in_term($post->ID, 'sc_group') && ($post->post_status == 'publish') && $pl) {
                     $location = home_url('/wp-admin/admin.php?page=landbook-posts');
                 }
             }
@@ -129,29 +129,25 @@ class LandBook {
         if ($postUserGroups == null) {
             $result = $wpdb->delete('pk_sc_user_groups', array('user_id' => $userId));
         }
-        if ($numPostUserGroups > $numCurrentUserGroups) {
-            $updateResults = $wpdb->update('pk_users', $updateData, $userId);
-            foreach ($postUserGroups as $postUserGroup) {
-                $checkGroup = in_array($postUserGroup, $currentUserGroups) ? 1 : 0;
-                if ($checkGroup == 0) {
-                    $groupId = $wpdb->get_col("SELECT term_id FROM pk_terms WHERE pk_terms.name = '$postUserGroup'")[0];
-                    $data = array(
-                        'user_id'   => $userId,
-                        'group_id'  => $groupId
-                    );
-                    $insertResult = $wpdb->insert('pk_sc_user_groups', $data);
-                }
+        $updateResults = $wpdb->update('pk_users', $updateData, $userId);
+        foreach ($postUserGroups as $postUserGroup) {
+            $checkGroup = in_array($postUserGroup, $currentUserGroups) ? 1 : 0;
+            if ($checkGroup == 0) {
+                $groupId = $wpdb->get_col("SELECT term_id FROM pk_terms WHERE pk_terms.name = '$postUserGroup'")[0];
+                $data = array(
+                    'user_id'   => $userId,
+                    'group_id'  => $groupId
+                );
+                $insertResult = $wpdb->insert('pk_sc_user_groups', $data);
             }
-        } elseif ($numPostUserGroups < $numCurrentUserGroups) {
-            $updateResults = $wpdb->update('pk_users', $updateData, $userId);
-            foreach ($currentUserGroups as $groupId => $currentUserGroup) {
-                $checkGroup = in_array($currentUserGroup, $postUserGroups) ? 1 : 0;
-                if ($checkGroup == 0) {
-                    $wpdb->delete('pk_sc_user_groups', array(
-                        'group_id'  => $groupId,
-                        'user_id'   => $userId
-                    ));
-                }
+        }
+        foreach ($currentUserGroups as $groupId => $currentUserGroup) {
+            $checkGroup = in_array($currentUserGroup, $postUserGroups) ? 1 : 0;
+            if ($checkGroup == 0) {
+                $wpdb->delete('pk_sc_user_groups', array(
+                    'group_id'  => $groupId,
+                    'user_id'   => $userId
+                ));
             }
         }
     }
@@ -169,7 +165,7 @@ class LandBook {
         if (!current_user_can($tax->cap->assign_terms))
             return;
         /* Get the terms of the 'profession' taxonomy. */
-        $terms = get_terms('sc_group', array( 'hide_empty' => false ));
+        $terms = get_terms('sc_group', array('hide_empty' => false));
     /* If there are any profession terms, loop through them and display checkboxes. */
     ?>
 <h3><?php _e('Group');?></h3>
@@ -177,18 +173,18 @@ class LandBook {
     <tr>
         <th><label for="group"><?php _e('Select Group'); ?></label></th>
         <td><?php if (!empty($terms)) :?>
-                <?php foreach ($terms as $term) :?>
-                <?php $checkValue = in_array($term->term_id, $results)? 1 : 0 ;?>
-                <input type="checkbox" name="group[]" id="group-<?php echo $term->name;?>"
-                value="<?php echo $term->name; ?>"
-                <?php checked($checkValue, 1); ?> /> 
-                <label for="group-<?php echo esc_attr($term->name); ?>">
+                <?php foreach ($terms as $term) : ?>
+                <?php $checkValue = in_array($term->term_id, $results)? 1 : 0; ?>
+                <input type="checkbox" name="group[]"
+            id="group-<?php echo $term->name;?>"
+            value="<?php echo $term->name; ?>" <?php checked($checkValue, 1); ?> />
+            <label for="group-<?php echo esc_attr($term->name); ?>">
                     <?php echo $term->name; ?>
                 </label> <br />
                 <?php endforeach;?>
     <!--    If there are no groups terms, display a message.   -->
             <?php else :?>
-                _e( 'There are no groups available.' );
+                _e('There are no groups available.');
             }
             <?php endif;?>
         </td>

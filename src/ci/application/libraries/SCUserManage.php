@@ -73,8 +73,10 @@ class MY_SCUserManage extends WP_List_Table
     function userAction($item)
     {
         $actions = array(
-            'edit' => sprintf('<a href="user-edit.php?user_id=%s">Edit</a>',
+            'editUser' => sprintf('<a href="user-edit.php?user_id=%s">Edit</a>',
                   $item['ID']),
+            'editGroup' => sprintf('<a href="?page=%s&act=%s&userId=%s&amp;noheader=true" >Edit Group</a>', 
+                filter_input(INPUT_GET, 'page'), 'editGroup', $item['ID']),
             'delete' => sprintf('<a href="?page=%s&act=%s&userId=%s&amp;noheader=true" onclick="return confirm(\'Do you want to delete %s?\')">Delete</a>', 
                 filter_input(INPUT_GET, 'page'), 'deleteUser', $item['ID'], $item['user_nicename'])
         );
