@@ -1,3 +1,6 @@
+
+    <div class="clearfix"></div>
+
     <footer id="footer">
         <div class="container">
             <div class="row">
@@ -10,10 +13,7 @@
         </div>
     </footer><!--/#footer-->
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/bootstrap.min.js"></script>
+ <?php wp_footer(); ?>
 
   </body>
 </html>

@@ -16,6 +16,11 @@ body{
   margin:  0 auto;
 }
 
+.site-title{
+  padding: 0;
+  margin: 0;
+}
+.site-description{display: none;}
 
 .navbar-toggle {
   border-color: #563D7C;
@@ -56,7 +61,12 @@ body{
   background: none;
 }
 
-.navbar-nav>li.active a, .navbar-nav>li a:hover {
+.navbar-nav>li.menu-item>a{
+  text-transform: uppercase;
+}
+
+
+.navbar-nav>li.active a, .navbar-nav>li a:hover, .navbar-nav>li.current-menu-item a {
   color: #000;
   background: none;
 }
@@ -495,7 +505,7 @@ ol.project-indicators li.active, ol.project-indicators li.cycle-pager-active{
 }
 
   .project-banner.langsen{
-    background: url('../images/project-banner/langsen.jpg') top center no-repeat;
+    background: url('images/project-banner/langsen.jpg') top center no-repeat;
     background-size: cover;
   }
 

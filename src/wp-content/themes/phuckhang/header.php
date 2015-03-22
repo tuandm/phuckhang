@@ -13,34 +13,23 @@
   <link rel="profile" href="http://gmpg.org/xfn/11">
   <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 
-  <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,400,300,700&subset=latin,vietnamese' rel='stylesheet' type='text/css'>
-  <!-- Bootstrap -->
-  <link href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/bootstrap.min.css" rel="stylesheet">
+  <script>(function(){document.documentElement.className='js'})();</script>
 
-  <!-- <link href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/font-awesome.min.css" rel="stylesheet"> -->
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" />
+  <?php wp_head(); ?>
 
   <!--[if lt IE 9]>
     <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/html5.js"></script>
     <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/respond.min.js"></script>
   <![endif]-->
 
-  <script>(function(){document.documentElement.className='js'})();</script>
-  <?php wp_head(); ?>
-
 </head>
 
 <body <?php body_class(); ?>>
-
-<div id="page" class="hfeed site">
-  <!-- <a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'twentyfifteen' ); ?></a> -->
 
    <header id="header">
         <nav class="navbar" role="banner">
             <div class="container-fluid">
                 <div class="row">
-
                     <div class="navbar-header col-xs-12 col-sm-12 col-md-12 col-lg-3">
                         <div class="row">
                           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -50,41 +39,59 @@
 
                           <a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
 
-                                <?php
-                                    if ( is_front_page() && is_home() ) : ?>
-                                  <h1 class="site-title">
-                                      <img id="logo" src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/logo.png" alt="<?php bloginfo( 'name' ); ?>" class="img-responsive">
-                                  </h1>
+                              <h1 class="site-title">
+                                <img id="logo" src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/logo.png" alt="<?php bloginfo( 'name' ); ?>" class="img-responsive" alt="<?php bloginfo( 'name' ); ?>">
+                              </h1>
 
-                                <?php else : ?>
-                                  <p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-                                <?php endif;
-
-                                //$description = get_bloginfo( 'description', 'display' );
+                              <?php
+                                $description = get_bloginfo( 'description', 'display' );
                                 if ( $description || is_customize_preview() ) : ?>
-                                  <p class="site-description"><?php echo $description; ?></p>
-                                <?php endif;
+                                    <p class="site-description"><?php echo $description; ?></p>
+                                  <?php
+                                endif;
                               ?>
                           </a>
                         </div>
                     </div>
 
-                    <div class="collapse navbar-collapse col-xs-12 col-sm-12 col-md-12 col-lg-9">
-                        <ul class="nav navbar-nav">
-                            <li class="active"><a href="index.html">GIỚI THIỆU</a></li>
-                            <li><a href="du-an.html">DỰ ÁN</a></li>
-                            <li><a href="#">THÀNH VIÊN</a></li>
-                            <li><a href="#">TIN TỨC</a></li>
-                            <li><a href="#">SỰ KIỆN</a></li>
-                            <li><a href="#">TUYỂN DỤNG</a></li>
-                            <li><a href="#"><i class="fa fa-search"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        </ul>
-                    </div>
+                    <?php
+                      if ( has_nav_menu( 'primary' ) || has_nav_menu( 'social' ) || is_active_sidebar( 'sidebar-1' )  ) : ?>
+
+                      <div class="collapse navbar-collapse col-xs-12 col-sm-12 col-md-12 col-lg-9">
+
+                        <?php if ( has_nav_menu( 'primary' ) ) : ?>
+
+                            <?php
+                              // Primary navigation menu.
+                              wp_nav_menu( array(
+                                'menu_class'     => 'nav navbar-nav',
+                                'theme_location' => 'primary',
+                              ) );
+                            ?>
+                          </div>
+                        <?php endif; ?>
+
+                        <?php if ( has_nav_menu( 'social' ) ) : ?>
+                          <nav id="social-navigation" class="social-navigation" role="navigation">
+                            <?php
+                              // Social links navigation menu.
+                              wp_nav_menu( array(
+                                'theme_location' => 'social',
+                                'depth'          => 1,
+                                'link_before'    => '<span class="screen-reader-text">',
+                                'link_after'     => '</span>',
+                              ) );
+                            ?>
+                          </nav><!-- .social-navigation -->
+                        <?php endif; ?>
+                        <!-- <li><a href="#"><i class="fa fa-search"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li> -->
+
+                      </div>
+                    <?php endif; ?>
+
                 </div>
             </div><!--/.container-->
         </nav><!--/nav-->
     </header><!--/header-->
-
-  <div id="content" class="site-content">
