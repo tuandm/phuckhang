@@ -21,8 +21,8 @@ class LandBook_Controller {
 
     /**
      * Forward the current request to the front controller of CI
-     * @param $params
-     * @param $output
+     * @param array $params
+     * @param boolean $output
      * @return string
      */
     public function forwardRequestToCI($params, $output = true)

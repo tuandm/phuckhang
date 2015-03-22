@@ -19,6 +19,7 @@ class LandBook {
     /**
      * Singleton class
      */
+
     public static function getInstance()
     {
         if (!self::$instance) {
@@ -71,7 +72,7 @@ class LandBook {
         }
     }
 
-    public function handleShortcode($attributes) {
+    public function handleShortcode(array $attributes) {
         // Get optional attributes and assign default values if not present
         $page = isset($attributes['page']) ? $attributes['page'] : 'home';
         $action = isset($_REQUEST['act']) ? $_REQUEST['act'] : 'index';
@@ -94,7 +95,7 @@ class LandBook {
     /**
      * PSR-0 compliant autoloader to load classes as needed.
      *
-     * @param  string  $classname  The name of the class
+     * @param  string  $className  The name of the class
      * @return null    Return early if the class name does not start with the
      *                 correct prefix
      */
