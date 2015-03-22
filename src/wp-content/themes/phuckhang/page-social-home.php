@@ -27,7 +27,7 @@
 
       </div>
 
-      <div class="col-lg-6 col-md-7 col-sm-7 col-xs-10 col-xs-offset-1">
+      <div class="col-lg-6 col-lg-offset-0 col-md-7 col-md-offset-0 col-sm-7 col-sm-offset-0 col-xs-10 col-xs-offset-1">
 
         <div class="newpost-wrap">
           <form>
