@@ -50,6 +50,16 @@ class Group_Model extends Land_Book_Model {
         return $group;
     }
 
+    public function getGroupIdByName($name)
+    {
+        $this->db
+            ->select('pk_terms.term_id')
+            ->from('pk_terms')
+            ->where('pk_terms.name', $name);
+        $groupId = $this->db->get()->row();
+        return $groupId;
+    }
+
     public function addNewGroupTaxonomy(array $data)
     {
         return $this->create('pk_term_taxonomy', $data);

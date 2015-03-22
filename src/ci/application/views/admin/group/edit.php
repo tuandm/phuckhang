@@ -12,7 +12,7 @@
             <tr class="form-field form-required term-name-wrap">
                 <th scope="row"><label for="name">Name <span class="content-required">(*)</span></label></th>
                 <td><input name="name" id="txtGroupName" value="<?php echo $group->name; ?>" size="40" aria-required="true" type="text" required>
-                <span id="validation"><?php echo form_error('name'); ?></span>
+                <span class="content-required"><?php echo form_error('name'); ?></span>
             </tr>
             <tr class="form-field term-slug-wrap">
                 <th scope="row"><label for="slug">Slug</label></th>
@@ -21,7 +21,7 @@
             <tr class="form-field term-description-wrap">
                 <th scope="row"><label for="description">Description <span class="content-required">(*)</span></label></th>
                 <td><textarea name="description" id="description" rows="5" cols="50" class="large-text" required><?php echo $group->description; ?></textarea>
-                <span id="notice"><?php echo form_error('description'); ?></span>
+                <span id="notice" class="content-required"><?php echo form_error('description'); ?></span>
             </tr>
         </tbody>
     </table>

@@ -31,11 +31,11 @@ class Group extends CI_Controller {
 
     public function addNewGroup()
     {
-        $this->form_validation->set_rules('txtName', 'Name', 'required');
+        $this->form_validation->set_rules('txtName', 'Name', 'required|is_unique[pk_terms.name]');
         $this->form_validation->set_rules('txtDescription', 'Description', 'required');
 
         if ($this->form_validation->run() == FALSE) {
-            return $this->index();
+            $this->index();
         } else {
             $txtName = $this->input->post('txtName');
             $txtSlug = $this->input->post('txtSlug');
@@ -80,11 +80,11 @@ class Group extends CI_Controller {
 
     public function updateGroup()
     {
-        $this->form_validation->set_rules('name', 'Name', 'required');
+        $this->form_validation->set_rules('name', 'Name', 'required|callback_checkGroupName');
         $this->form_validation->set_rules('description', 'Description', 'required');
 
         if ($this->form_validation->run() == FALSE) {
-            return $this->edit();
+            $this->editGroup();
         } else {
             $name = $this->input->post('name');
             $slug = $this->input->post('slug');
@@ -108,4 +108,17 @@ class Group extends CI_Controller {
         }
     }
 
+    public function checkGroupName()
+    {
+        $id = $this->input->post('id');
+        $name = $this->input->post('name');
+        $checkedGroupId = $this->groupModel->getGroupIdByName($name);
+
+        if (empty($checkedGroupId) || ($id == $checkedGroupId->term_id)) {
+            return TRUE;
+        } else {
+            $this->form_validation->set_message('checkGroupName', 'That Group Name is not available.');
+            return FALSE;
+        }
+    }
 }

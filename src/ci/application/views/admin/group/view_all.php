@@ -43,7 +43,7 @@
             <tr class="form-field form-required term-name-wrap">
                 <th scope="row"><label for="name">Name <span class="content-required">(*)</span></label></th>
                 <td><input type="text" placeholder="Name Group" id="name" name="txtName" value="" required></td>
-                <span style="color: red; font-style: italic; "><?php echo form_error('txtName'); ?></span>
+                <span class="content-required"><?php echo form_error('txtName'); ?></span>
             </tr>
             <tr class="form-field term-slug-wrap">
                 <th scope="row"><label for="name">Slug</label></th>
@@ -52,7 +52,7 @@
             <tr class="form-field term-description-wrap">
                 <th scope="row"><label for="name">Description <span class="content-required">(*)</span></label></th>
                 <td><textarea name="txtDescription" placeholder="Description Group" required></textarea></td>
-                <span style="color: red; font-style: italic; "><?php echo form_error('txtDescription'); ?></span>
+                <span class="content-required"><?php echo form_error('txtDescription'); ?></span>
         </tbody>
     </table>
     <input type="hidden" id="action" name="act" value="addNewGroup">
