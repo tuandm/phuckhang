@@ -27,8 +27,10 @@ class Project extends CI_Controller {
         foreach ($this->statusValues as $value) {
             $this->statusNames[$value] = $this->projModel->getNameStatusByNumber($value);
         }
-        $this->orderBy = !empty($this->input->get('orderby')) ? $this->input->get('orderby') : 'lb_project_id';
-        $this->order = !empty($this->input->get('order')) ? $this->input->get('order') : 'ASC';
+        $orderBy = $this->input->get('orderby');
+        $this->orderBy = !empty($orderBy) ? $orderBy : 'lb_project_id';
+        $order = $this->input->get('order');
+        $this->order = !empty($order) ? $order : 'ASC';
         $this->checkHeader = $this->input->get('noheader');
         if (isset($this->checkHeader)) {
             require_once(ABSPATH . 'wp-admin/admin-header.php');
@@ -56,7 +58,8 @@ class Project extends CI_Controller {
     {
         $addStatusValues = array(1, 2, 3);
 
-        if (!empty($this->input->post('proj-name'))) {
+        $projName = $this->input->post('proj-name');
+        if (!empty($projName)) {
             $postData = $this->input->post();
         } else {
             $postData = array(
