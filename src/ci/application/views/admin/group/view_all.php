@@ -31,21 +31,31 @@
                 <td><?php echo $group['description']; ?></td>
                 <td><?php echo $group['slug']; ?></td>
                 <td><?php echo $group['count_users_in_group']; ?></td>
-                <td><a href="?page=landbook-groups&act=edit&termId=<?php echo $group['term_id']; ?>">Edit</a></td>
-                <td><a href="?page=landbook-groups&act=delete&termId=<?php echo $group['term_id']; ?>">Delete</a></td>
+                <td><a href="?page=landbook-groups&act=editGroup&groupId=<?php echo $group['term_id']; ?>">Edit</a></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
 <h2>Add New Group</h2>
 <form id="addtag" class="validate" action="" method="POST">
-    <input type="text" placeholder="Name Group" id="name" name="txtName" value="" required>
-    <span style="color: red; font-style: italic; "><?php echo form_error('txtName'); ?></span>
-    <input type="text" placeholder="Slug Group" id="slug" name="txtSlug" value="" required>
-    <span style="color: red; font-style: italic; "><?php echo form_error('txtSlug'); ?></span>
-    <textarea name="txtDescription" required></textarea>
-    <span style="color: red; font-style: italic; "><?php echo form_error('txtDescription'); ?></span>
+    <table class="form-table">
+        <tbody>
+            <tr class="form-field form-required term-name-wrap">
+                <th scope="row"><label for="name">Name <span class="content-required">(*)</span></label></th>
+                <td><input type="text" placeholder="Name Group" id="name" name="txtName" value="" required></td>
+                <span style="color: red; font-style: italic; "><?php echo form_error('txtName'); ?></span>
+            </tr>
+            <tr class="form-field term-slug-wrap">
+                <th scope="row"><label for="name">Slug</label></th>
+                <td><input type="text" placeholder="Slug Group" id="slug" name="txtSlug" value=""></td>
+            </tr>
+            <tr class="form-field term-description-wrap">
+                <th scope="row"><label for="name">Description <span class="content-required">(*)</span></label></th>
+                <td><textarea name="txtDescription" placeholder="Description Group" required></textarea></td>
+                <span style="color: red; font-style: italic; "><?php echo form_error('txtDescription'); ?></span>
+        </tbody>
+    </table>
     <input type="hidden" id="action" name="act" value="addNewGroup">
-    <input id='submit' type="submit" value="Add New Group" name="btnAddGroup">
+    <p class="submit"><input id='submit' type="submit" value="Add New Group" name="btnAddGroup"></p>
 </form>
 ​

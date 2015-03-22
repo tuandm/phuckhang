@@ -6,7 +6,6 @@
  * Version: 0.0.1
  */
 
-define('CODEIGNITER_PATH', "../ci");
 define('CI_ADMIN_FOLDER', "admin");
 
 define('SRC_FOLDER', "src");
@@ -24,6 +23,7 @@ class LandBook {
     /**
      * Singleton class
      */
+
     public static function getInstance()
     {
         if (!self::$instance) {
@@ -47,24 +47,31 @@ class LandBook {
             //hook into the init action and call createScGroupTaxonomy when it fires
             add_action('init', array($this, 'createScGroupTaxonomy'), 0);
 
+            $this->register_css();
             // AJAX action is handled by wp-admin/admin-ajax.php
             $ajaxHandler = LandBook_Ajax::getInstance();
 
             // sample ajax action binding
             add_action('wp_ajax_project_products', array($ajaxHandler, 'projectProducts'));
         } else {
-            add_shortcode('landbook', array($this, 'process'));
+            // Register shortcode handler
+            add_shortcode('landbook', array($this, 'handleShortcode'));
         }
+    }
+
+    public function register_css() {
+        wp_register_style('lbstyle', plugins_url('/css/lbstyle.css',__FILE__ ), array(), '20120208', 'all');
+        wp_enqueue_style('lbstyle');
     }
 
     public function createMenuItems()
     {
-        $subMenus = [
-            ['projects', LandBook_Projects::getInstance()],
-            ['products', LandBook_Products::getInstance()],
-            ['groups', LandBook_Groups::getInstance()],
-            ['posts', LandBook_Posts::getInstance()],
-        ];
+        $subMenus = array(
+            array('projects', LandBook_Projects::getInstance()),
+            array('products', LandBook_Products::getInstance()),
+            array('groups', LandBook_Groups::getInstance()),
+            array('posts', LandBook_Posts::getInstance()),
+        );
         add_menu_page( 'Landbook', 'Landbook', 'manage_options', 'landbook', array($this, 'settings') );
         foreach ($subMenus as $subMenu) {
             $menuName = $subMenu[0];
@@ -100,7 +107,19 @@ class LandBook {
             // Post page as a last resort
             $location = $pl;
         }
+
         return $location;
+    }
+    public function handleShortcode(array $attributes) {
+        // Get optional attributes and assign default values if not present
+        $page = isset($attributes['page']) ? $attributes['page'] : 'home';
+        $action = isset($_REQUEST['act']) ? $_REQUEST['act'] : 'index';
+        $landBookContent = LandBook_Controller::getInstance()->forwardRequestToCI([
+            'controller' => $page,
+            'action' => $action
+        ], false);
+
+        return $landBookContent;
     }
 
     public function settings()
@@ -114,7 +133,7 @@ class LandBook {
     /**
      * PSR-0 compliant autoloader to load classes as needed.
      *
-     * @param  string  $classname  The name of the class
+     * @param  string  $className  The name of the class
      * @return null    Return early if the class name does not start with the
      *                 correct prefix
      */
@@ -125,7 +144,6 @@ class LandBook {
         }
         $className = ltrim($className, '\\');
         $fileName  = '';
-        $namespace = '';
         if ($lastNsPos = strrpos($className, '\\')) {
             $namespace = substr($className, 0, $lastNsPos);
             $className = substr($className, $lastNsPos + 1);

@@ -6,6 +6,7 @@ class LandBook_Posts extends LandBook_Admin {
 
     /** Holds the plugin instance */
     private static $instance = false;
+
     /**
      * Singleton class
      */
