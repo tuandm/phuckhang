@@ -54,12 +54,12 @@ class LandBook {
 
     public function createMenuItems()
     {
-        $subMenus = [
-            ['projects', LandBook_Projects::getInstance()],
-            ['products', LandBook_Products::getInstance()],
-            ['groups', LandBook_Groups::getInstance()],
-            ['posts', LandBook_Posts::getInstance()],
-        ];
+        $subMenus = array(
+            array('projects', LandBook_Projects::getInstance()),
+            array('products', LandBook_Products::getInstance()),
+            array('groups', LandBook_Groups::getInstance()),
+            array('posts', LandBook_Posts::getInstance()),
+        );
         add_menu_page( 'Landbook', 'Landbook', 'manage_options', 'landbook', array($this, 'settings') );
         foreach ($subMenus as $subMenu) {
             $menuName = $subMenu[0];

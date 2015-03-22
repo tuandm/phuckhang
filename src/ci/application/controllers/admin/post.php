@@ -1,46 +1,50 @@
 <?php
     /**
-     * @author PN
+     * @author Phat Nguyen
      *
      */
-if ( !defined('BASEPATH')) exit('No direct script access allowed');
+if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Post extends CI_Controller {
-
+class Post extends CI_Controller
+{
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('sc_post_manage');
-        $this->load->model('admin/Posts','postModel');
+        $this->load->library('ScPostManage');
+        $this->load->model('admin/Posts', 'postModel');
         $this->load->library('form_validation');
     }
 
+    /**
+     * Show All Posts
+     */
     public function index()
     {
         $posts = $this->postModel->getAllPosts();
         $this->load->view('admin/post/view_all', array('posts' => $posts));
     }
 
+    /**
+     * Edit A Post
+     *
+     */
     public function edit()
     {
         if (is_admin()) {
-            $postId = (int)$this->input->get('post');
-            if($postId > 0)
-            {
+            $postId = (int) $this->input->get('post');
+            if($postId > 0) {
                 $result = $this->postModel->getPostById($postId);
                 $this->load->view('admin/post/edit', array('post' => $result->posts[0]));
-            }
-            else {
-                echo "Invalid Post ID";
+            } else {
+                echo 'Invalid Post ID';
                 return;
             }
-        }
-        else {
+        } else {
             die('You dont have permission to edit');
         }
     }
 
-    public function updatePost()
+    public function update()
     {
         $this->form_validation->set_rules('post-title', 'Title', 'required');
         $this->form_validation->set_rules('post-content', 'Content', 'required');
@@ -60,7 +64,7 @@ class Post extends CI_Controller {
         }
     }
 
-    public function filterAction()
+    public function filter()
     {
         $posts = $this->postModel->getAllPosts();
         $this->load->view('admin/post/view_all', array('posts' => $posts));
@@ -74,7 +78,7 @@ class Post extends CI_Controller {
                 wp_delete_post($postId);
                 $this->index();
             } else {
-                echo "Invalid Post ID";
+                echo 'Invalid Post ID';
                 return;
             }
         } else {
