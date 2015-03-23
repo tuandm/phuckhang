@@ -140,6 +140,7 @@ class Products_Model extends Land_Book_Model
     {
         if ($status == 0) {
             $results = $this->db->select('*')
+            ->like('code',$code)
             ->from('pk_lb_products')
             ->count_all_results();
         } else {
