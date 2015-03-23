@@ -35,7 +35,8 @@ class LandBook_Loader
      * Instantiates the plugin by setting up the data structures that will
      * be used to maintain the actions and the filters.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->_actions      = array();
         $this->_filters     = array();
         $this->_shortcodes  = array();
@@ -49,7 +50,8 @@ class LandBook_Loader
      * @param  object    $component   The object that contains the method to be called when the hook is fired.
      * @param  string    $callback    The function that resides on the specified component.
      */
-    public function addAction($hook, $component, $callback) {
+    public function addAction($hook, $component, $callback)
+    {
         $this->_actions = $this->_add($this->_actions, $hook, $component, $callback);
     }
 
@@ -61,7 +63,8 @@ class LandBook_Loader
      * @param  object    $component   The object that contains the method to be called when the hook is fired.
      * @param  string    $callback    The function that resides on the specified component.
      */
-    public function addFilter($hook, $component, $callback) {
+    public function addFilter($hook, $component, $callback)
+    {
         $this->_filters = $this->_add($this->_filters, $hook, $component, $callback);
     }
 
@@ -73,7 +76,8 @@ class LandBook_Loader
      * @param  object    $component   The object that contains the method to be called when the hook is fired.
      * @param  string    $callback    The function that resides on the specified component.
      */
-    public function addShortcode($hook, $component, $callback) {
+    public function addShortcode($hook, $component, $callback)
+    {
         $this->_shortcodes = $this->_add($this->_shortcodes, $hook, $component, $callback);
     }
 
@@ -87,10 +91,12 @@ class LandBook_Loader
      * @param  string    $hook        The name of the WordPress hook to which we're registering a callback.
      * @param  object    $component   The object that contains the method to be called when the hook is fired.
      * @param  string    $callback    The function that resides on the specified component.
+     * @param  int       $priority    The priority of this action
      *
      * @return array                  The collection of hooks that are registered with WordPress via this class.
      */
-    private function _add($hooks, $hook, $component, $callback, $priority = 10) {
+    private function _add($hooks, $hook, $component, $callback, $priority = 10)
+    {
         $hooks[] = array(
             'hook'         => $hook,
             'component'    => $component,
@@ -103,7 +109,8 @@ class LandBook_Loader
     /**
      * Registers all of the defined filters and actions with WordPress.
      */
-    public function run() {
+    public function run()
+    {
         foreach ($this->_filters as $hook) {
             add_filter($hook['hook'], array($hook['component'], $hook['callback']));
         }
