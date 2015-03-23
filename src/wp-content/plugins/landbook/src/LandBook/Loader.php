@@ -116,12 +116,4 @@ class LandBook_Loader
             add_shortcode($hook['hook'], array($hook['component'], $hook['callback']));
         }
     }
-
-    /**
-     * Handle all actions need to be hooked after post is posted
-     */
-    public function postPublishPost()
-    {
-
-    }
 }

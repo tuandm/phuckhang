@@ -48,11 +48,19 @@ class LandBook_Hook
     }
 
     /**
-     *
+     * Handle ajax request
      */
     public function projectProducts()
     {
         $ajaxHandler = LandBook_Ajax::getInstance();
         $ajaxHandler->projectProducts();
+    }
+
+    /**
+     * Handle all actions need to be hooked after post is posted
+     */
+    public function postPublishPost()
+    {
+
     }
 }
