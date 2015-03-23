@@ -64,7 +64,7 @@ class LandBook {
 
     public function registerHooks()
     {
-        $this->loader->addAction('publish_post', $this->hook, 'postPublishPost');
+        $this->loader->addAction('save_post', $this->hook, 'processAfterSavingPost', 10, 3);
         $this->loader->run();
     }
 
