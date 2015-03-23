@@ -5,7 +5,7 @@
   <div id="social-home" class="content social-cotent">
 
     <div class="row">
-      <div class="col-lg-2 col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-3 col-xs-11 col-xs-offset-1">
+      <div class="col-lg-2 col-lg-offset-0 col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-3 col-xs-11 col-xs-offset-1">
 
         <div class="avatar">
           <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="150" width="150" alt="">
@@ -27,7 +27,7 @@
 
       </div>
 
-      <div class="col-lg-6 col-md-7 col-sm-7 col-xs-10 col-xs-offset-1">
+      <div class="col-lg-6 col-lg-offset-0 col-md-7 col-md-offset-0 col-sm-7 col-sm-offset-0 col-xs-10 col-xs-offset-1">
 
         <div class="newpost-wrap">
           <form>
