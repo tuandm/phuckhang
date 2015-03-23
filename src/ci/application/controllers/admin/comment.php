@@ -17,10 +17,11 @@ class Comment extends CI_Controller {
 
     public function index()
     {
-        $comments = $this->commentModel->getListComments();
+        $keyword = $this->input->post('keyword');
+        $comments = $this->commentModel->getListComments($keyword);
         $totalRows = $this->commentModel->countComments();
 
-        $perpage = 5;
+        $perpage = 10;
         $config['base_url'] = '?page=landbook-comments';
         $config['per_page'] = $perpage;
         $config['page_query_string'] = TRUE;
@@ -37,6 +38,7 @@ class Comment extends CI_Controller {
         $this->load->view('admin/comment/view_all', array(
             'comments' => $showComments,
             'pageLink'  => $pageLink,
+            'keyword' => $keyword
         ));
     }
 

@@ -5,6 +5,11 @@
 ?>
 
 <h2>COMMENTS MANAGEMENT</h2>
+<form method="post" action="">
+    <input type="text" name="keyword" placeholder="Input keyword" value="<?php echo $keyword;?>">
+    <button type="submit" name="btnSearch" >Search</button>
+    <input type="hidden" id="action" name="act" value="index"><br>
+</form>
 <table class="wp-list-table widefat fixed tags">
     <thead>
     <tr>
