@@ -1,7 +1,9 @@
 <?php
     get_header();
 ?>
-<?php echo $content; ?>
+<?php if (isset($content)) : ?>
+    <?php echo $content; ?>
+<?php endif ?>
 <?php
     get_footer();
 ?>
