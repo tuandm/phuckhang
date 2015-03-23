@@ -195,4 +195,5 @@ class MY_SCPostManage extends WP_List_Table
             echo '</td></tr>';
         }
     }
+
 }

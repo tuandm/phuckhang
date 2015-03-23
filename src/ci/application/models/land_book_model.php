@@ -6,10 +6,10 @@
  * Time: 1:21 PM
  */
 class Land_Book_Model extends CI_Model {
-
     public function __construct()
     {
         parent::__construct();
+        $this->load->database();
     }
 
     /**
@@ -50,5 +50,4 @@ class Land_Book_Model extends CI_Model {
         unset($data['term_id']);
         return $this->db->update($table, $data, $where);
     }
-
 }
