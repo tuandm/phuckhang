@@ -20,10 +20,20 @@ class LandBook {
 
     /** Holds the plugin instance */
     private static $instance = false;
+
+    /**
+     * @var LandBook_Loader
+     */
+    private $loader;
+
+    /**
+     * @var LandBook_Hook
+     */
+    private $hook;
+
     /**
      * Singleton class
      */
-
     public static function getInstance()
     {
         if (!self::$instance) {
@@ -38,6 +48,8 @@ class LandBook {
      */
     private function __construct()
     {
+        $this->loader = new LandBook_Loader();
+        $this->hook = new LandBook_Hook();
         if (is_admin()) {
             add_action('admin_menu', array($this, 'createMenuItems'), 999);
 
@@ -59,9 +71,15 @@ class LandBook {
 
             // sample ajax action binding
             add_action('wp_ajax_project_products', array($ajaxHandler, 'projectProducts'));
+
+            $this->loader->addAction('admin_menu', $this->hook, 'createMenuItems', 999);
+            $this->register_css();
+
+            // AJAX action is handled by wp-admin/admin-ajax.php
+            $this->loader->addAction('wp_ajax_project_products', $this->hook, 'projectProducts');
         } else {
             // Register shortcode handler
-            add_shortcode('landbook', array($this, 'handleShortcode'));
+            $this->loader->addShortcode('landbook', $this->hook, 'handleShortcode');
         }
     }
 
@@ -208,6 +226,19 @@ class LandBook {
             'action' => $action
         ], false);
         return $landBookContent;
+        // Hooking
+        $this->registerHooks();
+    }
+
+    public function registerHooks()
+    {
+        $this->loader->addAction('publish_post', $this->hook, 'postPublishPost');
+        $this->loader->run();
+    }
+
+    public function register_css() {
+        wp_register_style('lbstyle', plugins_url('/css/lbstyle.css',__FILE__ ), array(), '20120208', 'all');
+        wp_enqueue_style('lbstyle');
     }
 
     public function settings()
