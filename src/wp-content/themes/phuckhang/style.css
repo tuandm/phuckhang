@@ -750,6 +750,15 @@ textarea.message{
   height: 35px;
 }
 
+.user-info{
+	padding-bottom: 20px;
+	padding-top: 100px;
+}
+
+.user-span-control{
+	font-size: 20px;
+}
+
 @media (min-width: 1200px) {
 
     #header{
@@ -961,6 +970,10 @@ textarea.message{
       float: left;
       border-top: 1px solid #FFF;
     }
+    
+    .user-info{
+			padding-top: 20px;
+		}
 
     #home-block .box.box-last{
       border-right: none;
