@@ -2,7 +2,7 @@
   get_header();
 ?>
 
-  <div id="user-profile" class="content social-cotent">
+  <div id="social-home" class="content social-cotent">
 
         <div class="row">
           <div class="col-lg-2 col-lg-offset-0 col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-3 col-xs-11 col-xs-offset-1">
