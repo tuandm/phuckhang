@@ -24,84 +24,11 @@
         </div>
 
         <div class="col-lg-6 col-lg-offset-0 col-md-7 col-md-offset-0 col-sm-7 col-sm-offset-0 col-xs-10 col-xs-offset-1">
-
-            <div class="newpost-wrap">
-                <form>
-                    <div class="form-group">
-                        <textarea class="form-control" rows="3"></textarea>
-                    </div>
-                    <div class="form-group pull-right">
-                        <button class="btn btn-primary" type="submit">Post</button>
-                    </div>
-                </form>
-            </div>
-
+            <!-- User status -->
+            <?php echo $this->view('/layout/partial/user_status') ?>
+            <!-- User status -->
             <div class="clearfix"></div>
-
-            <div class="new-feed-wrap">
-
-                <div class="feed">
-                    <div class="row">
-                        <div class="person col-lg-3 col-xs-3">
-                            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="100" width="100" alt="">
-                        </div>
-                        <div class="feed-content col-lg-9 col-xs-9">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="feed">
-                    <div class="row">
-                        <div class="person col-lg-3 col-xs-3">
-                            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="100" width="100" alt="">
-                        </div>
-                        <div class="feed-content col-lg-9 col-xs-9">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="feed">
-                    <div class="row">
-                        <div class="person col-lg-3 col-xs-3">
-                            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="100" width="100" alt="">
-                        </div>
-                        <div class="feed-content col-lg-9 col-xs-9">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="refresh">
-                    <i class="fa fa-3x fa-refresh fa-spin"></i>
-                </div>
-
-
-            </div>
-
-
+            <?php echo $this->view('/homepage/user_feed') ?>
         </div>
 
         <div class="hidden-xs hidden-sm hidden-md col-lg-4">

@@ -11,6 +11,14 @@ class LandBook_Model_Feed extends LandBook_Model
     const REFERENCE_TYPE_POST    = 'post';
     const REFERENCE_TYPE_STATUS  = 'status';
     const REFERENCE_TYPE_COMMENT = 'comment';
+
+    /**
+     * Insert to feed table when new post is posted
+     *
+     * @param $userId
+     * @param $postId
+     * @return false|int
+     */
     public function insertFeedAfterPublishPost($userId, $postId)
     {
         return $this->getWpdb()->insert(

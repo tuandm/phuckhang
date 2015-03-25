@@ -56,10 +56,8 @@ class LandBook_Loader
      *                                  in the order in which they were added to the action.
      * @param  int       $accepted_args   Optional. The number of arguments the function accept. Default 1.
      */
-    public function addAction($hook, $component, $callback)
+    public function addAction($hook, $component, $callback, $priority = 10, $accepted_args = 1)
     {
-        $this->_actions = $this->_add($this->_actions, $hook, $component, $callback);
-    public function addAction($hook, $component, $callback, $priority = 10, $accepted_args = 1) {
         $this->_actions = $this->_add($this->_actions, $hook, $component, $callback, $priority, $accepted_args);
     }
 
@@ -109,9 +107,8 @@ class LandBook_Loader
      *
      * @return array                  The collection of hooks that are registered with WordPress via this class.
      */
-    private function _add($hooks, $hook, $component, $callback, $priority = 10)
+    private function _add($hooks, $hook, $component, $callback, $priority = 10, $accepted_args = 1)
     {
-    private function _add($hooks, $hook, $component, $callback, $priority = 10, $accepted_args = 1) {
         $hooks[] = array(
             'hook'              => $hook,
             'component'         => $component,

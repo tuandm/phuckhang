@@ -50,4 +50,34 @@ class Land_Book_Model extends CI_Model {
         unset($data['term_id']);
         return $this->db->update($table, $data, $where);
     }
+
+    /**
+     * Start transaction
+     *
+     * @return mixed
+     */
+    public function startTransaction()
+    {
+        return $this->db->query('START TRANSACTION');
+    }
+
+    /**
+     * Commit transaction
+     *
+     * @return mixed
+     */
+    public function commitTransaction()
+    {
+        return $this->db->query('COMMIT');
+    }
+
+    /**
+     * Rollback transaction
+     *
+     * @return mixed
+     */
+    public function rollbackTransaction()
+    {
+        return $this->db->query('ROLLBACK');
+    }
 }
