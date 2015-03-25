@@ -35,6 +35,7 @@ class Userprofilepage extends CI_Controller
         $info = $this->userProfileModel->getUserNameById($userId);
         $numGroups = $this->userProfileModel->countGroupsByUserId($userId);
         $friends = $this->userProfileModel->getFriendsByUserId($userId);
+        var_dump($friends['friendId']);
         $data = array(
                 'userId'    => $userId,
                 'title'     => $title,

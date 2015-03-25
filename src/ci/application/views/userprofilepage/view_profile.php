@@ -16,7 +16,7 @@
     echo 'Friend List: ';
     $listFriends = $friends['friendId'];
         foreach ($listFriends as $friend) {
-            echo (get_simple_local_avatar($friend['friend_id']));
+            echo (get_simple_local_avatar($friend));
         }
     echo '<br>';
     

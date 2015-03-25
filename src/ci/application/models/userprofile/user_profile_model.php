@@ -1,14 +1,11 @@
-<?php
-/**
- * @author Phat Nguyen
- *
- */
 
-class User_Profile_Model extends CI_Model 
-{
+<?php
+
 /**
- * 
+ * Class User_Profile_Model
  */
+class User_Profile_Model extends CI_Model
+{
     public function __construct()
     {
         parent::__construct();
@@ -17,8 +14,7 @@ class User_Profile_Model extends CI_Model
 
     /**
      * Function getUserPhoneById
-     * 
-     * 
+     *
      * @param string $userId
      * @return string $phoneNumber
      */
@@ -36,7 +32,12 @@ class User_Profile_Model extends CI_Model
         return $phoneNumber;
     }
 
-    public function getDOBByUserId($userId)
+    /**
+     * 
+     * @param array $userId
+     * @return unknown
+     */
+    public function getDOBByUserId(array $userId)
     {
         $this->db
         ->select('*')
@@ -64,7 +65,11 @@ class User_Profile_Model extends CI_Model
         return $title;
     }
 
-    public function getUserNameById($userId) 
+    /**
+     * @param int $userId
+     * @return mixed
+     */
+    public function getUserNameById($userId)
     {
         $this->db->select('pk_users.user_nicename, pk_users.user_email')
         ->from('pk_users')
@@ -73,18 +78,31 @@ class User_Profile_Model extends CI_Model
         return $userInfo;
     }
 
+    /**
+     * @param $userId
+     * @return array
+     */
     public function getFriendsByUserId($userId)
     {
-        $this->db->select('friend_id')
-                ->from('pk_sc_user_friends')
-                ->where(array('user_id' => $userId));
-        $userFriends = $this->db->get()->result_array();
-        $numUserFriends = count($userFriends);
+        $where = "((`user_id` = $userId) || (`friend_id` = $userId))";
+        $this->db->select('*')
+            ->from('pk_sc_user_friends')
+            ->where($where);
+        $friendRelations = $this->db->get()->result_array();
+        $friends = array();
+        foreach ($friendRelations as $relation) {
+            if ($relation['user_id'] == $userId) {
+                $friends[] = $relation['friend_id'];
+            } else {
+                $friends[] = $relation['user_id'];
+            }
+        }
+        $friends = array_unique($friends);
+        $numUserFriends = count($friends);
         $data = array(
-            'friendId'      => $userFriends,
-            'numFriend'     => $numUserFriends
+                        'friendId'  => $friends,
+                        'numFriend' => $numUserFriends 
         );
-
         return $data;
     }
 
