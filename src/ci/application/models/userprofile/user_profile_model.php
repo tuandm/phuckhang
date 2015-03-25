@@ -34,13 +34,13 @@ class User_Profile_Model extends CI_Model
 
     /**
      * 
-     * @param array $userId
+     * @param $userId
      * @return unknown
      */
-    public function getDOBByUserId(array $userId)
+    public function getDOBByUserId($userId)
     {
         $this->db
-        ->select('*')
+        ->select('pk_cimy_uef_data.VALUE')
         ->from('pk_cimy_uef_data')
         ->join('pk_cimy_uef_fields', 'pk_cimy_uef_fields.ID = pk_cimy_uef_data.FIELD_ID')
         ->where(array(
@@ -106,13 +106,44 @@ class User_Profile_Model extends CI_Model
         return $data;
     }
 
+    /**
+     * @param $userId
+     * @return array
+     */
+    public function getAllUserGroups($userId)
+    {
+        $this->db
+            ->distinct()
+            ->select('*')
+            ->group_by('pk_users.ID')
+            ->from('pk_users')
+            ->where('pk_sc_user_groups.user_id', $userId)
+            ->join('pk_sc_user_groups', 'pk_users.id = pk_sc_user_groups.user_id')
+            ->order_by('group_id', 'ACS');
+        $groups = $this->db->get()->result_array();
+        $data = array(
+            'group'  => $groups,
+            'numGroups' => count($groups)
+        );
+        return $data;
+    }
+
+    /**
+     * @param $userId
+     * @return array
+     */
     public function countGroupsByUserId($userId)
     {
         $this->db->select('group_id')
         ->from('pk_sc_user_groups')
         ->where(array('user_id' => $userId));
+        $groups = count($this->db->get()->result_array());
         $numGroups = count($this->db->get()->result_array());
-        return $numGroups;
+        $data = array(
+            'group'  => $friends,
+            'numFriend' => $numGroups
+        );
+        return $data;
     }
 
 }

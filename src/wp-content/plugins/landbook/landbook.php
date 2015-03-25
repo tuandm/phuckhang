@@ -50,7 +50,7 @@ class LandBook {
 
             $this->loader->addAction('admin_menu', $this->hook, 'createMenuItems', 999);
             $this->register_css();
-
+            $this->loader->addAction('init', $this->hook, 'createScGroupTaxonomy');
             // AJAX action is handled by wp-admin/admin-ajax.php
             $this->loader->addAction('wp_ajax_project_products', $this->hook, 'projectProducts');
         } else {
@@ -59,7 +59,7 @@ class LandBook {
             // Register redirect page after login
 //            $this->loader->addFilter('login_redirect', $this->hook, 'redirectUserProfile');
 
-            add_filter('login_redirect', array($this,'redirectUserProfile'), 10, 3);
+            add_filter('login_redirect', array($this, 'redirectUserProfile'), 10, 3);
         }
 
         // Hooking
@@ -77,9 +77,9 @@ class LandBook {
         global $user;
         $redirect_to = home_url('/wp-login');
         if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-            if ( in_array( 'administrator', $user->roles ) ) {
+            if (in_array('administrator', $user->roles)) {
                 // redirect them to the default place
-                return home_url('/wp-admin/admin.php');
+                return home_url('/wp-admin/');
             } else {
                 return home_url("/social-userprofilepage/?act=view&userId=$user->ID");
             }

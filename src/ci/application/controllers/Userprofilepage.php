@@ -29,13 +29,22 @@ class Userprofilepage extends CI_Controller
 
     public function view()
     {
+        global $wpdb;
         $userId = $this->input->get('userId');
         $phoneNumber = $this->userProfileModel->getPhoneNumberById($userId);
         $title = $this->userProfileModel->getTitleByUserId($userId);
         $info = $this->userProfileModel->getUserNameById($userId);
-        $numGroups = $this->userProfileModel->countGroupsByUserId($userId);
+        $groups = $this->userProfileModel->getAllUserGroups($userId);
+        foreach ($groups['group'] as $group) {
+            $groupName = get_term($group['group_id'], 'sc_group');
+            var_dump($groupName->name);
+            var_dump($group['group_id']);
+            var_dump($groupName);
+        }
         $friends = $this->userProfileModel->getFriendsByUserId($userId);
-        var_dump($friends['friendId']);
+        $dob = $this->userProfileModel->getDOBByUserId($userId);
+        $dob = date("d-m-Y");
+        var_dump($dob);
         $data = array(
                 'userId'    => $userId,
                 'title'     => $title,
@@ -43,6 +52,7 @@ class Userprofilepage extends CI_Controller
                 'info'      => $info,
                 'numGroups' => $numGroups,
                 'friends'   => $friends,
+                'dob'       => $dob
         );
         $this->load->view('layout/layout', array(
                         'content'   => $this->render('userprofilepage/view_profile', $data

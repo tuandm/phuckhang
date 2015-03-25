@@ -86,4 +86,18 @@ class LandBook_Hook
         }
     }
 
+    /**
+     *
+     */
+    function createScGroupTaxonomy()
+    {
+        // Now register the taxonomy
+        register_taxonomy('sc_group', array('post'), array(
+            'hierarchical'      => true,
+            'show_ui'           => false,
+            'show_admin_column' => true,
+            'query_var'         => true,
+        ));
+    }
+
 }
