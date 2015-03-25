@@ -2,13 +2,13 @@
   get_header();
 ?>
 
-  <div id="social-home" class="content social-cotent">
+  <div id="user-profile" class="content social-cotent">
 
         <div class="row">
           <div class="col-lg-2 col-lg-offset-0 col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-3 col-xs-11 col-xs-offset-1">
 
             <div class="avatar">
-              <img src="images/avatar.png" height="150" width="150" alt="">
+              <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="150" width="150" alt="">
             </div>
 
 
@@ -55,7 +55,7 @@
           </ul>        
           <div class="row">
             <div class="col-sm-3">
-              <img src="images/avatar.png" height="150" width="150" alt="avatar">
+              <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="150" width="150" alt="avatar">
             </div>
             <div class="col-lg-6">
               <div class="tab-content">
@@ -102,37 +102,37 @@
           </ul>
           <div class="row">
             <div class="col-sm-1">
-              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="50" width="50" alt=""></a>
             </div>
             <div class="col-sm-1">
-              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="50" width="50" alt=""></a>
             </div>
             <div class="col-sm-1">
-              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="50" width="50" alt=""></a>
             </div>
             <div class="col-sm-1">
-              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="50" width="50" alt=""></a>
             </div>
             <div class="col-sm-1">
-              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="50" width="50" alt=""></a>
             </div>
             <div class="col-sm-1">
-              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="50" width="50" alt=""></a>
             </div>
             <div class="col-sm-1">
-              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="50" width="50" alt=""></a>
             </div>
             <div class="col-sm-1">
-              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="50" width="50" alt=""></a>
             </div>
             <div class="col-sm-1">
-              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="50" width="50" alt=""></a>
             </div>
             <div class="col-sm-1">
-              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="50" width="50" alt=""></a>
             </div>
             <div class="col-sm-1">
-              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="50" width="50" alt=""></a>
             </div>
             <div class="col-sm-3 pull-right" >
               <a href="#">Xem Thêm...</a>
