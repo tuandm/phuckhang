@@ -2,8 +2,6 @@
 /*
 Template Name: User Profile
 */
-?>
-<?php
   get_header();
 ?>
 
