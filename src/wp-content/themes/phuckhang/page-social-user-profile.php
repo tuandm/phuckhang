@@ -1,7 +1,4 @@
 <?php
-/*
-Template Name: User Profile
-*/
   get_header();
 ?>
 
