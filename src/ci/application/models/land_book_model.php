@@ -6,6 +6,11 @@
  * Time: 1:21 PM
  */
 class Land_Book_Model extends CI_Model {
+    /**
+     * @var string
+     */
+    protected $tableName;
+
     public function __construct()
     {
         parent::__construct();
@@ -18,7 +23,7 @@ class Land_Book_Model extends CI_Model {
      * @param array $data
      * @return bool
      */
-    protected function create($table,array $data)
+    protected function create($table, array $data)
     {
         $result = $this->db->insert($table, $data);
         if ($result == true) {

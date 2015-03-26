@@ -24,5 +24,4 @@ class LandBook_Model
         }
         return $this->wpdb;
     }
-
 }

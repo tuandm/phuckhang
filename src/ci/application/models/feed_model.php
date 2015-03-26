@@ -24,6 +24,11 @@ class Feed_Model extends Land_Book_Model
     const REFERENCE_TYPE_COMMENT = 'comment';
 
     /**
+     * @var string
+     */
+    protected $tableName = 'pk_user_feed';
+
+    /**
      * Get newest feeds for displaying to the homepage
      *
      * @return array|bool
@@ -32,7 +37,7 @@ class Feed_Model extends Land_Book_Model
     {
         $feeds = $this->db
             ->select()
-            ->from('user_feed')
+            ->from($this->tableName)
             ->limit(10)
             ->get()
             ->result_array();
@@ -50,7 +55,7 @@ class Feed_Model extends Land_Book_Model
     public function insert($userId, $referenceId, $referenceType = self::REFERENCE_TYPE_POST)
     {
         return $this->db->insert(
-            'user_feed',
+            $this->tableName,
             array(
                 'user_id'           => $userId,
                 'reference_id'      => $referenceId,

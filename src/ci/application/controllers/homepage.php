@@ -32,10 +32,16 @@ class Homepage extends CI_Controller
         foreach ($feeds as $key => &$feed) {
             switch ($feed['reference_type']) {
                 case Feed_Model::REFERENCE_TYPE_STATUS:
-                    $feed['html'] = $this->render('/homepage/feed_status');
+                    $feed['html'] = $this->renderUserStatus($feed['reference_id']);
                     break;
                 case Feed_Model::REFERENCE_TYPE_POST:
-                    $feed['html'] = $this->render('/homepage/feed_post');
+                    $post = get_post($feed['reference_id']);
+                    $comments = get_comments('status=approve&post_id=$id');
+                    $feed['html'] = $this->render('/homepage/feed_post', array(
+                        'post'      => $post,
+                        'comments'  => $comments,
+                        'allowComment'  => true,
+                    ));
                     break;
                 default;
                     break;
@@ -47,6 +53,22 @@ class Homepage extends CI_Controller
         ));
     }
 
+    /**
+     * Return status block
+     *
+     * @param $statusId
+     * @return string
+     */
+    private function renderUserStatus($statusId)
+    {
+        $status = $this->statusModel->findById($statusId);
+        if ($status !== false && is_array($status)) {
+            return $this->render('/homepage/feed_status', array('status' => $status));
+        } else {
+            return '';
+        }
+
+    }
 
     /**
      * Handle ajax request
@@ -68,7 +90,7 @@ class Homepage extends CI_Controller
         if (!method_exists($this, $handle)) {
             die('Invalid handle');
         }
-        return $this->$handle();
+        echo json_encode($this->$handle());
     }
 
     /**
@@ -76,21 +98,29 @@ class Homepage extends CI_Controller
      */
     public function handlePostStatus()
     {
-        $status = $this->input->post('txtUserStatus');
+        $status = trim($this->input->post('txtUserStatus'));
         $userId = get_current_user_id();
+        $response = array(
+            'success'   => false,
+            'result'    => ''
+        );
         if ($userId === 0) {
-            die('Please login first');
+            $response['result'] = 'Please login first';
         }
 
         if (empty($status)) {
-            die('Please input status');
+            $response['result'] = 'Please input status';
         }
 
-        $result = $this->statusModel->addUserStatus($userId, $status);
-        if ($result) {
-            die('OK');
-        } else {
-            die('Can not post status. Please try again.');
+        if (empty($response['result'])) {
+            $statusId = $this->statusModel->addUserStatus($userId, $status);
+            if ($statusId !== false) {
+                $response['success'] = true;
+                $response['success'] = $this->render('/homepage/feed_status', array('status' => $this->statusModel->findById($statusId)));
+            } else {
+                $response['result'] = 'Can not post status. Please try again.';
+            }
         }
+        return $response;
     }
 }

@@ -7,9 +7,8 @@
 
         <div class="feed-content col-lg-9 col-xs-9">
             <p>
-                Đây là cây "vàng tâm" của các bác ấy thiệt ư? =)))))
-                "Ông Tạ Quang Đoàn, thôn 6, mỉm cười: "Tôi nguyên là cán bộ kiểm lâm về hưu cách nay hơn chục năm, thấy người ta vào đây mua cây mỡ vàng tâm. Các cụ ở đây cũng gọi là cây mỡ vàng tâm, vì lõi nó màu vàng, nhưng không phải là vàng tâm. Vàng tâm mọc trong rừng, sinh trưởng rất chậm, gỗ tốt hơn cây mỡ nhiều.
-                Thằng cháu họ tôi tên là Nguyễn Văn Bằng ở ngoài kia có một đồi mỡ. Người ta đến trả 150 ngàn đồng một cây, rồi thuê ngư...<a href="#">See More</a>
+                <?php echo $status['status']?>
+                <!--<a href="#">See More</a>-->
             </p>
 
 

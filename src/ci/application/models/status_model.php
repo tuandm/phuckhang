@@ -9,6 +9,11 @@
 class Status_Model extends Land_Book_Model
 {
     /**
+     * @var
+     */
+    protected $tableName = 'pk_user_status';
+
+    /**
      * Add user status and push to feed
      *
      * @param int $userId
@@ -19,7 +24,7 @@ class Status_Model extends Land_Book_Model
     {
         $now = date('Y-m-d H:i:s');
         $this->startTransaction();
-        $result = $this->db->insert('user_status', array(
+        $result = $this->db->insert($this->tableName, array(
             'status'        => $status,
             'user_id'       => $userId,
             'created_time'  => $now,
@@ -27,14 +32,35 @@ class Status_Model extends Land_Book_Model
         ));
 
         if ($result) {
+            $statusId = $this->db->insert_id();
             $feedModel = new Feed_Model();
-            $feedResult = $feedModel->insert($userId, $this->db->insert_id(), Feed_Model::REFERENCE_TYPE_STATUS);
+            $feedResult = $feedModel->insert($userId, $statusId, Feed_Model::REFERENCE_TYPE_STATUS);
             if ($feedResult == false) {
                 $this->rollbackTransaction();
                 return false;
             }
         }
         $this->commitTransaction();
-        return true;
+        return $statusId;
+    }
+
+    /**
+     * Get status by status id
+     *
+     * @param int $statusId
+     * @return array|bool
+     */
+    public function findById($statusId)
+    {
+        $rows = $this->db->select()
+            ->from($this->tableName)
+            ->where('status_id', $statusId)
+            ->get()
+            ->result_array();
+        if (empty($rows)) {
+            return false;
+        } else {
+            return $rows[0];
+        }
     }
 }

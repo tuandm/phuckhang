@@ -25,7 +25,9 @@
 
         <div class="col-lg-6 col-lg-offset-0 col-md-7 col-md-offset-0 col-sm-7 col-sm-offset-0 col-xs-10 col-xs-offset-1">
             <!-- User status -->
-            <?php echo $this->view('/layout/partial/user_status') ?>
+            <?php if (get_current_user_id()) : ?>
+                <?php echo $this->view('/layout/partial/user_status') ?>
+            <?php endif ?>
             <!-- User status -->
             <div class="clearfix"></div>
             <?php echo $this->view('/homepage/user_feed') ?>
