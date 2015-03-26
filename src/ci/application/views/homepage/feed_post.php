@@ -25,5 +25,5 @@
         </div>
         <!-- /.feed-content -->
     </div>
-    <?php echo $this->view('/layout/partial/comments') ?>
+    <?php echo $this->view('/layout/partial/comments', array('postId' => $post->ID)) ?>
 </div>

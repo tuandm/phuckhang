@@ -7,7 +7,7 @@
 
         <div class="comment col-md-10 col-sm-10 col-xs-10">
             <p>
-                <?php echo $comment->comment_content; ?>
+                <?php echo nl2br($comment->comment_content); ?>
             </p>
         </div>
 

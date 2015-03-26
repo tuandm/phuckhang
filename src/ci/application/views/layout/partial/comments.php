@@ -8,7 +8,7 @@
 
     <!-- comment-item -->
     <?php if (isset($allowComment) && $allowComment && get_current_user_id()) : ?>
-    <div class="comment-item col-lg-12">
+    <div class="comment-item col-lg-12 comment-text">
         <div class="row">
 
             <div class="col-md-2 col-sm-2 col-xs-2 text-right">
@@ -17,7 +17,8 @@
 
             <div class="comment col-md-10 col-sm-10 col-xs-10">
                 <form>
-                    <textarea class="form-control" rows="1" placeholder="Viết comment"></textarea>
+                    <textarea class="form-control userComment" rows="1" placeholder="Viết comment" id="comment_<?php echo $postId ?>"></textarea>
+                    <div class="userCommentError" style="display: none;"></div>
                 </form>
             </div>
 
