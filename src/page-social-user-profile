@@ -122,7 +122,8 @@
               <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
               <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
               <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
-              <a href="#">Xem Thêm...</a>
+              <br>
+              <div class="pull-right"><a href="#">Xem tất cả</a></div>
           </div>
 
         </div>
