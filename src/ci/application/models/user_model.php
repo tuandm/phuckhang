@@ -23,4 +23,21 @@ Class User_Model extends Land_Book_Model
         $photos = $this->db->get()->result_array();
         return $photos;
     }
+
+    public function getAllFriends()
+    {
+        $this->db
+            ->select('*')
+            ->from('pk_sc_user_friends')
+            ->join('pk_users', 'pk_sc_user_friends.friend_id = pk_users.ID', 'left')
+            ->order_by('pk_sc_user_friends.created_date', 'DES');
+        $friends = $this->db->get()->result_array();
+        return $friends;
+    }
+
+    public function  removeFriend($userId, $friendId)
+    {
+        return $this->db->delete('pk_sc_user_friends', array('user_id' => $userId, 'friend_id' => $friendId));
+    }
+
 }
