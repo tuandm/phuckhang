@@ -29,6 +29,11 @@
  */
 class CI_Controller {
 
+	/**
+	 * @var CI_Input
+	 */
+	public $input;
+
 	private static $instance;
 
 	/**
