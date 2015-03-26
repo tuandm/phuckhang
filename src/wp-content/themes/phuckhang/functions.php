@@ -69,6 +69,7 @@ function phuckhang_scripts() {
 
   // Load our main stylesheet.
   wp_enqueue_style( 'phuckhang-style', get_stylesheet_uri() );
+  wp_enqueue_style( 'custom-style', get_template_directory_uri() . '/css/custom.css', array(), '1.0');
 
   wp_enqueue_script( 'phuckhang-jquery', get_template_directory_uri() . '/js/jquery.min.js', array(), false, false );
   wp_enqueue_script( 'phuckhang-bootstrap', get_template_directory_uri() . '/js/bootstrap.min.js', array(), false, true );
