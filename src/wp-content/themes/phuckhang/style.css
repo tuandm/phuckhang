@@ -678,9 +678,12 @@ ul.sub-nav li a:hover, ul.sub-nav li.active a{
   text-align: left;
 }
 
+.small-avatar, .medium-avatar{
+  border: 1px solid #ddd;
+}
+
 .avatar img{
   border: 1px solid #ddd;
-
 }
 
 .social-cotent{
@@ -699,7 +702,7 @@ ul.sub-nav li a:hover, ul.sub-nav li.active a{
 }
 
 .person{
-  text-align: right;
+  text-align: center;
 }
 
 .feed{
@@ -730,6 +733,21 @@ textarea.message{
   width: 250px;
 }
 
+.social-tools-wrap{
+  border-top: 1px solid #ddd;
+  padding: 10px 0px;
+}
+
+.social-tools{
+  display: block;
+  padding: 10px 0px;
+}
+
+.comment-item{
+  margin:  10px 0px 0px 0px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+}
 
 
 /* End Project detail */
@@ -748,6 +766,15 @@ textarea.message{
   padding-top: 15px;
   padding-bottom: 15px;
   height: 35px;
+}
+
+.user-info{
+	padding-bottom: 20px;
+	padding-top: 100px;
+}
+
+.user-span-control{
+	font-size: 20px;
 }
 
 @media (min-width: 1200px) {
@@ -961,6 +988,10 @@ textarea.message{
       float: left;
       border-top: 1px solid #FFF;
     }
+
+    .user-info{
+			padding-top: 20px;
+		}
 
     #home-block .box.box-last{
       border-right: none;
