@@ -101,7 +101,7 @@
             <li class="active">Bạn Bè</li>
           </ul>
           <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
               <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
               <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
               <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
@@ -110,10 +110,19 @@
               <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
               <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
               <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
-            
-            <div class="col-sm-3 pull-right" >
+              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
+              <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
               <a href="#">Xem Thêm...</a>
-            </div>
           </div>
 
         </div>
