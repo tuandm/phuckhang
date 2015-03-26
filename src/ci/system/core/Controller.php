@@ -62,20 +62,6 @@ class CI_Controller {
 	{
 		return self::$instance;
 	}
-
-	/**
-	 * Render view file and return renderred content
-	 *
-	 * @param string $view file path
-	 * @param array $data
-	 * @return string
-	 */
-	public function render($view, array $data = array())
-	{
-		ob_start();
-		$this->load->view($view, $data);
-		return ob_get_clean();
-	}
 }
 // END Controller class
 

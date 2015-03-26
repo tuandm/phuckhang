@@ -7,7 +7,8 @@
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Homepage extends CI_Controller
+include_once('base.php');
+class Homepage extends Base
 {
     /**
      * @var Feed_Model
