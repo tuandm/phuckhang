@@ -24,15 +24,15 @@ get_header();
     <div class="col-lg-6 col-lg-offset-0 col-md-7 col-md-offset-0 col-sm-7 col-sm-offset-0 col-xs-10 col-xs-offset-1">
 
       <div class="row user-info">
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-4 col-xs-12">
           <span class="user-span-control">NGUYỄN VĂN A</span><br />
           <span>project manager</span>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-4 col-xs-12">
           <span class="user-span-control">FRIENDS</span><br />
           <span>20</span>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-4 col-xs-12">
           <span class="user-span-control">GROUPS</span><br />
           <span>6</span>
         </div>

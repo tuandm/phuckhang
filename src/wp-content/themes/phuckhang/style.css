@@ -781,6 +781,22 @@ textarea.message{
   text-align: right;
 }
 
+.photo-header{
+  display: block;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+
+
+.photo-item{
+  display: block;
+  margin: 10px 0px;
+}
+  .photo-item img{
+    border: 1px solid #ddd;
+  }
+
 
 .horizontal-footer{
   margin: 20px 0px;
