@@ -58,10 +58,18 @@ class LandBook_Hook
 
     /**
      * Handle all actions need to be hooked after post is posted
+     * @param int $postId The post ID.
+     * @param WP_Post $post
+     * @param bool $update
      */
-    public function postPublishPost()
+    public function processAfterSavingPost($postId, $post, $update)
     {
-
+        // For now, we just add to feed when new post is posted.
+        if (!$update) {
+            $userId = get_current_user_id();
+            $feedModel = new LandBook_Model_Feed();
+            $feedModel->insertFeedAfterPublishPost($userId, $postId);
+        }
     }
 
     /**

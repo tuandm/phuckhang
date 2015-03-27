@@ -750,13 +750,66 @@ textarea.message{
 }
 
 
-/* End Project detail */
+/**
+ * Notification
+ */
+
+.user-info{
+  padding-bottom: 20px;
+  padding-top: 100px;
+}
+
+.user-span-control{
+  font-size: 20px;
+}
+
+.date-wrap{
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 25px;
+  margin-top: 10px;
+}
+
+.noti-item{
+  margin: 10px 0px;
+}
+
+.noti-datetime{
+  display: block;
+}
+
+.noti-avatar{
+  text-align: right;
+}
+
+.photo-header{
+  display: block;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+
+
+.photo-item{
+  display: block;
+  margin: 10px 0px;
+}
+  .photo-item img{
+    border: 1px solid #ddd;
+  }
+
 
 .horizontal-footer{
   margin: 20px 0px;
   border-bottom: 1px solid #ddd;
 }
 
+
+
+
+
+/**
+ * Footer
+ */
 
 #footer{
   color: #878787;
@@ -766,15 +819,6 @@ textarea.message{
   padding-top: 15px;
   padding-bottom: 15px;
   height: 35px;
-}
-
-.user-info{
-	padding-bottom: 20px;
-	padding-top: 100px;
-}
-
-.user-span-control{
-	font-size: 20px;
 }
 
 @media (min-width: 1200px) {

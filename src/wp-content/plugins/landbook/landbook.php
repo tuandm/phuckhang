@@ -57,10 +57,13 @@ class LandBook {
             // Register shortcode handler
             $this->loader->addAction('init', $this->hook, 'createScGroupTaxonomy');
             $this->loader->addShortcode('landbook', $this->hook, 'handleShortcode');
+
             // Register redirect page after login
 //            $this->loader->addFilter('login_redirect', $this->hook, 'redirectUserProfile');
 
             add_filter('login_redirect', array($this, 'redirectUserProfile'), 10, 3);
+            $this->register_js();
+
         }
 
         // Hooking
@@ -91,13 +94,18 @@ class LandBook {
 
     public function registerHooks()
     {
-        $this->loader->addAction('publish_post', $this->hook, 'postPublishPost');
+        $this->loader->addAction('save_post', $this->hook, 'processAfterSavingPost', 10, 3);
         $this->loader->run();
     }
 
     public function register_css() {
         wp_register_style('lbstyle', plugins_url('/css/lbstyle.css',__FILE__ ), array(), '20120208', 'all');
         wp_enqueue_style('lbstyle');
+    }
+
+    public function register_js()
+    {
+        wp_enqueue_script('social-script', get_template_directory_uri() . '/js/social.js', array(), '1.0.0', true);
     }
 
     public function settings()
