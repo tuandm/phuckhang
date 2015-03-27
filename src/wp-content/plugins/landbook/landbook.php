@@ -55,6 +55,7 @@ class LandBook {
             $this->loader->addAction('wp_ajax_project_products', $this->hook, 'projectProducts');
         } else {
             // Register shortcode handler
+            $this->loader->addAction('init', $this->hook, 'createScGroupTaxonomy');
             $this->loader->addShortcode('landbook', $this->hook, 'handleShortcode');
             // Register redirect page after login
 //            $this->loader->addFilter('login_redirect', $this->hook, 'redirectUserProfile');
@@ -81,7 +82,7 @@ class LandBook {
                 // redirect them to the default place
                 return home_url('/wp-admin/');
             } else {
-                return home_url("/social-userprofilepage/?act=view&userId=$user->ID");
+                return home_url("/social-userprofilepage/?act=index&userId=$user->ID");
             }
         } else {
             return $redirect_to;

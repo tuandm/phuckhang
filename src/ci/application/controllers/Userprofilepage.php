@@ -22,40 +22,51 @@ class Userprofilepage extends CI_Controller
 
     public function index()
     {
+        // Information for the viewed user profile
+        $viewedUserId = $this->input->get('userId');
+        $viewedPhoneNumber = $this->userProfileModel->getPhoneNumberById($viewedUserId);
+        $viewedTitle = $this->userProfileModel->getTitleByUserId($viewedUserId);
+        $viewedName = $this->userProfileModel->getUserInfoById($viewedUserId)['user_nicename'];
+        $viewedEmail = $this->userProfileModel->getUserInfoById($viewedUserId)['user_email'];
+        $viewedDob = $this->userProfileModel->getDOBByUserId($viewedUserId);
+        $viewedDob = date("d-m-Y", strtotime($viewedDob[0]['VALUE']));
+        $viewedUser = array(
+            'userId'    => $viewedUserId,
+            'title'     => $viewedTitle,
+            'phone'     => $viewedPhoneNumber,
+            'name'      => $viewedName,
+            'email'     => $viewedEmail,
+            'dob'       => $viewedDob
+        );
+
+        // Information for login user profile
+        $loginUserId = get_current_user_id();
+        $loginName = $this->userProfileModel->getUserInfoById($loginUserId)['user_nicename'];
+        $loginTitle = $this->userProfileModel->getTitleByUserId($loginUserId);
+        $loginFriends = $this->userProfileModel->getFriendsByUserId($loginUserId);
+        $loginGroups = $this->userProfileModel->getAllUserGroups($loginUserId);
+
+        if ($loginGroups['numGroups'] === 0) {
+            $loginGroupNames = '';
+        }
+        foreach ($loginGroups['group'] as $group) {
+            $loginGroupNames[] = get_term($group['group_id'], 'sc_group', ARRAY_A)['name'];
+        }
+        $loginUser = array(
+            'userId'        => $loginUserId,
+            'title'         => $loginTitle,
+            'name'          => $loginName,
+            'numGroups'     => $loginGroups['numGroups'],
+            'groupNames'    => $loginGroupNames,
+            'numFriends'    => $loginFriends['numFriend'],
+            'friendIds'     => $loginFriends['friendId'],
+        );
         $this->load->view('layout/layout', array(
-            'content' => $this->render('userprofilepage/index')
+            'content' => $this->render('userprofilepage/index', array(
+                'viewedUser' => $viewedUser,
+                'loginUser' => $loginUser
+            ))
         ));
     }
 
-    public function view()
-    {
-        global $wpdb;
-        $userId = $this->input->get('userId');
-        $phoneNumber = $this->userProfileModel->getPhoneNumberById($userId);
-        $title = $this->userProfileModel->getTitleByUserId($userId);
-        $info = $this->userProfileModel->getUserNameById($userId);
-        $groups = $this->userProfileModel->getAllUserGroups($userId);
-        foreach ($groups['group'] as $group) {
-            $groupName = get_term($group['group_id'], 'sc_group');
-            var_dump($groupName->name);
-            var_dump($group['group_id']);
-            var_dump($groupName);
-        }
-        $friends = $this->userProfileModel->getFriendsByUserId($userId);
-        $dob = $this->userProfileModel->getDOBByUserId($userId);
-        $dob = date("d-m-Y");
-        var_dump($dob);
-        $data = array(
-                'userId'    => $userId,
-                'title'     => $title,
-                'phone'     => $phoneNumber,
-                'info'      => $info,
-                'numGroups' => $numGroups,
-                'friends'   => $friends,
-                'dob'       => $dob
-        );
-        $this->load->view('layout/layout', array(
-                        'content'   => $this->render('userprofilepage/view_profile', $data
-            )));
-    }
 }

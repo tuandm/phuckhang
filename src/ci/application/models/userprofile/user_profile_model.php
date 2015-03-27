@@ -13,6 +13,23 @@ class User_Profile_Model extends CI_Model
     }
 
     /**
+     * @var wpdb
+     */
+    protected $wpdb;
+
+    /**
+     * @return wpdb
+     */
+    public function getWpdb()
+    {
+        if (!$this->wpdb) {
+            global $wpdb;
+            $this->wpdb = $wpdb;
+        }
+        return $this->wpdb;
+    }
+
+    /**
      * Function getUserPhoneById
      *
      * @param string $userId
@@ -69,7 +86,7 @@ class User_Profile_Model extends CI_Model
      * @param int $userId
      * @return mixed
      */
-    public function getUserNameById($userId)
+    public function getUserInfoById($userId)
     {
         $this->db->select('pk_users.user_nicename, pk_users.user_email')
         ->from('pk_users')
@@ -113,13 +130,9 @@ class User_Profile_Model extends CI_Model
     public function getAllUserGroups($userId)
     {
         $this->db
-            ->distinct()
             ->select('*')
-            ->group_by('pk_users.ID')
-            ->from('pk_users')
-            ->where('pk_sc_user_groups.user_id', $userId)
-            ->join('pk_sc_user_groups', 'pk_users.id = pk_sc_user_groups.user_id')
-            ->order_by('group_id', 'ACS');
+            ->from('pk_sc_user_groups')
+            ->where('pk_sc_user_groups.user_id', $userId);
         $groups = $this->db->get()->result_array();
         $data = array(
             'group'  => $groups,
