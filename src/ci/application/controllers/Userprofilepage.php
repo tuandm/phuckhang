@@ -6,8 +6,9 @@
  */
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+include_once('base.php');
 
-class Userprofilepage extends CI_Controller
+class Userprofilepage extends Base
 {
     /**
      * @var User_Profile_Model

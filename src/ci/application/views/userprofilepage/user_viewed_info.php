@@ -21,32 +21,32 @@
                     <div class="tab-pane active" id="profile-category-1">
                         <form class="form-horizontal" role="form">
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Họ Tên</label>
-                                <div class="col-sm-9">
+                                <label class="col-md-6 control-label">Họ Tên</label>
+                                <div class="col-sm-6">
                                     <p class="form-control-static"><?php echo $name ?></p>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Chức Vụ</label>
-                                <div class="col-sm-9">
+                                <label class="col-md-6 control-label">Chức Vụ</label>
+                                <div class="col-sm-6">
                                     <p class="form-control-static"><?php echo $title ?></p>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Số Điện Thoại</label>
+                                <label class="col-md-6 control-label">Số Điện Thoại</label>
                                 <div class="col-sm-9">
                                     <p class="form-control-static"><?php echo $phone ?></p>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Email</label>
-                                <div class="col-sm-9">
+                                <label class="col-sm-6 control-label">Email</label>
+                                <div class="col-sm-6">
                                     <p class="form-control-static"><?php echo $email ?></p>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Sinh Nhật</label>
-                                <div class="col-sm-9">
+                                <label class="col-sm-6 control-label">Sinh Nhật</label>
+                                <div class="col-sm-6">
                                     <p class="form-control-static"><?php echo $dob ?></p>
                                 </div>
                             </div>
@@ -61,14 +61,16 @@
         </ul>
         <div class="row">
             <?php if ($numFriends === 0) : ?>
+            <div class="col-md-12">
                 <?php echo 'You have no any friend :(('; ?>
+            </div>
             <?php else : ?>
                 <?php foreach ($friendIds as $friend) : ?>
-                    <div class="col-sm-1">
+                <div class="col-md-12">
                         <a href="?act=index&userId=<?php echo $friend; ?>"><?php echo (get_simple_local_avatar($friend, 50)); ?></a>
-                    </div>
+                </div>
                 <?php endforeach ?>
-                <div class="col-sm-3 pull-right" >
+                <div class="pull-right">
                     <a href="#">Xem Thêm...</a>
                 </div>
             <?php endif ?>
