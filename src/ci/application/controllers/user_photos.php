@@ -5,7 +5,8 @@
  * Date: 3/23/15
  * Time: 5:39 PM
  */
-Class User_Photos extends CI_Controller
+include_once('base.php');
+Class User_Photos extends Base
 {
     /**
      * @var User_Model

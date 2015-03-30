@@ -47,9 +47,7 @@ class LandBook {
         $this->loader = new LandBook_Loader();
         $this->hook = new LandBook_Hook();
         if (is_admin()) {
-
             $this->loader->addAction('admin_menu', $this->hook, 'createMenuItems', 999);
-            $this->register_css();
 
             // AJAX action is handled by wp-admin/admin-ajax.php
             $this->loader->addAction('wp_ajax_project_products', $this->hook, 'projectProducts');
@@ -58,7 +56,7 @@ class LandBook {
             $this->loader->addShortcode('landbook', $this->hook, 'handleShortcode');
             $this->register_js();
         }
-
+        $this->register_css();
         // Hooking
         $this->registerHooks();
     }
