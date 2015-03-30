@@ -1,28 +1,7 @@
--- MySQL dump 10.13  Distrib 5.6.21-70.1, for osx10.10 (x86_64)
---
--- Host: 127.0.0.1    Database: phuckhang
--- ------------------------------------------------------
--- Server version	5.6.21-70.1-log
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `pk_user_feed`
---
-
-DROP TABLE IF EXISTS `pk_user_feed`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pk_user_feed` (
+CREATE TABLE IF NOT EXISTS `pk_user_feed` (
   `feed_id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) DEFAULT NULL,
   `reference_type` varchar(45) DEFAULT NULL,
@@ -37,10 +16,7 @@ CREATE TABLE `pk_user_feed` (
 -- Table structure for table `pk_user_status`
 --
 
-DROP TABLE IF EXISTS `pk_user_status`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pk_user_status` (
+CREATE TABLE IF NOT EXISTS `pk_user_status` (
   `status_id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
   `status` varchar(1000) DEFAULT NULL,
