@@ -40,4 +40,25 @@ Class User_Model extends Land_Book_Model
         return $this->db->delete('pk_sc_user_friends', array('user_id' => $userId, 'friend_id' => $friendId));
     }
 
+    public function getUsersInGroupByGroupID($groupId)
+    {
+        $this->db
+            ->select('pk_sc_user_groups.user_id')
+            ->from('pk_sc_user_groups')
+            ->where('pk_sc_user_groups.group_id', $groupId);
+        $users = $this->db->get()->result_array();
+        return $users;
+    }
+
+    public function getGroupByGroupId($groupId)
+    {
+        $this->db
+            ->select('pk_terms.name, pk_terms.slug, pk_term_taxonomy.description, pk_term_taxonomy.term_id')
+            ->from('pk_term_taxonomy')
+            ->join('pk_terms', 'pk_terms.term_id = pk_term_taxonomy.term_id AND pk_terms.term_id = ' .$groupId, 'left')
+            ->where('pk_term_taxonomy.taxonomy', 'sc_group')
+            ->where('pk_term_taxonomy.term_id', $groupId);
+        $group = $this->db->get()->row();
+        return $group;
+    }
 }
