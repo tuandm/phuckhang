@@ -24,4 +24,5 @@
 
         </div>
     </div>
+        <?php echo $this->view('/layout/partial/comments', array('postId' => $status['status_id'])) ?>
 </div>

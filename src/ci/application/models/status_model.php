@@ -11,7 +11,7 @@ class Status_Model extends Land_Book_Model
     /**
      * @var
      */
-    protected $tableName = 'pk_user_status';
+    protected $tableName = 'pk_sc_user_status';
 
     /**
      * Add user status and push to feed

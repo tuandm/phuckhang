@@ -29,7 +29,7 @@
                 <?php echo $this->view('/layout/partial/user_status') ?>
             <?php endif ?>
             <!-- User status -->
-            <div class="clearfix"></div>
+            <div class="clearfix" id="user_status_separate"></div>
             <?php echo $this->view('/homepage/user_feed') ?>
         </div>
 

@@ -33,7 +33,15 @@ class Homepage extends Base
         foreach ($feeds as $key => &$feed) {
             switch ($feed['reference_type']) {
                 case Feed_Model::REFERENCE_TYPE_STATUS:
+                    $status = $this->statusModel->findById($feed['reference_id']);
                     $feed['html'] = $this->renderUserStatus($feed['reference_id']);
+                    $comments = get_comments('type=status&number=5&order=ASC&orderBy=comment_date&status=approve&post_id=' . $status['status_id']);
+                    $feed['html'] = $this->render('/homepage/feed_status', array(
+                        'status'        => $status,
+                        'comments'      => $comments,
+                        'referenceType' => Feed_Model::REFERENCE_TYPE_STATUS,
+                        'allowComment'  => true,
+                    ));
                     break;
                 case Feed_Model::REFERENCE_TYPE_POST:
                     $post = get_post($feed['reference_id']);
@@ -41,6 +49,7 @@ class Homepage extends Base
                     $feed['html'] = $this->render('/homepage/feed_post', array(
                         'post'      => $post,
                         'comments'  => $comments,
+                        'referenceType' => Feed_Model::REFERENCE_TYPE_POST,
                         'allowComment'  => true,
                     ));
                     break;
@@ -64,7 +73,11 @@ class Homepage extends Base
     {
         $status = $this->statusModel->findById($statusId);
         if ($status !== false && is_array($status)) {
-            return $this->render('/homepage/feed_status', array('status' => $status));
+            return $this->render('/homepage/feed_status', array(
+                'status' => $status,
+                'referenceType' => Feed_Model::REFERENCE_TYPE_STATUS,
+                'allowComment' => true
+            ));
         } else {
             return '';
         }
@@ -94,7 +107,7 @@ class Homepage extends Base
             $statusId = $this->statusModel->addUserStatus($userId, $status);
             if ($statusId !== false) {
                 $response['success'] = true;
-                $response['result'] = $this->render('/homepage/feed_status', array('status' => $this->statusModel->findById($statusId)));
+                $response['result'] = $this->renderUserStatus($statusId);
             } else {
                 $response['result'] = 'Can not post status. Please try again.';
             }
@@ -106,11 +119,15 @@ class Homepage extends Base
     {
         $comment = trim($this->input->post('txtUserComment'));
         $postId = (int) $this->input->post('postId');
+        $type = $this->input->post('type');
         $userId = get_current_user_id();
         $response = array(
             'success'   => false,
             'result'    => ''
         );
+        if (!in_array($type, [Feed_Model::REFERENCE_TYPE_POST, Feed_Model::REFERENCE_TYPE_STATUS])) {
+            $response['result'] = 'Invalid Type';
+        }
         if ($userId === 0) {
             $response['result'] = 'Please login first';
         }
@@ -130,7 +147,7 @@ class Homepage extends Base
                 'comment_author'        => $currentUser->display_name,
                 'comment_author_email'  => $currentUser->user_email,
                 'comment_content' => $comment,
-                'comment_type' => '',
+                'comment_type' => $type,
                 'comment_parent' => 0,
                 'user_id' => $currentUser->ID,
                 'comment_author_IP' => $this->input->ip_address(),
