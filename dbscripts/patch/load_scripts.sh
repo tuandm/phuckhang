@@ -10,14 +10,9 @@ echo db_pass is ${db_pass}
 echo db_name is ${db_name}
 echo db_host is ${db_host}
 
-working_folder=`dirname $0`
-echo working_folder is ${working_folder}
-FILES=./*.sql
-cd ${working_folder}
-
 echo "========================================================="
-script_file_pattern=\d*_.*.sql
-for script_file in $FILES
+file_counter=1
+for script_file in `find . -regex "./[0-9]*_.*.sql" -type f`;
 do
 	if [ -e "${script_file}" ]; then
 		load_command="mysql --user=${db_user} --password=${db_pass} ${db_name} < '${script_file}'"

@@ -1,8 +1,11 @@
+DROP TABLE IF EXISTS `pk_user_feed`;
+DROP TABLE IF EXISTS `pk_user_status`;
+
 --
--- Table structure for table `pk_user_feed`
+-- Table structure for table `pk_sc_user_feed`
 --
 
-CREATE TABLE IF NOT EXISTS `pk_user_feed` (
+CREATE TABLE IF NOT EXISTS `pk_sc_user_feed` (
   `feed_id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) DEFAULT NULL,
   `reference_type` varchar(45) DEFAULT NULL,
@@ -13,10 +16,10 @@ CREATE TABLE IF NOT EXISTS `pk_user_feed` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Table structure for table `pk_user_status`
+-- Table structure for table `pk_sc_user_status`
 --
 
-CREATE TABLE IF NOT EXISTS `pk_user_status` (
+CREATE TABLE IF NOT EXISTS `pk_sc_user_status` (
   `status_id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
   `status` varchar(1000) DEFAULT NULL,
