@@ -12,7 +12,7 @@ echo db_host is ${db_host}
 
 echo "========================================================="
 file_counter=1
-for script_file in `find . -regex "./[0-9]*_.*.sql" -type f`;
+for script_file in `find . -regex "./[0-9]*_.*.sql" -type f | sort -n`;
 do
 	if [ -e "${script_file}" ]; then
 		load_command="mysql --user=${db_user} --password=${db_pass} ${db_name} < '${script_file}'"
