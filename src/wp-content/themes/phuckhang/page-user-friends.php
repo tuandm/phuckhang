@@ -50,42 +50,42 @@ get_header();
         <div class="row">
           <div class="col-md-3 col-sm-4 col-xs-6 photo-item friend-item">
             <img src="http://loremflickr.com/g/320/240/paris,cat,dog/all?random=1" class="img-responsive">
-            <span class="friend-name">Zachary Lucas</span>
+            <a href="#"><span class="friend-name">Zachary Lucas</span></a>
             <span class="friend-role">Sale Admin</span>
           </div>
           <div class="col-md-3 col-sm-4 col-xs-6 photo-item friend-item">
             <img src="http://loremflickr.com/g/320/240/paris,cat,dog/all?random=2" class="img-responsive">
-            <span class="friend-name">Zachary Lucas</span>
+            <a href="#"><span class="friend-name">Zachary Lucas</span></a>
             <span class="friend-role">Sale Admin</span>
           </div>
           <div class="col-md-3 col-sm-4 col-xs-6 photo-item friend-item">
             <img src="http://loremflickr.com/g/320/240/paris,cat,dog/all?random=3" class="img-responsive">
-            <span class="friend-name">Zachary Lucas</span>
+            <a href="#"><span class="friend-name">Zachary Lucas</span></a>
             <span class="friend-role">Sale Admin</span>
           </div>
           <div class="col-md-3 col-sm-4 col-xs-6 photo-item friend-item">
             <img src="http://loremflickr.com/g/320/240/paris,cat,dog/all?random=4" class="img-responsive">
-            <span class="friend-name">Zachary Lucas</span>
+            <a href="#"><span class="friend-name">Zachary Lucas</span></a>
             <span class="friend-role">Sale Admin</span>
           </div>
           <div class="col-md-3 col-sm-4 col-xs-6 photo-item friend-item">
             <img src="http://loremflickr.com/g/320/240/paris,cat,dog/all?random=5" class="img-responsive">
-            <span class="friend-name">Zachary Lucas</span>
+            <a href="#"><span class="friend-name">Zachary Lucas</span></a>
             <span class="friend-role">Sale Admin</span>
           </div>
           <div class="col-md-3 col-sm-4 col-xs-6 photo-item friend-item">
             <img src="http://loremflickr.com/g/320/240/paris,cat,dog/all?random=6" class="img-responsive">
-            <span class="friend-name">Zachary Lucas</span>
+            <a href="#"><span class="friend-name">Zachary Lucas</span></a>
             <span class="friend-role">Sale Admin</span>
           </div>
           <div class="col-md-3 col-sm-4 col-xs-6 photo-item friend-item">
             <img src="http://loremflickr.com/g/320/240/paris,cat,dog/all?random=5" class="img-responsive">
-            <span class="friend-name">Zachary Lucas</span>
+            <a href="#"><span class="friend-name">Zachary Lucas</span></a>
             <span class="friend-role">Sale Admin</span>
           </div>
           <div class="col-md-3 col-sm-4 col-xs-6 photo-item friend-item">
             <img src="http://loremflickr.com/g/320/240/paris,cat,dog/all?random=6" class="img-responsive">
-            <span class="friend-name">Zachary Lucas</span>
+            <a href="#"><span class="friend-name">Zachary Lucas</span></a>
             <span class="friend-role">Sale Admin</span>
           </div>
         </div>
