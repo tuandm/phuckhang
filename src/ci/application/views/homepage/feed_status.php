@@ -14,7 +14,7 @@
 
             <div class="social-tools-wrap">
                 <div class="social-tools">
-                    <i class="fa fa-thumbs-o-up"> </i> <a href="#">Like</a> ·  <i class="fa fa-comment"></i> <a href="#">Comment</a> · <i class="fa fa-facebook"></i> <a href="#">Share</a>
+                    <i class="fa fa-thumbs-o-up" id="like"> </i> <a class="user-like" href="#" id="comment-post-<?php echo $status['status_id'] ?>">Like</a> ·  <i class="fa fa-comment"></i> <a class="user-comment" id="comment-post-<?php echo $status['status_id'] ?>"href="#">Comment</a> · <i class="fa fa-facebook"></i> <a href="#">Share</a>
                 </div>
 
                 <div class="social-like-count">
@@ -24,5 +24,5 @@
 
         </div>
     </div>
-        <?php echo $this->view('/layout/partial/comments', array('postId' => $status['status_id'])) ?>
+    <?php echo $this->view('/layout/partial/comments', array('postId' => $status['status_id'])) ?>
 </div>

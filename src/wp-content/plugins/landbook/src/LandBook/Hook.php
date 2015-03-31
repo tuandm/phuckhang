@@ -65,7 +65,7 @@ class LandBook_Hook
     public function processAfterSavingPost($postId, $post, $update)
     {
         // For now, we just add to feed when new post is posted.
-        if (!$update) {
+        if (!$update && (get_post_status($postId) == 'inherit')) {
             $userId = get_current_user_id();
             $feedModel = new LandBook_Model_Feed();
             $feedModel->insertFeedAfterPublishPost($userId, $postId);

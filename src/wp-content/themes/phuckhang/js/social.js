@@ -30,8 +30,23 @@ $(function() {
         });
         return false;
     });
-
     bindUserCommentTextArea();
+});
+
+$(function(){
+    $('.user-comment').click(function() {
+        var postId = $(this).attr('id');
+        $("." + postId).find('textarea').focus();
+        return false;
+    });
+});
+
+$(function(){
+    $('.user-like').click(function() {
+        console.debug($(this).parent().find('#like'));
+        $(this).parent().find('#like').toggleClass('fa fa-thumbs-o-up fa fa-thumbs-o-down');
+        return false;
+    });
 });
 
 /**

@@ -14,7 +14,7 @@
 
         <div class="social-tools-wrap">
             <div class="social-tools">
-                <i class="fa fa-thumbs-o-up"> </i> <a href="#">Like</a> ·  <i class="fa fa-comment"></i> <a href="#">Comment</a> · <i class="fa fa-facebook"></i> <a href="#">Share</a>
+                <i class="fa fa-thumbs-o-up" id="like"> </i> <a href="#" class="user-like">Like</a> ·  <i class="fa fa-comment"></i> <a class="user-comment" href="#" id="comment-post-<?php echo $post->ID ?>">Comment</a> · <i class="fa fa-facebook"></i> <a href="#">Share</a>
             </div>
 
             <div class="social-like-count">

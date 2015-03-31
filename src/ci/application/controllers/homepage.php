@@ -27,6 +27,9 @@ class Homepage extends Base
         $this->load->model('Status_Model', 'statusModel');
     }
 
+    /**
+     *
+     */
     public function index()
     {
         $feeds = $this->feedModel->getNewFeeds();
@@ -34,23 +37,22 @@ class Homepage extends Base
             switch ($feed['reference_type']) {
                 case Feed_Model::REFERENCE_TYPE_STATUS:
                     $status = $this->statusModel->findById($feed['reference_id']);
-                    $feed['html'] = $this->renderUserStatus($feed['reference_id']);
                     $comments = get_comments('type=status&number=5&order=ASC&orderBy=comment_date&status=approve&post_id=' . $status['status_id']);
                     $feed['html'] = $this->render('/homepage/feed_status', array(
                         'status'        => $status,
                         'comments'      => $comments,
                         'referenceType' => Feed_Model::REFERENCE_TYPE_STATUS,
-                        'allowComment'  => true,
+                        'allowComment'  => true
                     ));
                     break;
                 case Feed_Model::REFERENCE_TYPE_POST:
                     $post = get_post($feed['reference_id']);
-                    $comments = get_comments('number=5&order=ASC&orderBy=comment_date&status=approve&post_id=' . $post->ID);
+                    $comments = get_comments('type=post&number=5&order=ASC&orderBy=comment_date&status=approve&post_id=' . $post->ID);
                     $feed['html'] = $this->render('/homepage/feed_post', array(
                         'post'      => $post,
                         'comments'  => $comments,
                         'referenceType' => Feed_Model::REFERENCE_TYPE_POST,
-                        'allowComment'  => true,
+                        'allowComment'  => true
                     ));
                     break;
                 default;
@@ -115,6 +117,9 @@ class Homepage extends Base
         return $response;
     }
 
+    /**
+     * @return array
+     */
     public function handlePostComment()
     {
         $comment = trim($this->input->post('txtUserComment'));
