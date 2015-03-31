@@ -678,9 +678,12 @@ ul.sub-nav li a:hover, ul.sub-nav li.active a{
   text-align: left;
 }
 
+.small-avatar, .medium-avatar{
+  border: 1px solid #ddd;
+}
+
 .avatar img{
   border: 1px solid #ddd;
-
 }
 
 .social-cotent{
@@ -699,7 +702,7 @@ ul.sub-nav li a:hover, ul.sub-nav li.active a{
 }
 
 .person{
-  text-align: right;
+  text-align: center;
 }
 
 .feed{
@@ -730,15 +733,99 @@ textarea.message{
   width: 250px;
 }
 
+.social-tools-wrap{
+  border-top: 1px solid #ddd;
+  padding: 10px 0px;
+}
+
+.social-tools{
+  display: block;
+  padding: 10px 0px;
+}
+
+.comment-item{
+  margin:  10px 0px 0px 0px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+}
 
 
-/* End Project detail */
+/**
+ * Notification
+ */
+
+.user-info{
+  padding-bottom: 20px;
+  padding-top: 100px;
+}
+
+.user-span-control{
+  font-size: 20px;
+}
+
+.date-wrap{
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 25px;
+  margin-top: 10px;
+}
+
+.noti-item{
+  margin: 10px 0px;
+}
+
+.noti-datetime{
+  display: block;
+}
+
+.noti-avatar{
+  text-align: right;
+}
+
+.photo-header{
+  display: block;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+
+
+.photo-item{
+  display: block;
+  margin: 10px 0px;
+}
+  .photo-item img{
+    border: 1px solid #ddd;
+  }
+
 
 .horizontal-footer{
   margin: 20px 0px;
   border-bottom: 1px solid #ddd;
 }
 
+
+/**
+ * FRIENDS PAGE
+ *  */
+
+.friend-item{
+  padding: 5px;
+}
+
+.friend-name{
+  padding-top: 10px;
+  font-weight: bold;
+  display: block;
+}
+
+.friend-role{
+
+}
+
+
+/**
+ * Footer
+ */
 
 #footer{
   color: #878787;
@@ -961,6 +1048,10 @@ textarea.message{
       float: left;
       border-top: 1px solid #FFF;
     }
+
+    .user-info{
+			padding-top: 20px;
+		}
 
     #home-block .box.box-last{
       border-right: none;
