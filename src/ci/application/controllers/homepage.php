@@ -70,30 +70,7 @@ class Homepage extends Base
         }
 
     }
-
-    /**
-     * Handle ajax request
-     *
-     * @return mixed
-     */
-    public function ajax()
-    {
-        if (!$this->input->is_ajax_request()) {
-            die('Ajax request required!');
-        }
-
-        $callback = $this->input->get_post('callback');
-        if ($callback === false) {
-            die('Invalid callback');
-        }
-
-        $handle = 'handle' . ucfirst($callback);
-        if (!method_exists($this, $handle)) {
-            die('Invalid handle');
-        }
-        echo json_encode($this->$handle());
-    }
-
+    
     /**
      * Handle status posting
      */
