@@ -1,6 +1,6 @@
 <div id="user-profile" class="content social-cotent">
     <div class="row">
-        <?php echo $this->view('/userprofilepage/left_content', ['userId' => $loginUser['userId'], 'userGroupNames' => $loginUser['groupNames']]) ?>
+        <?php echo $this->view('/layout/partial/left_content', ['userId' => $loginUser['userId'], 'userGroupNames' => $loginUser['groupNames']]) ?>
 
         <div class="col-lg-6 col-lg-offset-0 col-md-7 col-md-offset-0 col-sm-7 col-sm-offset-0 col-xs-10 col-xs-offset-1">
             <?php echo $this->view('/userprofilepage/user_login_info',

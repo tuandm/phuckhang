@@ -32,8 +32,8 @@ class User_Profile_Model extends CI_Model
     /**
      * Function getUserPhoneById
      *
-     * @param string $userId
-     * @return string $phoneNumber
+     * @param $userId
+     * @return $phoneNumber
      */
     public function getPhoneNumberById($userId)
     {
@@ -50,9 +50,10 @@ class User_Profile_Model extends CI_Model
     }
 
     /**
-     * 
-     * @param $userId
-     * @return unknown
+     * Get DOB of user by userId
+     *
+     * @param int $userId
+     * @return array|bool
      */
     public function getDOBByUserId($userId)
     {
@@ -68,6 +69,12 @@ class User_Profile_Model extends CI_Model
         return $dob;
     }
 
+    /**
+     * Get User Title by UserId
+     *
+     * @param int $userId
+     * @return bool|array
+     */
     public function getTitleByUserId($userId)
     {
         $this->db
@@ -75,34 +82,46 @@ class User_Profile_Model extends CI_Model
         ->from('pk_cimy_uef_data')
         ->join('pk_cimy_uef_fields', 'pk_cimy_uef_fields.ID = pk_cimy_uef_data.FIELD_ID')
         ->where(array(
-                        'pk_cimy_uef_data.USER_ID'  => $userId,
-                        'pk_cimy_uef_fields.NAME'   => 'TITLE'
+            'pk_cimy_uef_data.USER_ID'  => $userId,
+            'pk_cimy_uef_fields.NAME'   => 'TITLE'
         ));
         $title = $this->db->get()->result_array()[0]['VALUE'];;
-        return $title;
+        if ($title) {
+            return $title;
+        }
+        return '';
     }
 
     /**
+     * Get User Info by Id
+     *
      * @param int $userId
-     * @return mixed
+     * @return bool|array
      */
     public function getUserInfoById($userId)
     {
-        $this->db->select('pk_users.user_nicename, pk_users.user_email')
-        ->from('pk_users')
-        ->where(array('ID' => $userId));
+        $this->db
+            ->select('pk_users.user_nicename, pk_users.user_email')
+            ->from('pk_users')
+            ->where(array('ID' => $userId));
         $userInfo = $this->db->get()->result_array()[0];
-        return $userInfo;
+        if ($userInfo) {
+            return $userInfo;
+        }
+        return '';
     }
 
     /**
-     * @param $userId
-     * @return array
+     * Get user friend list
+     *
+     * @param int $userId
+     * @return array|bool
      */
     public function getFriendsByUserId($userId)
     {
         $where = "((`user_id` = $userId) || (`friend_id` = $userId))";
-        $this->db->select('*')
+        $this->db
+            ->select('*')
             ->from('pk_sc_user_friends')
             ->where($where);
         $friendRelations = $this->db->get()->result_array();
@@ -124,8 +143,10 @@ class User_Profile_Model extends CI_Model
     }
 
     /**
-     * @param $userId
-     * @return array
+     * Get All User Groups by UserId
+     *
+     * @param int $userId
+     * @return array|bool
      */
     public function getAllUserGroups($userId)
     {
@@ -135,15 +156,17 @@ class User_Profile_Model extends CI_Model
             ->where('pk_sc_user_groups.user_id', $userId);
         $groups = $this->db->get()->result_array();
         $data = array(
-            'group'  => $groups,
+            'group'     => $groups,
             'numGroups' => count($groups)
         );
         return $data;
     }
 
     /**
+     * Count all User's Group by UserId
+     *
      * @param $userId
-     * @return array
+     * @return int
      */
     public function countGroupsByUserId($userId)
     {
@@ -153,11 +176,9 @@ class User_Profile_Model extends CI_Model
         $groups = count($this->db->get()->result_array());
         $numGroups = count($this->db->get()->result_array());
         $data = array(
-            'group'  => $friends,
+            'group'     => $groups,
             'numFriend' => $numGroups
         );
         return $data;
     }
-
 }
-?>

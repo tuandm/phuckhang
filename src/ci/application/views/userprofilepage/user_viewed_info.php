@@ -16,7 +16,7 @@
             <div class="col-sm-3">
                 <?php echo (get_simple_local_avatar($userId, 150)) ?>
             </div>
-            <div class="col-lg-6">
+            <div class="col-sm-9">
                 <div class="tab-content">
                     <div class="tab-pane active" id="profile-category-1">
                         <form class="form-horizontal" role="form">
@@ -34,7 +34,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-6 control-label">Số Điện Thoại</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-6">
                                     <p class="form-control-static"><?php echo $phone ?></p>
                                 </div>
                             </div>
@@ -61,16 +61,16 @@
         </ul>
         <div class="row">
             <?php if ($numFriends === 0) : ?>
-            <div class="col-md-12">
+            <div class="col-sm-9">
                 <?php echo 'You have no any friend :(('; ?>
             </div>
             <?php else : ?>
+                <div class="col-sm-9 info-friend">
                 <?php foreach ($friendIds as $friend) : ?>
-                <div class="col-md-12">
                         <a href="?act=index&userId=<?php echo $friend; ?>"><?php echo (get_simple_local_avatar($friend, 50)); ?></a>
-                </div>
                 <?php endforeach ?>
-                <div class="pull-right">
+                </div>
+                <div class="col-sm-3 pull-right">
                     <a href="#">Xem Thêm...</a>
                 </div>
             <?php endif ?>
