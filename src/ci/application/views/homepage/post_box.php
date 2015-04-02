@@ -7,19 +7,18 @@
 
         <p>"<?php echo $post->post_title ?>" <br /><br />
             <?php
-            $striptagFromContent = strip_tags($post->post_content);
-            echo $content = wp_trim_words($striptagFromContent, 100, null);
+                $striptagFromContent = strip_tags($post->post_content);
+                echo $content = wp_trim_words($striptagFromContent, 100, null);
             ?>
         </p>
-
-        <div class="social-tools-wrap">
-            <div class="social-tools">
-                <i class="fa fa-thumbs-o-up" id="like"> </i> <a href="#" class="user-like">Like</a> ·  <i class="fa fa-comment"></i> <a class="user-comment" href="#" id="comment-post-<?php echo $post->ID ?>">Comment</a> · <i class="fa fa-facebook"></i> <a href="#">Share</a>
-            </div>
-
-            <div class="social-like-count">
-                <a href="#">49</a> people like this.
-            </div>
+        <div>
+            <?php if (get_current_user_id()) : ?>
+                <?php echo $this->view('/homepage/user_like', [
+                    'referenceType' => $referenceType,
+                    'postId'        => $post->ID,
+                    'numLike'       => $numLike
+                ]) ?>
+            <?php endif ?>
         </div>
     </div>
     <!-- /.feed-content -->

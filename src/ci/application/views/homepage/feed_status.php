@@ -11,17 +11,16 @@
                 <!--<a href="#">See More</a>-->
             </p>
 
-
-            <div class="social-tools-wrap">
-                <div class="social-tools">
-                    <i class="fa fa-thumbs-o-up" id="like"> </i> <a class="user-like" href="#" id="comment-post-<?php echo $status['status_id'] ?>">Like</a> ·  <i class="fa fa-comment"></i> <a class="user-comment" id="comment-post-<?php echo $status['status_id'] ?>"href="#">Comment</a> · <i class="fa fa-facebook"></i> <a href="#">Share</a>
-                </div>
-
-                <div class="social-like-count">
-                    Làm người đầu tiên thích bài này.
-                </div>
+            <div>
+                <?php if (get_current_user_id()) : ?>
+                    <?php echo $this->view('/homepage/user_like',[
+                        'referenceType'     => $referenceType,
+                        'postId'            => $status['status_id'],
+                        'numLike'           => $numLike
+                    ])
+                    ?>
+                <?php endif ?>
             </div>
-
         </div>
     </div>
     <?php echo $this->view('/layout/partial/comments', array('postId' => $status['status_id'])) ?>
