@@ -1,4 +1,7 @@
 $(function() {
+    bindHighLightCommentBox();
+    bindUserLike();
+    bindUserCommentTextArea();
     $("#btnPostStatus").click(function() {
         $(this).attr('disabled', true);
         $("#user-status-refresh").show();
@@ -18,9 +21,12 @@ $(function() {
                     $('#txtUserStatus').val('');
                     $('#userStatusError').hide();
                     $('#user_status_separate').after(result.result).fadeIn('slow');
+                    bindHighLightCommentBox();
+                    bindUserLike();
                     bindUserCommentTextArea();
                     me.attr('disabled', false);
                 } else {
+                    me.attr('disabled', false);
                     $('#userStatusError').html(result.result);
                     $('#userStatusError').show();
                 }
@@ -30,24 +36,58 @@ $(function() {
         });
         return false;
     });
-    bindUserCommentTextArea();
 });
 
-$(function(){
-    $('.user-comment').click(function() {
+/**
+ * Off click highlight Comment Box
+ */
+function bindHighLightCommentBox() {
+    $('.user-comment').off('click').on('click', function() {
         var postId = $(this).attr('id');
         $("." + postId).find('textarea').focus();
         return false;
     });
-});
+}
 
-$(function(){
-    $('.user-like').click(function() {
-        console.debug($(this).parent().find('#like'));
-        $(this).parent().find('#like').toggleClass('fa fa-thumbs-o-up fa fa-thumbs-o-down');
+/**
+ * Off click like/unlike event then on again
+ */
+function bindUserLike() {
+    $('.user-like').off('click').on('click', function () {
+        var me = $(this).parent();
+        var achorId = $(this).attr('id');
+        var tmp = achorId.split('_');
+        var postId = tmp[1];
+        var referenceType = 'post';
+        var likeError = me.find('#likeError');
+        console.log(likeError);
+        if ($(this).hasClass('like-type-status')) {
+            referenceType = 'status';
+        }
+        $.ajax({
+            url: '/social-homepage/',
+            type: 'POST',
+            data: {
+                act: 'ajax',
+                callback: 'likeComment',
+                postId: postId,
+                type: referenceType
+            },
+            success: function (response) {
+                var result = JSON.parse(response);
+                if (result.success) {
+                    $('.social-user-like_' + postId).parent().html(result.result);
+                    likeError.hide();
+                    bindUserLike();
+                    bindHighLightCommentBox();
+                } else {
+                    likeError.html(result.result);
+                }
+            }
+        });
         return false;
     });
-});
+}
 
 /**
  * Unbind keydown event in comment textbox then binding again.
@@ -92,4 +132,3 @@ function bindUserCommentTextArea()
         }
     });
 }
-

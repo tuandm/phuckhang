@@ -16,6 +16,11 @@ class Homepage extends Base
     public $feedModel;
 
     /**
+     * @var Like_Model
+     */
+    public $likeModel;
+
+    /**
      * @var Status_Model
      */
     public $statusModel;
@@ -25,6 +30,7 @@ class Homepage extends Base
         parent::__construct();
         $this->load->model('Feed_Model', 'feedModel');
         $this->load->model('Status_Model', 'statusModel');
+        $this->load->model('Like_Model', 'likeModel');
     }
 
     /**
@@ -37,20 +43,35 @@ class Homepage extends Base
             switch ($feed['reference_type']) {
                 case Feed_Model::REFERENCE_TYPE_STATUS:
                     $status = $this->statusModel->findById($feed['reference_id']);
+                    $feed['html'] = $this->renderUserStatus($feed['reference_id']);
+                    $numLike = $this->likeModel->countLike($status['status_id']);
+                    $isLiked = $this->likeModel->isLiked(get_current_user_id(), $status['status_id']);
+                    $likeImage = $isLiked ? 'down' : 'up';
+                    $state  = $isLiked ? 'Unlike' : 'Like';
                     $comments = get_comments('type=status&number=5&order=ASC&orderBy=comment_date&status=approve&post_id=' . $status['status_id']);
                     $feed['html'] = $this->render('/homepage/feed_status', array(
                         'status'        => $status,
                         'comments'      => $comments,
+                        'numLike'       => $numLike,
+                        'likeImage'     => $likeImage,
+                        'state'         => $state,
                         'referenceType' => Feed_Model::REFERENCE_TYPE_STATUS,
                         'allowComment'  => true
                     ));
                     break;
                 case Feed_Model::REFERENCE_TYPE_POST:
                     $post = get_post($feed['reference_id']);
+                    $numLike = $this->likeModel->countLike($post->ID);
+                    $isLiked = $this->likeModel->isLiked(get_current_user_id(), $post->ID);
+                    $likeImage = $isLiked ? 'down' : 'up';
+                    $state  = $isLiked ? 'Unlike' : 'Like';
                     $comments = get_comments('type=post&number=5&order=ASC&orderBy=comment_date&status=approve&post_id=' . $post->ID);
                     $feed['html'] = $this->render('/homepage/feed_post', array(
-                        'post'      => $post,
-                        'comments'  => $comments,
+                        'post'          => $post,
+                        'comments'      => $comments,
+                        'likeImage'     => $likeImage,
+                        'state'         => $state,
+                        'numLike'       => $numLike,
                         'referenceType' => Feed_Model::REFERENCE_TYPE_POST,
                         'allowComment'  => true
                     ));
@@ -74,8 +95,16 @@ class Homepage extends Base
     private function renderUserStatus($statusId)
     {
         $status = $this->statusModel->findById($statusId);
+        $isLiked = $this->likeModel->isLiked(get_current_user_id(), $status['status_id']);
+        $likeImage = $isLiked ? 'down' : 'up';
+        $state  = $isLiked ? 'Unlike' : 'Like';
+        $numLike = $this->likeModel->countLike($status['status_id']);
         if ($status !== false && is_array($status)) {
             return $this->render('/homepage/feed_status', array(
+                'isLiked' => $isLiked,
+                'numLike' => $numLike,
+                'likeImage'     => $likeImage,
+                'state'         => $state,
                 'status' => $status,
                 'referenceType' => Feed_Model::REFERENCE_TYPE_STATUS,
                 'allowComment' => true
@@ -85,7 +114,7 @@ class Homepage extends Base
         }
 
     }
-    
+
     /**
      * Handle status posting
      */
@@ -151,14 +180,14 @@ class Homepage extends Base
                 'comment_post_ID'       => $postId,
                 'comment_author'        => $currentUser->display_name,
                 'comment_author_email'  => $currentUser->user_email,
-                'comment_content' => $comment,
-                'comment_type' => $type,
-                'comment_parent' => 0,
-                'user_id' => $currentUser->ID,
-                'comment_author_IP' => $this->input->ip_address(),
-                'comment_agent' => $this->input->user_agent(),
-                'comment_date' => date('Y-m-d H:i:s'),
-                'comment_approved' => 1,
+                'comment_content'       => $comment,
+                'comment_type'          => $type,
+                'comment_parent'        => 0,
+                'user_id'               => $currentUser->ID,
+                'comment_author_IP'     => $this->input->ip_address(),
+                'comment_agent'         => $this->input->user_agent(),
+                'comment_date'          => date('Y-m-d H:i:s'),
+                'comment_approved'      => 1,
             );
             $newCommentId = wp_insert_comment($commentData);
             if ($newCommentId !== false) {
@@ -166,6 +195,51 @@ class Homepage extends Base
                 $response['result'] = $this->render('/layout/partial/comment', array('comment' => get_comment($newCommentId)));
             } else {
                 $response['result'] = 'Can not post comment. Please try again.';
+            }
+        }
+        return $response;
+    }
+    /**
+     * @return array
+     */
+    public function handleLikeComment()
+    {
+        $postId = (int) $this->input->post('postId');
+        $type = $this->input->post('type');
+        $userId = get_current_user_id();
+        $response = array(
+            'success'   => false,
+            'result'    => ''
+        );
+        if ($userId === 0) {
+            $response['result'] = 'Please login first';
+        }
+        if (empty($postId)) {
+            $response['result'] = 'Invalid post';
+        }
+        if (empty($response['result'])) {
+            $likeData = array(
+                'referenceId'      => $postId,
+                'referenceType'    => $type,
+                'userId'           => $userId,
+            );
+            $newLikeId = $this->likeModel->like($likeData);
+            $numLike = $this->likeModel->countLike($postId);
+            $isLiked = $this->likeModel->isLiked($userId, $postId);
+            $likeImage = $isLiked ? 'down' : 'up';
+            $state  = $isLiked ? 'Unlike' : 'Like';
+            if ($newLikeId !== false) {
+                $response['success'] = true;
+                $response['result'] = $this->render('homepage/user_like', array(
+                    'postId'           => $postId,
+                    'referenceType'    => $type,
+                    'userId'           => $userId,
+                    'numLike'          => $numLike,
+                    'likeImage'        => $likeImage,
+                    'state'            => $state
+                ));
+            } else {
+                $response['result'] = "Can not like $type. Please try again.";
             }
         }
         return $response;
