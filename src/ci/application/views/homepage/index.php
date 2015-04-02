@@ -30,7 +30,7 @@
             <?php endif ?>
             <!-- User status -->
             <div class="clearfix"></div>
-            <?php echo $this->view('/homepage/user_feed') ?>
+            <?php echo $this->view('/homepage/user_feed'); ?>
         </div>
 
         <div class="hidden-xs hidden-sm hidden-md col-lg-4">
