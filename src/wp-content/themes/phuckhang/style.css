@@ -749,6 +749,12 @@ textarea.message{
   border-top: 1px solid #ddd;
 }
 
+/**
+ * Message
+ */
+.not-read{
+  font-weight: bold;
+}
 
 /**
  * Notification
