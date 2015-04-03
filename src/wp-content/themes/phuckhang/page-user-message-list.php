@@ -53,7 +53,7 @@
 
               <ul class="list-group">
                
-                  <li class="list-group-item" onclick="location.href='#';" style="cursor: pointer;">
+                  <li class="list-group-item not-read" onclick="location.href='#';" style="cursor: pointer;">
                     <div class="row noti-item">
                       <div class="col-sm-2 col-xs-3 noti-avatar">
                         <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
@@ -67,7 +67,7 @@
                     </div>
                   </li>
            
-                  <li class="list-group-item" onclick="location.href='#';" style="cursor: pointer;">
+                  <li class="list-group-item not-read" onclick="location.href='#';" style="cursor: pointer;">
                     <div class="row noti-item">
                       <div class="col-sm-2 col-xs-3 noti-avatar">
                         <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
