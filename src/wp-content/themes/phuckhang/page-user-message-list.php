@@ -48,9 +48,15 @@
       </div>
 
       <div class="panel panel-default">
-          <div class="panel-heading"><strong>Tin Nhắn</strong> <a href="#">(Chưa Đọc) <span class="badge">2</span></a></div>
+          <div class="panel-heading clearfix">
+            <strong class="pull-left">Tin Nhắn</strong>
+           <div class="pull-right">
+            <a href="#" class="btn btn-default btn-sm">Nhắn tin mới</a>
+            <a href="#">(Chưa Đọc) <span class="badge">2</span></a>
+          </div>
+          </div>
+          
             <div class="panel-body">
-
               <ul class="list-group">
                
                   <li class="list-group-item not-read" onclick="location.href='#';" style="cursor: pointer;">
