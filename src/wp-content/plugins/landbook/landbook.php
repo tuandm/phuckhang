@@ -50,17 +50,46 @@ class LandBook {
 
             $this->loader->addAction('admin_menu', $this->hook, 'createMenuItems', 999);
             $this->register_css();
-
+            $this->loader->addAction('init', $this->hook, 'createScGroupTaxonomy');
             // AJAX action is handled by wp-admin/admin-ajax.php
             $this->loader->addAction('wp_ajax_project_products', $this->hook, 'projectProducts');
         } else {
             // Register shortcode handler
+            $this->loader->addAction('init', $this->hook, 'createScGroupTaxonomy');
             $this->loader->addShortcode('landbook', $this->hook, 'handleShortcode');
+
+            // Register redirect page after login
+//            $this->loader->addFilter('login_redirect', $this->hook, 'redirectUserProfile');
+
+            add_filter('login_redirect', array($this, 'redirectUserProfile'), 10, 3);
             $this->register_js();
+
         }
 
         // Hooking
         $this->registerHooks();
+    }
+
+    /**
+     * @param $redirect_to
+     * @param $request
+     * @param $user
+     * @return string|void
+     */
+    public function redirectUserProfile($redirect_to, $request, $user)
+    {
+        global $user;
+        $redirect_to = home_url('/wp-login');
+        if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+            if (in_array('administrator', $user->roles)) {
+                // redirect them to the default place
+                return home_url('/wp-admin/');
+            } else {
+                return home_url("/social-userprofilepage/?act=index&userId=$user->ID");
+            }
+        } else {
+            return $redirect_to;
+        }
     }
 
     public function registerHooks()

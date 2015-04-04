@@ -71,4 +71,41 @@ class LandBook_Hook
             $feedModel->insertFeedAfterPublishPost($userId, $postId);
         }
     }
+
+    /**
+     * Redirect to User Profile after login
+     *
+     */
+    public function redirectUserProfile($redirect_to, $request, $user)
+    {
+        global $user;
+        $redirect_to = home_url('/wp-login');
+        if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+            var_dump(filter_input_array(INPUT_POST));
+            die();
+            if ( in_array( 'administrator', $user->roles ) ) {
+                // redirect them to the default place
+                return $redirect_to;
+            } else {
+                return home_url();
+            }
+        } else {
+            return $redirect_to;
+        }
+    }
+
+    /**
+     *
+     */
+    function createScGroupTaxonomy()
+    {
+        // Now register the taxonomy
+        register_taxonomy('sc_group', array('post'), array(
+            'hierarchical'      => true,
+            'show_ui'           => false,
+            'show_admin_column' => true,
+            'query_var'         => true,
+        ));
+    }
+
 }
