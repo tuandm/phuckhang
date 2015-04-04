@@ -6,12 +6,19 @@
  */
 class User_Profile_Model extends CI_Model
 {
+
+    /**
+     *
+     */
     public function __construct()
     {
         parent::__construct();
         $this->load->database();
     }
-
+    /**
+     *
+     */
+    const INFORMATION_NOT_SET   = 'This information has not been set.';
     /**
      * @var wpdb
      */
@@ -33,20 +40,24 @@ class User_Profile_Model extends CI_Model
      * Function getUserPhoneById
      *
      * @param $userId
-     * @return $phoneNumber
+     * @return null|array
      */
     public function getPhoneNumberById($userId)
     {
-        $this->db
+        $phoneNumber = $this->db
             ->select('pk_cimy_uef_data.VALUE')
             ->from('pk_cimy_uef_data')
             ->join('pk_cimy_uef_fields', 'pk_cimy_uef_fields.ID = pk_cimy_uef_data.FIELD_ID')
             ->where(array(
-                        'pk_cimy_uef_data.USER_ID'  => $userId,
-                        'pk_cimy_uef_fields.NAME'   => 'PHONE'
-            ));
-        $phoneNumber = $this->db->get()->result_array()[0]['VALUE'];
-        return $phoneNumber;
+                'pk_cimy_uef_data.USER_ID'  => $userId,
+                'pk_cimy_uef_fields.NAME'   => 'PHONE'
+            ))
+            ->get()
+            ->result_array();
+        if (empty($phoneNumber)) {
+            return '';
+        }
+        return $phoneNumber[0]['VALUE'];
     }
 
     /**
@@ -57,16 +68,18 @@ class User_Profile_Model extends CI_Model
      */
     public function getDOBByUserId($userId)
     {
-        $this->db
-        ->select('pk_cimy_uef_data.VALUE')
-        ->from('pk_cimy_uef_data')
-        ->join('pk_cimy_uef_fields', 'pk_cimy_uef_fields.ID = pk_cimy_uef_data.FIELD_ID')
-        ->where(array(
-                        'pk_cimy_uef_data.USER_ID'  => $userId,
-                        'pk_cimy_uef_fields.NAME'   => 'DOB'
-        ));
-        $dob = $this->db->get()->result_array();
-        return $dob;
+        $dob = $this->db
+            ->select('pk_cimy_uef_data.VALUE')
+            ->from('pk_cimy_uef_data')
+            ->join('pk_cimy_uef_fields', 'pk_cimy_uef_fields.ID = pk_cimy_uef_data.FIELD_ID')
+            ->where(array(
+                'pk_cimy_uef_data.USER_ID'  => $userId,
+                'pk_cimy_uef_fields.NAME'   => 'DOB'
+            ))->get()->result_array();
+        if (empty($dob)) {
+            return '';
+        }
+        return $dob[0]['VALUE'];
     }
 
     /**
@@ -77,19 +90,19 @@ class User_Profile_Model extends CI_Model
      */
     public function getTitleByUserId($userId)
     {
-        $this->db
-        ->select('pk_cimy_uef_data.VALUE')
-        ->from('pk_cimy_uef_data')
-        ->join('pk_cimy_uef_fields', 'pk_cimy_uef_fields.ID = pk_cimy_uef_data.FIELD_ID')
-        ->where(array(
-            'pk_cimy_uef_data.USER_ID'  => $userId,
-            'pk_cimy_uef_fields.NAME'   => 'TITLE'
-        ));
-        $title = $this->db->get()->result_array()[0]['VALUE'];;
-        if ($title) {
-            return $title;
+        $title = $this->db
+            ->select('pk_cimy_uef_data.VALUE')
+            ->from('pk_cimy_uef_data')
+            ->join('pk_cimy_uef_fields', 'pk_cimy_uef_fields.ID = pk_cimy_uef_data.FIELD_ID')
+            ->where(array(
+                'pk_cimy_uef_data.USER_ID'  => $userId,
+                'pk_cimy_uef_fields.NAME'   => 'TITLE'
+            ))
+            ->get()->result_array();
+        if (empty($title)) {
+            return User_Profile_Model::INFORMATION_NOT_SET;
         }
-        return '';
+        return $title[0]['VALUE'];
     }
 
     /**
@@ -100,15 +113,17 @@ class User_Profile_Model extends CI_Model
      */
     public function getUserInfoById($userId)
     {
-        $this->db
+        $userInfo = $this->db
             ->select('pk_users.user_nicename, pk_users.user_email')
             ->from('pk_users')
-            ->where(array('ID' => $userId));
-        $userInfo = $this->db->get()->result_array()[0];
-        if ($userInfo) {
+            ->where(array('ID' => $userId))
+            ->get()->result_array();
+        if (empty($userInfo)) {
+            $userInfo['user_nicename'] = User_Profile_Model::INFORMATION_NOT_SET;
+            $userInfo['user_email'] = User_Profile_Model::INFORMATION_NOT_SET;
             return $userInfo;
         }
-        return '';
+        return $userInfo[0];
     }
 
     /**
@@ -120,11 +135,12 @@ class User_Profile_Model extends CI_Model
     public function getFriendsByUserId($userId)
     {
         $where = "((`user_id` = $userId) || (`friend_id` = $userId))";
-        $this->db
+        $friendRelations = $this->db
             ->select('*')
             ->from('pk_sc_user_friends')
-            ->where($where);
-        $friendRelations = $this->db->get()->result_array();
+            ->where($where)
+            ->get()
+            ->result_array();
         $friends = array();
         foreach ($friendRelations as $relation) {
             if ($relation['user_id'] == $userId) {
@@ -150,11 +166,11 @@ class User_Profile_Model extends CI_Model
      */
     public function getAllUserGroups($userId)
     {
-        $this->db
+        $groups = $this->db
             ->select('*')
             ->from('pk_sc_user_groups')
-            ->where('pk_sc_user_groups.user_id', $userId);
-        $groups = $this->db->get()->result_array();
+            ->where('pk_sc_user_groups.user_id', $userId)
+            ->get()->result_array();
         $data = array(
             'group'     => $groups,
             'numGroups' => count($groups)
@@ -162,23 +178,4 @@ class User_Profile_Model extends CI_Model
         return $data;
     }
 
-    /**
-     * Count all User's Group by UserId
-     *
-     * @param $userId
-     * @return int
-     */
-    public function countGroupsByUserId($userId)
-    {
-        $this->db->select('group_id')
-        ->from('pk_sc_user_groups')
-        ->where(array('user_id' => $userId));
-        $groups = count($this->db->get()->result_array());
-        $numGroups = count($this->db->get()->result_array());
-        $data = array(
-            'group'     => $groups,
-            'numFriend' => $numGroups
-        );
-        return $data;
-    }
 }

@@ -10,6 +10,7 @@ include_once('base.php');
 
 class Userprofilepage extends Base
 {
+
     /**
      * @var User_Profile_Model
      */
@@ -24,13 +25,12 @@ class Userprofilepage extends Base
     public function index()
     {
         // Information for the viewed user profile
-        $viewedUserId = $this->input->get('userId');
+        $viewedUserId = ($this->input->get('userId')) ? $this->input->get('userId') : get_current_user_id();
         $viewedPhoneNumber = $this->userProfileModel->getPhoneNumberById($viewedUserId);
         $viewedTitle = $this->userProfileModel->getTitleByUserId($viewedUserId);
         $viewedName = $this->userProfileModel->getUserInfoById($viewedUserId)['user_nicename'];
         $viewedEmail = $this->userProfileModel->getUserInfoById($viewedUserId)['user_email'];
-        $viewedDob = $this->userProfileModel->getDOBByUserId($viewedUserId);
-        $viewedDob = date("d-m-Y", strtotime($viewedDob[0]['VALUE']));
+        $viewedDob = empty($this->userProfileModel->getDOBByUserId($viewedUserId)) ? '' : date("d-m-Y", strtotime($this->userProfileModel->getDOBByUserId($viewedUserId)));
         $viewedUser = array(
             'userId'    => $viewedUserId,
             'title'     => $viewedTitle,

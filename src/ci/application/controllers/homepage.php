@@ -48,7 +48,6 @@ class Homepage extends Base
                     break;
             }
         }
-
         $this->load->view('layout/layout', array(
             'content' => $this->render('homepage/index', array('feeds' => $feeds)),
         ));
