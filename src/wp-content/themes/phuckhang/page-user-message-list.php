@@ -52,7 +52,7 @@
             <strong class="pull-left">Tin Nhắn</strong>
            <div class="pull-right">
             <a href="#" class="btn btn-default btn-sm">Nhắn tin mới</a>
-            <a href="#">(Chưa Đọc) <span class="badge">2</span></a>
+            <a href="#">(Chưa Đọc) <span class="badge" style="background-color: #0291F9;">2</span></a>
           </div>
           </div>
           
