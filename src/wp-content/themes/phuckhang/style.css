@@ -749,6 +749,12 @@ textarea.message{
   border-top: 1px solid #ddd;
 }
 
+/**
+ * Message
+ */
+.not-read{
+  font-weight: bold;
+}
 
 /**
  * Notification
@@ -804,7 +810,23 @@ textarea.message{
 }
 
 
+/**
+ * FRIENDS PAGE
+ *  */
 
+.friend-item{
+  padding: 5px;
+}
+
+.friend-name{
+  padding-top: 10px;
+  font-weight: bold;
+  display: block;
+}
+
+.friend-role{
+
+}
 
 
 /**
