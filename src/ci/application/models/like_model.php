@@ -91,4 +91,28 @@ class Like_Model extends Land_Book_Model
         $numLike = count($likes);
         return $numLike;
     }
+
+    /**
+     * Get number of User Likes a post/status by likeId and referenceId
+     * @param int $referenceId
+     * @return null|array
+     */
+    function getNumUsersLikeByLikeId($referenceId)
+    {
+        $where = [
+            'reference_id'    => $referenceId,
+        ];
+        $numUsersLike = $this->db
+            ->select('user_nicename')
+            ->from($this->tableName)
+            ->where($where)
+            ->join('pk_users', 'pk_users.ID = ' . $this->tableName . '.user_id')
+            ->get()
+            ->result_array();
+        if (empty($numUsersLike)) {
+            return '';
+        }
+        return $numUsersLike;
+    }
+
 }

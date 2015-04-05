@@ -58,15 +58,17 @@ class Homepage extends Base
                     $status = $this->statusModel->findById($feed['reference_id']);
                     $feed['html'] = $this->renderUserStatus($feed['reference_id']);
                     $numLike = $this->likeModel->countLike($status['status_id']);
+                    $numUsersLike = $this->likeModel->getNumUsersLikeByLikeId($status['status_id']);
                     $isLiked = $this->likeModel->isLiked(get_current_user_id(), $status['status_id']);
                     $likeImage = $isLiked ? 'down' : 'up';
                     $state  = $isLiked ? 'Unlike' : 'Like';
                     $comments = get_comments('type=status&number=5&order=ASC&orderBy=comment_date&status=approve&post_id=' . $status['status_id']);
                     $feed['html'] = $this->render('/homepage/feed_status', array(
-                        'groupNames'        => $groupNames,
+                        'groupNames'    => $groupNames,
                         'status'        => $status,
                         'comments'      => $comments,
                         'numLike'       => $numLike,
+                        'numUsersLike'  => $numUsersLike,
                         'likeImage'     => $likeImage,
                         'state'         => $state,
                         'referenceType' => Feed_Model::REFERENCE_TYPE_STATUS,
@@ -76,6 +78,7 @@ class Homepage extends Base
                 case Feed_Model::REFERENCE_TYPE_POST:
                     $post = get_post($feed['reference_id']);
                     $numLike = $this->likeModel->countLike($post->ID);
+                    $numUsersLike = $this->likeModel->getNumUsersLikeByLikeId($post->ID);
                     $isLiked = $this->likeModel->isLiked(get_current_user_id(), $post->ID);
                     $likeImage = $isLiked ? 'down' : 'up';
                     $state  = $isLiked ? 'Unlike' : 'Like';
@@ -86,6 +89,7 @@ class Homepage extends Base
                         'comments'      => $comments,
                         'likeImage'     => $likeImage,
                         'state'         => $state,
+                        'numUsersLike'  => $numUsersLike,
                         'numLike'       => $numLike,
                         'referenceType' => Feed_Model::REFERENCE_TYPE_POST,
                         'allowComment'  => true
@@ -110,6 +114,7 @@ class Homepage extends Base
     {
         $status = $this->statusModel->findById($statusId);
         $isLiked = $this->likeModel->isLiked(get_current_user_id(), $status['status_id']);
+        $numUsersLike = $this->likeModel->getNumUsersLikeByLikeId($status['status_id']);
         $likeImage = $isLiked ? 'down' : 'up';
         $state  = $isLiked ? 'Unlike' : 'Like';
         $numLike = $this->likeModel->countLike($status['status_id']);
@@ -118,6 +123,7 @@ class Homepage extends Base
                 'isLiked'       => $isLiked,
                 'numLike'       => $numLike,
                 'likeImage'     => $likeImage,
+                'numUsersLike'  => $numUsersLike,
                 'state'         => $state,
                 'status'        => $status,
                 'referenceType' => Feed_Model::REFERENCE_TYPE_STATUS,
@@ -245,6 +251,7 @@ class Homepage extends Base
             $newLikeId = $this->likeModel->like($likeData);
             $numLike = $this->likeModel->countLike($postId);
             $isLiked = $this->likeModel->isLiked($userId, $postId);
+            $numUsersLike = $this->likeModel->getNumUsersLikeByLikeId($postId);
             $likeImage = $isLiked ? 'down' : 'up';
             $state  = $isLiked ? 'Unlike' : 'Like';
             if ($newLikeId !== false) {
@@ -254,6 +261,7 @@ class Homepage extends Base
                     'referenceType'    => $type,
                     'userId'           => $userId,
                     'numLike'          => $numLike,
+                    'numUsersLike'     => $numUsersLike,
                     'likeImage'        => $likeImage,
                     'state'            => $state
                 ));

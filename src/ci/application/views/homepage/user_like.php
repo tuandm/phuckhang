@@ -7,7 +7,7 @@
     </div>
     <div class="social-like-count">
         <?php if ($numLike > 0) : ?>
-            <a class="num-like" href="#"><?php echo $numLike ?></a> people like this.
+            <a class="num-like" title="<?php foreach ($numUsersLike as $userLike) : ?><?php echo $userLike['user_nicename'] ?>&#13;<?php endforeach ?>" href="#"><?php echo $numLike ?></a> people like this.
         <?php else : ?>
             Làm người đầu tiên thích bài này.
         <?php endif ?>

@@ -132,3 +132,8 @@ function bindUserCommentTextArea()
         }
     });
 }
+
+function onUserLikeList()
+{
+    $('.numlike').tooltip();
+}
