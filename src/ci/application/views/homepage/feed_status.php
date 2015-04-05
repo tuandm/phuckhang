@@ -2,7 +2,7 @@
 
     <div class="row">
         <div class="person col-lg-3 col-xs-3">
-            <img class="medium-avatar" src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/profile/tony_nguyen.jpg" height="100" width="100" alt="">
+            <a href="/social-userprofilepage/?index&userId=<?php echo $status['user_id'] ?>" ><?php echo get_simple_local_avatar($status['user_id'], 100) ?></a>
         </div>
 
         <div class="feed-content col-lg-9 col-xs-9">
@@ -13,12 +13,11 @@
 
             <div>
                 <?php if (get_current_user_id()) : ?>
-                    <?php echo $this->view('/homepage/user_like',[
+                    <?php echo $this->view('/homepage/user_like', [
                         'referenceType'     => $referenceType,
                         'postId'            => $status['status_id'],
                         'numLike'           => $numLike
-                    ])
-                    ?>
+                    ]) ?>
                 <?php endif ?>
             </div>
         </div>

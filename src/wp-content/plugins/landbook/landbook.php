@@ -50,23 +50,21 @@ class LandBook {
 
             $this->loader->addAction('admin_menu', $this->hook, 'createMenuItems', 999);
             $this->register_css();
-            $this->loader->addAction('init', $this->hook, 'createScGroupTaxonomy');
             // AJAX action is handled by wp-admin/admin-ajax.php
             $this->loader->addAction('wp_ajax_project_products', $this->hook, 'projectProducts');
         } else {
             // Register shortcode handler
-            $this->loader->addAction('init', $this->hook, 'createScGroupTaxonomy');
             $this->loader->addShortcode('landbook', $this->hook, 'handleShortcode');
 
             // Register redirect page after login
 //            $this->loader->addFilter('login_redirect', $this->hook, 'redirectUserProfile');
 
-            add_filter('login_redirect', array($this, 'redirectUserProfile'), 10, 3);
             $this->register_js();
 
         }
 
         // Hooking
+        add_filter('login_redirect', array($this, 'redirectUserProfile'), 10, 3);
         $this->registerHooks();
     }
 
@@ -94,6 +92,7 @@ class LandBook {
 
     public function registerHooks()
     {
+        $this->loader->addAction('init', $this->hook, 'createScGroupTaxonomy');
         $this->loader->addAction('save_post', $this->hook, 'processAfterSavingPost', 10, 3);
         $this->loader->run();
     }

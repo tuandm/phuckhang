@@ -25,12 +25,18 @@ class Homepage extends Base
      */
     public $statusModel;
 
+    /**
+     * @var User_Profile_Model
+     */
+    public $userProfileModel;
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Feed_Model', 'feedModel');
         $this->load->model('Status_Model', 'statusModel');
         $this->load->model('Like_Model', 'likeModel');
+        $this->load->model('userprofile/User_Profile_Model', 'userProfileModel');
     }
 
     /**
@@ -39,6 +45,13 @@ class Homepage extends Base
     public function index()
     {
         $feeds = $this->feedModel->getNewFeeds();
+        $groups = $this->userProfileModel->getAllUserGroups(get_current_user_id());
+        if ($groups['numGroups'] === 0) {
+            $groupNames = '';
+        }
+        foreach ($groups['group'] as $group) {
+            $groupNames[] = get_term($group['group_id'], 'sc_group', ARRAY_A)['name'];
+        }
         foreach ($feeds as $key => &$feed) {
             switch ($feed['reference_type']) {
                 case Feed_Model::REFERENCE_TYPE_STATUS:
@@ -50,6 +63,7 @@ class Homepage extends Base
                     $state  = $isLiked ? 'Unlike' : 'Like';
                     $comments = get_comments('type=status&number=5&order=ASC&orderBy=comment_date&status=approve&post_id=' . $status['status_id']);
                     $feed['html'] = $this->render('/homepage/feed_status', array(
+                        'groupNames'        => $groupNames,
                         'status'        => $status,
                         'comments'      => $comments,
                         'numLike'       => $numLike,
@@ -67,6 +81,7 @@ class Homepage extends Base
                     $state  = $isLiked ? 'Unlike' : 'Like';
                     $comments = get_comments('type=post&number=5&order=ASC&orderBy=comment_date&status=approve&post_id=' . $post->ID);
                     $feed['html'] = $this->render('/homepage/feed_post', array(
+                        'groupNames'    => $groupNames,
                         'post'          => $post,
                         'comments'      => $comments,
                         'likeImage'     => $likeImage,
@@ -100,13 +115,13 @@ class Homepage extends Base
         $numLike = $this->likeModel->countLike($status['status_id']);
         if ($status !== false && is_array($status)) {
             return $this->render('/homepage/feed_status', array(
-                'isLiked' => $isLiked,
-                'numLike' => $numLike,
+                'isLiked'       => $isLiked,
+                'numLike'       => $numLike,
                 'likeImage'     => $likeImage,
                 'state'         => $state,
-                'status' => $status,
+                'status'        => $status,
                 'referenceType' => Feed_Model::REFERENCE_TYPE_STATUS,
-                'allowComment' => true
+                'allowComment'  => true
             ));
         } else {
             return '';
@@ -146,6 +161,7 @@ class Homepage extends Base
     }
 
     /**
+     * Handle status posting
      * @return array
      */
     public function handlePostComment()
@@ -161,6 +177,7 @@ class Homepage extends Base
         if (!in_array($type, [Feed_Model::REFERENCE_TYPE_POST, Feed_Model::REFERENCE_TYPE_STATUS])) {
             $response['result'] = 'Invalid Type';
         }
+
         if ($userId === 0) {
             $response['result'] = 'Please login first';
         }
@@ -199,6 +216,7 @@ class Homepage extends Base
         return $response;
     }
     /**
+     * Handle like
      * @return array
      */
     public function handleLikeComment()
@@ -213,9 +231,11 @@ class Homepage extends Base
         if ($userId === 0) {
             $response['result'] = 'Please login first';
         }
+
         if (empty($postId)) {
             $response['result'] = 'Invalid post';
         }
+
         if (empty($response['result'])) {
             $likeData = array(
                 'referenceId'      => $postId,

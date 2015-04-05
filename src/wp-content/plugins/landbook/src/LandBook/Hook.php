@@ -65,7 +65,7 @@ class LandBook_Hook
     public function processAfterSavingPost($postId, $post, $update)
     {
         // For now, we just add to feed when new post is posted.
-        if (!$update && (get_post_status($postId) == 'inherit')) {
+        if (get_post_status($postId) == 'publish') {
             $userId = get_current_user_id();
             $feedModel = new LandBook_Model_Feed();
             $feedModel->insertFeedAfterPublishPost($userId, $postId);
@@ -94,7 +94,7 @@ class LandBook_Hook
         }
     }
 
-    /**
+    /** Create sc_group taxonomy
      *
      */
     function createScGroupTaxonomy()

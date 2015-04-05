@@ -1,11 +1,11 @@
 <div class="row">
     <div class="person col-lg-3 col-xs-3">
-        <img class="medium-avatar" src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/profile/phuc_nguyen.jpg" height="100" width="100" alt="">
+        <a href="/social-userprofilepage/?index&userId=<?php echo $post->post_author ?>" ><?php echo get_simple_local_avatar($post->post_author, 100) ?></a>
     </div>
     <div class="feed-content col-lg-9 col-xs-9">
-        <a href="#"><?php echo get_the_author_meta('display_name', $post->post_author) ?> </a> shared<br /><br />
+        <a href="/social-userprofilepage/?index&userId=<?php echo $post->post_author ?>" ><?php echo get_the_author_meta('display_name', $post->post_author) ?></a> shared<br /><br />
 
-        <p>"<?php echo $post->post_title ?>" <br /><br />
+        <p><a href="<?php echo get_permalink($post->ID) ?> ">"<?php echo $post->post_title ?>"</a> <br /><br />
             <?php
                 $striptagFromContent = strip_tags($post->post_content);
                 echo $content = wp_trim_words($striptagFromContent, 100, null);
@@ -17,7 +17,8 @@
                     'referenceType' => $referenceType,
                     'postId'        => $post->ID,
                     'numLike'       => $numLike
-                ]) ?>
+                ])
+                ?>
             <?php endif ?>
         </div>
     </div>

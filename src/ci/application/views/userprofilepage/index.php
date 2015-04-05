@@ -11,7 +11,6 @@
                     'numGroups'     => $loginUser['numGroups'],
                 ])
             ?>
-
             <?php echo $this->view('/userprofilepage/user_viewed_info',
                 [
                     'userId'        => $viewedUser['userId'],
