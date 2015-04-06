@@ -1,0 +1,1 @@
+﻿UPDATE pk_options SET option_value = 'http://phuckhang.tangkinhcac.info/' WHERE option_value = 'http://phuckhang.dev';

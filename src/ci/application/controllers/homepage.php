@@ -7,23 +7,268 @@
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Homepage extends CI_Controller
+include_once('base.php');
+class Homepage extends Base
 {
     /**
      * @var Feed_Model
      */
     public $feedModel;
 
+    /**
+     * @var Like_Model
+     */
+    public $likeModel;
+
+    /**
+     * @var Status_Model
+     */
+    public $statusModel;
+
+    /**
+     * @var User_Profile_Model
+     */
+    public $userProfileModel;
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Feed_Model', 'feedModel');
+        $this->load->model('Status_Model', 'statusModel');
+        $this->load->model('Like_Model', 'likeModel');
+        $this->load->model('userprofile/User_Profile_Model', 'userProfileModel');
     }
+
+    /**
+     *
+     */
     public function index()
     {
         $feeds = $this->feedModel->getNewFeeds();
+        $groups = $this->userProfileModel->getAllUserGroups(get_current_user_id());
+        if ($groups['numGroups'] === 0) {
+            $groupNames = '';
+        }
+        foreach ($groups['group'] as $group) {
+            $groupNames[] = get_term($group['group_id'], 'sc_group', ARRAY_A)['name'];
+        }
+        foreach ($feeds as $key => &$feed) {
+            switch ($feed['reference_type']) {
+                case Feed_Model::REFERENCE_TYPE_STATUS:
+                    $status = $this->statusModel->findById($feed['reference_id']);
+                    $feed['html'] = $this->renderUserStatus($feed['reference_id']);
+                    $numLike = $this->likeModel->countLike($status['status_id']);
+                    $numUsersLike = $this->likeModel->getNumUsersLikeByLikeId($status['status_id']);
+                    $isLiked = $this->likeModel->isLiked(get_current_user_id(), $status['status_id']);
+                    $likeImage = $isLiked ? 'down' : 'up';
+                    $state  = $isLiked ? 'Unlike' : 'Like';
+                    $comments = get_comments('type=status&number=5&order=ASC&orderBy=comment_date&status=approve&post_id=' . $status['status_id']);
+                    $feed['html'] = $this->render('/homepage/feed_status', array(
+                        'groupNames'    => $groupNames,
+                        'status'        => $status,
+                        'comments'      => $comments,
+                        'numLike'       => $numLike,
+                        'numUsersLike'  => $numUsersLike,
+                        'likeImage'     => $likeImage,
+                        'state'         => $state,
+                        'referenceType' => Feed_Model::REFERENCE_TYPE_STATUS,
+                        'allowComment'  => true
+                    ));
+                    break;
+                case Feed_Model::REFERENCE_TYPE_POST:
+                    $post = get_post($feed['reference_id']);
+                    $numLike = $this->likeModel->countLike($post->ID);
+                    $numUsersLike = $this->likeModel->getNumUsersLikeByLikeId($post->ID);
+                    $isLiked = $this->likeModel->isLiked(get_current_user_id(), $post->ID);
+                    $likeImage = $isLiked ? 'down' : 'up';
+                    $state  = $isLiked ? 'Unlike' : 'Like';
+                    $comments = get_comments('type=post&number=5&order=ASC&orderBy=comment_date&status=approve&post_id=' . $post->ID);
+                    $feed['html'] = $this->render('/homepage/feed_post', array(
+                        'groupNames'    => $groupNames,
+                        'post'          => $post,
+                        'comments'      => $comments,
+                        'likeImage'     => $likeImage,
+                        'state'         => $state,
+                        'numUsersLike'  => $numUsersLike,
+                        'numLike'       => $numLike,
+                        'referenceType' => Feed_Model::REFERENCE_TYPE_POST,
+                        'allowComment'  => true
+                    ));
+                    break;
+                default;
+                    break;
+            }
+        }
         $this->load->view('layout/layout', array(
-            "content" => $this->render('homepage/index')
+            'content' => $this->render('homepage/index', array('feeds' => $feeds)),
         ));
+    }
+
+    /**
+     * Return status block
+     *
+     * @param $statusId
+     * @return string
+     */
+    private function renderUserStatus($statusId)
+    {
+        $status = $this->statusModel->findById($statusId);
+        $isLiked = $this->likeModel->isLiked(get_current_user_id(), $status['status_id']);
+        $numUsersLike = $this->likeModel->getNumUsersLikeByLikeId($status['status_id']);
+        $likeImage = $isLiked ? 'down' : 'up';
+        $state  = $isLiked ? 'Unlike' : 'Like';
+        $numLike = $this->likeModel->countLike($status['status_id']);
+        if ($status !== false && is_array($status)) {
+            return $this->render('/homepage/feed_status', array(
+                'isLiked'       => $isLiked,
+                'numLike'       => $numLike,
+                'likeImage'     => $likeImage,
+                'numUsersLike'  => $numUsersLike,
+                'state'         => $state,
+                'status'        => $status,
+                'referenceType' => Feed_Model::REFERENCE_TYPE_STATUS,
+                'allowComment'  => true
+            ));
+        } else {
+            return '';
+        }
+
+    }
+
+    /**
+     * Handle status posting
+     */
+    public function handlePostStatus()
+    {
+        $status = trim($this->input->post('txtUserStatus'));
+        $userId = get_current_user_id();
+        $response = array(
+            'success'   => false,
+            'result'    => ''
+        );
+        if ($userId === 0) {
+            $response['result'] = 'Please login first';
+        }
+
+        if (empty($status)) {
+            $response['result'] = 'Please input status';
+        }
+
+        if (empty($response['result'])) {
+            $statusId = $this->statusModel->addUserStatus($userId, $status);
+            if ($statusId !== false) {
+                $response['success'] = true;
+                $response['result'] = $this->renderUserStatus($statusId);
+            } else {
+                $response['result'] = 'Can not post status. Please try again.';
+            }
+        }
+        return $response;
+    }
+
+    /**
+     * Handle status posting
+     * @return array
+     */
+    public function handlePostComment()
+    {
+        $comment = trim($this->input->post('txtUserComment'));
+        $postId = (int) $this->input->post('postId');
+        $type = $this->input->post('type');
+        $userId = get_current_user_id();
+        $response = array(
+            'success'   => false,
+            'result'    => ''
+        );
+        if (!in_array($type, [Feed_Model::REFERENCE_TYPE_POST, Feed_Model::REFERENCE_TYPE_STATUS])) {
+            $response['result'] = 'Invalid Type';
+        }
+
+        if ($userId === 0) {
+            $response['result'] = 'Please login first';
+        }
+
+        if (empty($comment)) {
+            $response['result'] = 'Please input comment';
+        }
+
+        if (empty($postId)) {
+            $response['result'] = 'Invalid post';
+        }
+
+        if (empty($response['result'])) {
+            $currentUser = wp_get_current_user();
+            $commentData = array(
+                'comment_post_ID'       => $postId,
+                'comment_author'        => $currentUser->display_name,
+                'comment_author_email'  => $currentUser->user_email,
+                'comment_content'       => $comment,
+                'comment_type'          => $type,
+                'comment_parent'        => 0,
+                'user_id'               => $currentUser->ID,
+                'comment_author_IP'     => $this->input->ip_address(),
+                'comment_agent'         => $this->input->user_agent(),
+                'comment_date'          => date('Y-m-d H:i:s'),
+                'comment_approved'      => 1,
+            );
+            $newCommentId = wp_insert_comment($commentData);
+            if ($newCommentId !== false) {
+                $response['success'] = true;
+                $response['result'] = $this->render('/layout/partial/comment', array('comment' => get_comment($newCommentId)));
+            } else {
+                $response['result'] = 'Can not post comment. Please try again.';
+            }
+        }
+        return $response;
+    }
+    /**
+     * Handle like
+     * @return array
+     */
+    public function handleLikeComment()
+    {
+        $postId = (int) $this->input->post('postId');
+        $type = $this->input->post('type');
+        $userId = get_current_user_id();
+        $response = array(
+            'success'   => false,
+            'result'    => ''
+        );
+        if ($userId === 0) {
+            $response['result'] = 'Please login first';
+        }
+
+        if (empty($postId)) {
+            $response['result'] = 'Invalid post';
+        }
+
+        if (empty($response['result'])) {
+            $likeData = array(
+                'referenceId'      => $postId,
+                'referenceType'    => $type,
+                'userId'           => $userId,
+            );
+            $newLikeId = $this->likeModel->like($likeData);
+            $numLike = $this->likeModel->countLike($postId);
+            $isLiked = $this->likeModel->isLiked($userId, $postId);
+            $numUsersLike = $this->likeModel->getNumUsersLikeByLikeId($postId);
+            $likeImage = $isLiked ? 'down' : 'up';
+            $state  = $isLiked ? 'Unlike' : 'Like';
+            if ($newLikeId !== false) {
+                $response['success'] = true;
+                $response['result'] = $this->render('homepage/user_like', array(
+                    'postId'           => $postId,
+                    'referenceType'    => $type,
+                    'userId'           => $userId,
+                    'numLike'          => $numLike,
+                    'numUsersLike'     => $numUsersLike,
+                    'likeImage'        => $likeImage,
+                    'state'            => $state
+                ));
+            } else {
+                $response['result'] = "Can not like $type. Please try again.";
+            }
+        }
+        return $response;
     }
 }

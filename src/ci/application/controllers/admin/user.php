@@ -125,6 +125,8 @@ class User extends CI_Controller
     function updateUserGroups()
     {
         global $wpdb;
+        $insertResult = true;
+        $deleteResult = true;
         $updateData = $this->input->post();
         $terms = get_terms('sc_group', array('hide_empty' => false));
         $userId = filter_input(INPUT_POST, 'user_id');
