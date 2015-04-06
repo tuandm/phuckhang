@@ -201,28 +201,4 @@ class LandBook_Hook
         wp_redirect(home_url('/wp-admin/admin.php?page=landbook-users'));
         exit;
     }
-
-
-    /**
-     * Redirect to land-post after edit a post which belongs to sc_group
-     *
-     * @param string $location
-     * @return string $location
-     */
-    public function redirectPage($location)
-    {
-        global $post;
-        $pl = get_permalink($post->ID);
-        if (filter_input(INPUT_POST, 'publish') || filter_input(INPUT_POST, 'save')) {
-            if (preg_match('/post=([0-9]*)/', $location, $match) && $post->ID == $match[1]) {
-                if (is_object_in_term($post->ID, 'sc_group') && ($post->post_status == 'publish') && $pl) {
-                    $location = home_url('/wp-admin/admin.php?page=landbook-posts');
-                }
-            }
-        } else {
-            $location = $pl;
-        }
-        return $location;
-    }
-
 }
