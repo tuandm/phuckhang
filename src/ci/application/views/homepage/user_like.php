@@ -1,4 +1,9 @@
 <div class="social-tools-wrap social-user-like_<?php echo $postId ?>">
+    <div><?php
+            $time = strtotime($postDate);
+            echo timespan($time, time()) . ' ago';
+        ?>
+    </div>
     <div class="social-tools">
         <i class="fa fa-thumbs-o-<?php echo $likeImage ?>" id="like"> </i>
         <a href="#" class="user-like like-type-<?php echo $referenceType?>" id="like_<?php echo $postId ?>"> <?php echo $state ?> </a> ·
