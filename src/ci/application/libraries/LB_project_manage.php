@@ -121,6 +121,7 @@ class MY_LB_Project_Manage extends WP_List_Table
                     if (in_array($column_name, $hidden)) {
                         $style = ' style="display:none;"';
                     }
+
                     switch ($rec['status']) {
                         case 1: $statusName = 'Sold';
                             break;
@@ -128,7 +129,10 @@ class MY_LB_Project_Manage extends WP_List_Table
                             break;
                         case 3: $statusName = 'Unsold';
                             break;
+                        default: $statusName = 'N/A';
+                            break;
                     }
+
                     $attributes = "$class$style";
                     switch ($column_name) {
                         case 'cb':
