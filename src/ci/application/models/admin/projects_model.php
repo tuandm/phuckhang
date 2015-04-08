@@ -113,6 +113,7 @@ class Projects_Model extends Land_Book_Model {
     {
         if ($status == 0) {
             $results = $this->db->select('*')
+                            ->like('name', $name)
                             ->from('pk_lb_projects')
                             ->count_all_results();
         } else {

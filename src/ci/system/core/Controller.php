@@ -29,6 +29,11 @@
  */
 class CI_Controller {
 
+	/**
+	 * @var CI_Input
+	 */
+	public $input;
+
 	private static $instance;
 
 	/**
@@ -56,20 +61,6 @@ class CI_Controller {
 	public static function &get_instance()
 	{
 		return self::$instance;
-	}
-
-	/**
-	 * Render view file and return renderred content
-	 *
-	 * @param string $view file path
-	 * @param array $data
-	 * @return string
-	 */
-	public function render($view, array $data = array())
-	{
-		ob_start();
-		$this->load->view($view, $data);
-		return ob_get_clean();
 	}
 }
 // END Controller class
