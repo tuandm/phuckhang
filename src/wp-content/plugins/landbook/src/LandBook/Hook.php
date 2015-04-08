@@ -37,7 +37,7 @@ class LandBook_Hook
             array('posts', LandBook_Posts::getInstance()),
             array('users', LandBook_Users::getInstance()),
         );
-        add_menu_page( 'Landbook', 'Landbook', 'manage_options', 'landbook', array($this, 'settings') );
+        add_menu_page( 'Landbook', 'Landbook', 'manage_options', 'landbook', array(LandBook::getInstance(), 'settings') );
         foreach ($subMenus as $subMenu) {
             $menuName = $subMenu[0];
             $menuHandler = $subMenu[1];
