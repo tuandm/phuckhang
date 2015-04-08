@@ -1,5 +1,6 @@
 <div class="social-tools-wrap social-user-like_<?php echo $postId ?>">
-    <div><?php
+    <div>
+        <?php
             $time = strtotime($postDate);
             echo timespan($time, time()) . ' ago';
         ?>
