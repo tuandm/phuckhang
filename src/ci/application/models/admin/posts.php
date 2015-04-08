@@ -10,7 +10,7 @@ class Posts extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('Sc_Post_Management');
+        $this->load->library('sc_post_management');
     }
 
     /**
