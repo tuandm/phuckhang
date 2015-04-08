@@ -8,7 +8,7 @@
     */
 define('PERPAGE', 5);
 
-class MY_LB_Project_Manage extends WP_List_Table
+class Lb_Project_Management extends WP_List_Table
 {
     /**
      * Constructor, we override the parent to pass our own arguments

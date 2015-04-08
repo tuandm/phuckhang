@@ -19,12 +19,12 @@ class Product extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('lbProductManage');
+        $this->load->library('lb_product_management');
         $this->load->model('admin/Products_Model', 'productModel');
         $this->load->library('form_validation');
         $this->load->database();
         $this->load->helper('url');
-        $this->productTable = new MY_LBProductManage();
+        $this->productTable = new Lb_Product_Management();
         $this->load->library('upload');
         foreach ($this->statusValues as $value) {
             $this->statusNames[$value] = $this->productModel->getNameStatusByNumber($value);
