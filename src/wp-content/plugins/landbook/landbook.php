@@ -152,5 +152,6 @@ class LandBook
 
         require SRC_FOLDER . DIRECTORY_SEPARATOR . $fileName;
     }
+
 }
 add_action('plugins_loaded', array('LandBook', 'getInstance'));
