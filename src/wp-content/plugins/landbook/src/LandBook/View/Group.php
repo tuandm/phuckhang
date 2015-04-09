@@ -1,8 +1,17 @@
 <?php
 class LandBook_View_Group
 {
-    public function selectGroup($terms, $results)
-    { ?>
+    public function selectUserGroup($user)
+    {
+        $groupModel = new LandBook_Model_Group();
+        $tax = get_taxonomy('sc_group');
+        $results = $groupModel->getGroupIdByUserId($user);
+        // Make sure the user can assign terms of the sc_group taxonomy before proceeding.
+        if (!current_user_can($tax->cap->assign_terms))
+            return;
+        // Get the terms of the 'sc_group' taxonomy
+        $terms = get_terms('sc_group', array('hide_empty' => false));
+        // If there are any profession terms, loop through them and display checkboxes.?>
         <h3><?php _e('Group');?></h3>
         <table class="form-table">
             <tr>

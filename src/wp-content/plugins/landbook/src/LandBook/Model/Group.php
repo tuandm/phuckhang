@@ -82,4 +82,52 @@ class LandBook_Model_Group extends LandBook_Model {
         $groupId = $this->getWpdb()->get_col("SELECT group_id FROM pk_sc_user_groups WHERE user_id = $user->ID");
         return $groupId;
     }
+
+    /**
+     *
+     */
+    function updateUserGroups()
+    {
+        $updateData = filter_input_array(INPUT_POST);
+        $userId = filter_input(INPUT_POST, 'user_id');
+        $postUserGroups = filter_input(INPUT_POST, 'group', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        if ($postUserGroups == null) {
+            return ;
+        }
+        $results = $this->getScGroupByUserId($userId);
+        $currentUserGroups = wp_list_pluck($results, 'name', 'group_id');
+        if (!is_admin()) {
+            die ('You do not have permission to edit this user');
+        }
+
+        if ($postUserGroups == null) {
+            $deleteData = array('user_id' =>  $userId);
+            $this->deleteGroup($deleteData);
+        }
+
+        $this->updateGroup($updateData, $userId);
+        foreach ($postUserGroups as $postUserGroup) {
+            $checkGroup = in_array($postUserGroup, $currentUserGroups) ? 1 : 0;
+            if ($checkGroup == 0) {
+                $groupId = $this->getGroupIdByName($postUserGroup);
+                $insertData = array(
+                    'user_id'   => $userId,
+                    'group_id'  => $groupId
+                );
+                $this->insertGroup($insertData);
+            }
+        }
+
+        foreach ($currentUserGroups as $groupId => $currentUserGroup) {
+            $checkGroup = in_array($currentUserGroup, $postUserGroups) ? 1 : 0;
+            if ($checkGroup == 0) {
+                $deleteDataWithGroupId = array(
+                    'group_id'  => $groupId,
+                    'user_id'   => $userId
+                );
+                $this->deleteGroup($deleteDataWithGroupId);
+            }
+        }
+    }
+
 }

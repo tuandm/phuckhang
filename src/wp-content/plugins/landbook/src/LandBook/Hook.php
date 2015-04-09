@@ -82,8 +82,6 @@ class LandBook_Hook
         global $user;
         $redirect_to = home_url('/wp-login');
         if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-            var_dump(filter_input_array(INPUT_POST));
-            die();
             if ( in_array( 'administrator', $user->roles ) ) {
                 // redirect them to the default place
                 return $redirect_to;
@@ -130,46 +128,7 @@ class LandBook_Hook
     function updateUserGroups()
     {
         $groupModel = new LandBook_Model_Group();
-        $updateData = filter_input_array(INPUT_POST);
-        $userId = filter_input(INPUT_POST, 'user_id');
-        $postUserGroups = filter_input(INPUT_POST, 'group', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
-        if ($postUserGroups == null) {
-            return ;
-        }
-        $results = $groupModel->getScGroupByUserId($userId);
-        $currentUserGroups = wp_list_pluck($results, 'name', 'group_id');
-        if (!is_admin()) {
-            die ('You do not have permission to edit this user');
-        }
-
-        if ($postUserGroups == null) {
-            $deleteData = array('user_id' =>  $userId);
-            $groupModel->deleteGroup($deleteData);
-        }
-
-        $groupModel->updateGroup($updateData, $userId);
-        foreach ($postUserGroups as $postUserGroup) {
-            $checkGroup = in_array($postUserGroup, $currentUserGroups) ? 1 : 0;
-            if ($checkGroup == 0) {
-                $groupId = $groupModel->getGroupIdByName($postUserGroup);
-                $insertData = array(
-                    'user_id'   => $userId,
-                    'group_id'  => $groupId
-                );
-                $groupModel->insertGroup($insertData);
-            }
-        }
-
-        foreach ($currentUserGroups as $groupId => $currentUserGroup) {
-            $checkGroup = in_array($currentUserGroup, $postUserGroups) ? 1 : 0;
-            if ($checkGroup == 0) {
-                $deleteDataWithGroupId = array(
-                    'group_id'  => $groupId,
-                    'user_id'   => $userId
-                );
-                $groupModel->deleteGroup($deleteDataWithGroupId);
-            }
-        }
+        $groupModel->updateUserGroups();
     }
 
     /**
@@ -178,17 +137,8 @@ class LandBook_Hook
      */
     public function selectGroup($user)
     {
-        $groupModel = new LandBook_Model_Group();
         $selectGroupView = new LandBook_View_Group();
-        $tax = get_taxonomy('sc_group');
-        $results = $groupModel->getGroupIdByUserId($user);
-        // Make sure the user can assign terms of the sc_group taxonomy before proceeding.
-        if (!current_user_can($tax->cap->assign_terms))
-            return;
-        // Get the terms of the 'sc_group' taxonomy
-        $terms = get_terms('sc_group', array('hide_empty' => false));
-        // If there are any profession terms, loop through them and display checkboxes.
-        $selectGroupView->selectGroup($terms, $results);
+        $selectGroupView->selectUserGroup($user);
     }
 
     public function profileRedirect()
