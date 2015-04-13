@@ -84,4 +84,27 @@ add_action( 'wp_enqueue_scripts', 'phuckhang_scripts' );
 function phuckhang_entry_meta()
 {
 }
+
+/**
+ *
+ */
+function doctype_opengraph($output)
+{
+   return $output . '
+   xmlns:og = "http://opengraphprotocol.org/schema/"
+   xmlns: fb = "http://www.facebook.com/2008/fbml"';
+}
+/**
+ *
+ */
+function fb_opengraph()
+{ ?>
+    <meta property="og:title" content="TESTING" />
+    <meta property="og:url" content="phuckhang.dev" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="YOUR DESCRIPTION HERE" />
+    <meta property="og:image" content="YOUR THUMBNAIL URL HERE" />
+<?php }
+
+add_action('wp_head', 'fb_opengraph', 5);
 ?>

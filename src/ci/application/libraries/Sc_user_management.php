@@ -114,7 +114,7 @@ class Sc_User_Management extends WP_List_Table
     {
         static $row_class = '';
         $row_class = ($row_class == '' ? ' class="alternate"' : '');
-        list ($columns, $hidden, $sortableCol) = $this->get_column_info();
+        list ($columns, $hidden) = $this->get_column_info();
         $records = $this->items;
         if (!empty($this->items)) {
             foreach ($records as $rec) {
