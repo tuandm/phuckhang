@@ -30,22 +30,25 @@ class Userprofilepage extends Base
         $viewedTitle = $this->userProfileModel->getTitleByUserId($viewedUserId);
         $viewedName = $this->userProfileModel->getUserInfoById($viewedUserId)['user_nicename'];
         $viewedEmail = $this->userProfileModel->getUserInfoById($viewedUserId)['user_email'];
+        $viewedFriends = $this->userProfileModel->getFriendsByUserId($viewedUserId);
         $viewedDob = empty($this->userProfileModel->getDOBByUserId($viewedUserId)) ? '' : date("d-m-Y", strtotime($this->userProfileModel->getDOBByUserId($viewedUserId)));
         $viewedUser = array(
-            'userId'    => $viewedUserId,
-            'title'     => $viewedTitle,
-            'phone'     => $viewedPhoneNumber,
-            'name'      => $viewedName,
-            'email'     => $viewedEmail,
-            'dob'       => $viewedDob
+            'userId'        => $viewedUserId,
+            'title'         => $viewedTitle,
+            'phone'         => $viewedPhoneNumber,
+            'name'          => $viewedName,
+            'email'         => $viewedEmail,
+            'dob'           => $viewedDob,
+            'friendIds'     => $viewedFriends['friendId'],
+            'numFriends'    => $viewedFriends['numFriend']
         );
 
         // Information for login user profile
         $loginUserId = get_current_user_id();
         $loginName = $this->userProfileModel->getUserInfoById($loginUserId)['user_nicename'];
         $loginTitle = $this->userProfileModel->getTitleByUserId($loginUserId);
-        $loginFriends = $this->userProfileModel->getFriendsByUserId($loginUserId);
         $loginGroups = $this->userProfileModel->getAllUserGroups($loginUserId);
+        $loginFriends = $this->userProfileModel->getFriendsByUserId($loginUserId);
 
         if ($loginGroups['numGroups'] === 0) {
             $loginGroupNames = '';
@@ -59,13 +62,12 @@ class Userprofilepage extends Base
             'name'          => $loginName,
             'numGroups'     => $loginGroups['numGroups'],
             'groupNames'    => $loginGroupNames,
-            'numFriends'    => $loginFriends['numFriend'],
-            'friendIds'     => $loginFriends['friendId'],
+            'numFriends'    => $loginFriends['numFriend']
         );
         $this->load->view('layout/layout', array(
             'content' => $this->render('userprofilepage/index', array(
-                'viewedUser' => $viewedUser,
-                'loginUser' => $loginUser
+                'viewedUser'    => $viewedUser,
+                'loginUser'     => $loginUser
             ))
         ));
     }
