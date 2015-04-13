@@ -47,11 +47,32 @@ class LandBook_Model
      */
     public function getRow($query, $params)
     {
-        if (empty($params)) {
-            return $this->getWpdb()->get_row($query);
-        } else {
-            return $this->getWpdb()->get_row($this->getWpdb()->prepare($query, $params));
-        }
+        return $this->getWpdb()->get_row($this->_prepareQuery($query, $params));
     }
 
+    /**
+     * Retrieve an entire SQL result set from the database.
+     *
+     * @param string|null $query SQL query.
+     * @param @param array|mixed $args The array of variables to substitute into the query's placeholders
+     * @return mixed Database query result in OBJECT format or null on failure
+     */
+    public function getResults($query, $params)
+    {
+        return $this->getWpdb()->get_results($this->_prepareQuery($query, $params));
+    }
+
+    /**
+     * Prepare the query if needed
+     * @param string $query
+     * @param array|null $params
+     * @return string Prepared query
+     */
+    private function _prepareQuery($query, $params)
+    {
+        if (empty($params)) {
+            return $query;
+        }
+        return $this->getWpdb()->prepare($query, $params);
+    }
 }

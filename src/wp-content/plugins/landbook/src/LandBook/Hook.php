@@ -240,4 +240,15 @@ class LandBook_Hook
         return $location;
     }
 
+    /**
+     * Handle all actions need to be hooked after an activity is created
+     *
+     * @param int $activityId
+     */
+    public function processAfterSavingActivity($activityId)
+    {
+        $notificationModel = new LandBook_Model_Notification();
+        $notificationModel->createNotificationsOfActivity($activityId);
+    }
+
 }

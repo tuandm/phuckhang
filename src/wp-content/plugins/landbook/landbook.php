@@ -100,6 +100,7 @@ class LandBook
         $this->loader->addAction('edit_user_profile', $this->hook, 'selectGroup');
         $this->loader->addAction('profile_update', $this->hook, 'profileRedirect');
         $this->loader->addAction('edit_user_profile_update', $this->hook, 'updateUserGroups');
+        $this->loader->addAction('save_activity', $this->hook, 'processAfterSavingActivity');
         add_filter('redirect_post_location', array($this, 'redirectPage'), 10, 3);
 
         $this->loader->run();
@@ -154,4 +155,5 @@ class LandBook
     }
 
 }
+
 add_action('plugins_loaded', array('LandBook', 'getInstance'));
