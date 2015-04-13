@@ -63,6 +63,7 @@ class LandBook
             $this->register_js();
         }
         // Hooking
+        add_filter('redirect_post_location', array($this, 'redirectPage'), 10, 3);
         add_filter('login_redirect', array($this, 'redirectUserProfile'), 10, 3);
         add_filter('redirect_post_location', array($this, 'redirectPage'), 10, 3);
         $this->registerHooks();
@@ -101,6 +102,7 @@ class LandBook
         $this->loader->addAction('edit_user_profile', $this->hook, 'selectGroup');
         $this->loader->addAction('profile_update', $this->hook, 'profileRedirect');
         $this->loader->addAction('edit_user_profile_update', $this->hook, 'updateUserGroups');
+        $this->loader->addAction('save_activity', $this->hook, 'processAfterSavingActivity');
         $this->loader->run();
     }
 
@@ -152,5 +154,28 @@ class LandBook
         require SRC_FOLDER . DIRECTORY_SEPARATOR . $fileName;
     }
 
+    /**
+     * Redirect to land-post after edit a post which belongs to sc_group
+     *
+     * @param string $location
+     * @return string $location
+     */
+    public function redirectPage($location)
+    {
+        global $post;
+        $pl = get_permalink($post->ID);
+        if (filter_input(INPUT_POST, 'publish') || filter_input(INPUT_POST, 'save')) {
+            if (preg_match('/post=([0-9]*)/', $location, $match) && $post->ID == $match[1]) {
+                if (is_object_in_term($post->ID, 'sc_group') && ($post->post_status == 'publish') && $pl) {
+                    $location = home_url('/wp-admin/admin.php?page=landbook-posts');
+                }
+            }
+        } else {
+            $location = $pl;
+        }
+        return $location;
+    }
+
 }
+
 add_action('plugins_loaded', array('LandBook', 'getInstance'));

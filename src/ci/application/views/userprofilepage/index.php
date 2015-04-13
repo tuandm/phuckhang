@@ -19,8 +19,8 @@
                     'name'          => $viewedUser['name'],
                     'email'         => $viewedUser['email'],
                     'dob'           => $viewedUser['dob'],
-                    'numFriends'    => $loginUser['numFriends'],
-                    'friendIds'     => $loginUser['friendIds']
+                    'friendIds'     => $viewedUser['friendIds'],
+                    'numFriends'    => $viewedUser['numFriends']
                 ])
             ?>
         </div>

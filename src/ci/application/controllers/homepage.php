@@ -33,6 +33,7 @@ class Homepage extends Base
     public function __construct()
     {
         parent::__construct();
+        $this->load->helper('date');
         $this->load->model('Feed_Model', 'feedModel');
         $this->load->model('Status_Model', 'statusModel');
         $this->load->model('Like_Model', 'likeModel');
