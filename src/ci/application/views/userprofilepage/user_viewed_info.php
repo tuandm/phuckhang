@@ -62,7 +62,7 @@
         <div class="row">
             <?php if ($numFriends === 0) : ?>
             <div class="col-sm-9">
-                <?php echo 'You have no any friend :(('; ?>
+                <?php echo 'Người dùng này hiện không có bạn bè.'; ?>
             </div>
             <?php else : ?>
                 <div class="col-sm-9 info-friend">
