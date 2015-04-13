@@ -37,7 +37,7 @@ class LandBook_Hook
             array('posts', LandBook_Posts::getInstance()),
             array('users', LandBook_Users::getInstance()),
         );
-        add_menu_page( 'Landbook', 'Landbook', 'manage_options', 'landbook', array($this, 'settings') );
+        add_menu_page( 'Landbook', 'Landbook', 'manage_options', 'landbook', array(LandBook::getInstance(), 'settings') );
         foreach ($subMenus as $subMenu) {
             $menuName = $subMenu[0];
             $menuHandler = $subMenu[1];
@@ -100,10 +100,25 @@ class LandBook_Hook
      */
     function createScGroupTaxonomy()
     {
+        $labels = array(
+            'name'              => _x('Sc_Groups', 'taxonomy general name'),
+            'singular_name'     => _x('Sc_Group', 'taxonomy singular name'),
+            'search_items'      => __('Search Sc_Group'),
+            'all_items'         => __('All Sc_Group'),
+            'parent_item'       => __('Parent Sc_Group'),
+            'parent_item_colon' => __('Parent Sc_Group:'),
+            'edit_item'         => __('Edit Sc_Group'),
+            'update_item'       => __('Update Sc_Group'),
+            'add_new_item'      => __('Add New Sc_Group'),
+            'new_item_name'     => __('New Sc_Group Name'),
+            'menu_name'         => __('Sc_Group'),
+        );
         // Now register the taxonomy
         register_taxonomy('sc_group', array('post'), array(
+            'labels'            => $labels,
+            'show_in_menu'      => false,
             'hierarchical'      => true,
-            'show_ui'           => false,
+            'show_ui'           => true,
             'show_admin_column' => true,
             'query_var'         => true,
         ));

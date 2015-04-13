@@ -16,13 +16,13 @@ class User extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('ScUserManage');
+        $this->load->library('sc_user_management');
         $this->load->model('admin/Users_Model', 'userModel');
         $this->load->library('form_validation');
         $this->load->database();
         $this->load->helper('url');
 
-        $this->userTable = new MY_SCUserManage();
+        $this->userTable = new Sc_User_Management();
 
         $this->orderBy = !empty($this->input->get('orderby')) ? $this->input->get('orderby') : 'ID';
         $this->order = !empty($this->input->get('order')) ? $this->input->get('order') : 'ASC';

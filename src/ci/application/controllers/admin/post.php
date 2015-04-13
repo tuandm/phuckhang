@@ -10,7 +10,7 @@ class Post extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('ScPostManage');
+        $this->load->library('sc_post_management');
         $this->load->model('admin/Posts', 'postModel');
         $this->load->library('form_validation');
     }
