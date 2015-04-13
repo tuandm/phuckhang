@@ -45,6 +45,9 @@
           </br>
           <span>2</span>
         </div>
+        <div class="col-md-3">
+            <a href="#" type="button" class="btn btn-primary">Kết Bạn</a>
+        </div>
       </div>
 
       <div class="panel panel-default">

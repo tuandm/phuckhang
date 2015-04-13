@@ -18,6 +18,8 @@
 
   <?php wp_head(); ?>
 
+  <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/main.js"></script>
+
   <!--[if lt IE 9]>
     <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/html5.js"></script>
     <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/respond.min.js"></script>

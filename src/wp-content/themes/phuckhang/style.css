@@ -671,9 +671,9 @@ ul.sub-nav li a:hover, ul.sub-nav li.active a{
  */
 
 .avatar{
-  display: block;
-  /*width: 152px;
-  height: 152px;*/
+    /*display: block;
+    width: 152px;
+    height: 152px;*/
   margin-bottom:  20px;
   text-align: left;
 }
@@ -701,6 +701,11 @@ ul.sub-nav li a:hover, ul.sub-nav li.active a{
   padding: 0 0 0 0;
 }
 
+.info-friend{
+    padding-left: 5px;
+    padding-top: 5px;
+}
+
 .person{
   text-align: center;
 }
@@ -708,7 +713,7 @@ ul.sub-nav li a:hover, ul.sub-nav li.active a{
 .feed{
   display: block;
   border: 1px solid #ddd;
-  padding: 15px 10px;
+  padding: 15px 15px;
   margin: 10px 0px;
 }
 
@@ -749,6 +754,12 @@ textarea.message{
   border-top: 1px solid #ddd;
 }
 
+/**
+ * Message
+ */
+.not-read{
+  font-weight: bold;
+}
 
 /**
  * Notification

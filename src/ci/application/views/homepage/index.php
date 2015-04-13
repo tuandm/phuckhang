@@ -1,34 +1,15 @@
 <div id="social-home" class="content social-cotent">
 
     <div class="row">
-        <div class="col-lg-2 col-lg-offset-0 col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-3 col-xs-11 col-xs-offset-1">
-
-            <div class="avatar">
-                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/avatar.png" height="150" width="150" alt="">
-            </div>
-
-
-            <div class="group-wrap">
-                <h4>GROUP</h4>
-                <ul class="group-links">
-                    <li class="group-item"><a href="#"><i class="fa fa-users"></i><span> Lorem ipsum dolor sit amet</span></a></li>
-                    <li class="group-item"><a href="#"><i class="fa fa-users"></i><span> Consectetaur adipisicing elit</span></a></li>
-                    <li class="group-item"><a href="#"><i class="fa fa-users"></i><span> Excepteur sint occaecat cupid</span></a></li>
-                    <li class="group-item"><a href="#"><i class="fa fa-users"></i><span> Onsectetaur adipisicing elit</span></a></li>
-                    <li class="group-item"><a href="#"><i class="fa fa-users"></i><span> Excepteur sint occaecat cupid</span></a></li>
-                    <li class="group-item"><a href="#"><i class="fa fa-users"></i><span> Sunt in culpa qui offi</span></a></li>
-                </ul>
-            </div>
-
-
-        </div>
-
+        <?php echo $this->view('layout/partial/left_content.php', ['userId' => get_current_user_id(), 'userGroupNames' => $groupNames]) ?>
         <div class="col-lg-6 col-lg-offset-0 col-md-7 col-md-offset-0 col-sm-7 col-sm-offset-0 col-xs-10 col-xs-offset-1">
             <!-- User status -->
             <?php if (get_current_user_id()) : ?>
                 <?php echo $this->view('/layout/partial/user_status') ?>
             <?php endif ?>
             <!-- User status -->
+            <div class="clearfix" id="user_status_separate"></div>
+            <?php echo $this->view('/homepage/user_feed') ?>
             <div class="clearfix"></div>
             <?php echo $this->view('/homepage/user_feed'); ?>
         </div>

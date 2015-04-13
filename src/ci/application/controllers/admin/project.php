@@ -18,12 +18,12 @@ class Project extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('lb_project_manage');
+        $this->load->library('lb_project_management');
         $this->load->model('admin/Projects_Model', 'projModel');
         $this->load->library('form_validation');
         $this->load->database();
         $this->load->helper('url');
-        $this->projTable = new MY_LB_Project_Manage();
+        $this->projTable = new Lb_Project_Management();
         foreach ($this->statusValues as $value) {
             $this->statusNames[$value] = $this->projModel->getNameStatusByNumber($value);
         }

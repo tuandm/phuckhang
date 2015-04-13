@@ -8,7 +8,7 @@
     */
 define('PERPAGE', 5);
 
-class MY_SCPostManage extends WP_List_Table
+class Sc_Post_Management extends WP_List_Table
 {
     /**
      * Constructor, we override the parent to pass our own arguments
@@ -195,4 +195,5 @@ class MY_SCPostManage extends WP_List_Table
             echo '</td></tr>';
         }
     }
+
 }

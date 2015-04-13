@@ -1,14 +1,14 @@
 <?php
 
     /**
-     * Library for Project Management class
+     * Library for Product Management class
      * 
      * @author PN
      *
     */
-define('PERPAGE', 5);
+define('PERPAGE', 10);
 
-class MY_LB_Project_Manage extends WP_List_Table
+class Lb_Product_Management extends WP_List_Table
 {
     /**
      * Constructor, we override the parent to pass our own arguments
@@ -18,8 +18,8 @@ class MY_LB_Project_Manage extends WP_List_Table
     function __construct()
     {
         parent::__construct(array(
-            'singular'  => 'lb-proj',
-            'plural'    => 'lb-projs',
+            'singular'  => 'lb-poduct',
+            'plural'    => 'lb-products',
             'ajax'      => true
         ));
     }
@@ -33,9 +33,10 @@ class MY_LB_Project_Manage extends WP_List_Table
     {
         return $columns = array(
             'cb'                => '<input type="checkbox" />',
-            'col_proj_id'       => __('Project Id'),
-            'col_proj_name'     => __('Name'),
-            'col_proj_status'   => __('Status')
+            'col_proc_code'     => __('Product Code'),
+            'col_proc_price'    => __('Price'),
+            'col_proc_status'   => __('Status'),
+            'col_proc_proj'     => __('Project')
             );
     }
 
@@ -47,9 +48,10 @@ class MY_LB_Project_Manage extends WP_List_Table
     public function get_sortable_columns()
     {
         return $sortable = array(
-            'col_proj_id'       => array('lb_project_id', false),
-            'col_proj_name'     => array('name', false),
-            'col_proj_status'   => array('status', false)
+            'col_proc_code'         => array('code', false),
+            'col_proc_price'        => array('price', false),
+            'col_proc_status'       => array('status', false),
+            'col_proc_proj'         => array('lb_project_id', false)
         );
     }
 
@@ -60,7 +62,7 @@ class MY_LB_Project_Manage extends WP_List_Table
      */
     function columnCb($item)
     {
-        return sprintf('<input type="checkbox" value="$item->ID" />');
+        return sprintf('<input type="checkbox" value="$item->code" />');
     }
 
     /**
@@ -69,13 +71,13 @@ class MY_LB_Project_Manage extends WP_List_Table
      * @param array $item
      * @return string
      */
-    function projAction($item)
+    function productAction($item)
     {
         $actions = array(
-            'edit'      => sprintf('<a href="?page=landbook-projects&proj=%s&act=%s">Edit</a>',
-                $item['lb_project_id'], 'edit'),
-            'delete'    => sprintf('<a href="?page=landbook-projects&proj=%s&act=%s&amp;noheader=true" onclick="return confirm(\'Do you want to delete %s?\')">Delete</a>'
-                , $item['lb_project_id'], 'delete', $item['name'])
+            'edit'      => sprintf('<a href="?page=landbook-products&proc=%s&act=%s">Edit</a>',
+                $item['lb_product_id'], 'edit'),
+            'delete'    => sprintf('<a href="?page=landbook-products&proc=%s&act=%s&amp;noheader=true" onclick="return confirm(\'Do you want to delete %s?\')">Delete</a>',
+                $item['lb_product_id'], 'delete', $item['code'])
         );
         return sprintf('%2s', $this->row_actions($actions));
     }
@@ -84,17 +86,20 @@ class MY_LB_Project_Manage extends WP_List_Table
      * (non-PHPdoc)
      * @see WP_List_Table::prepare_items()
      */
-    function prepare_items($projects, $numProj)
+    function prepare_items($products, $numProc)
     {
-        global $_column_headers;
-        $totalPages = ceil($numProj / PERPAGE);
+        global $wpdb, $_column_headers;
+        $totalPages = ceil($numProc / PERPAGE);
         $this->set_pagination_args(array(
-            'total_items'   => $numProj,
+            'total_items'   => $numProc,
             'total_pages'   => $totalPages,
             'per_page'      => PERPAGE
         ));
         $current_page = $this->get_pagenum();
-        $this->items = array_slice($projects, (($current_page - 1) * PERPAGE), PERPAGE);
+        $this->items = array_slice($products, (($current_page - 1) * PERPAGE), PERPAGE);
+        foreach ($this->items as &$item) {
+            $item['name'] = $wpdb->get_col('SELECT name FROM pk_lb_projects WHERE lb_project_id =' . $item['lb_project_id'])[0];
+        }
         $columns = $this->get_columns();
         $this->_column_headers = array($columns, array(), $this->get_sortable_columns());
     }
@@ -114,7 +119,7 @@ class MY_LB_Project_Manage extends WP_List_Table
         $records = $this->items;
         if (!empty($this->items)) {
             foreach ($records as $rec) {
-                echo '<tr ' . $row_class . 'id="record_' . $rec['lb_project_id'] . '">';
+                echo '<tr ' . $row_class . 'id="record_' . $rec['code'] . '">';
                 foreach ($columns as $column_name => $column_display_name) {
                     $class = "class='$column_name column_$column_name'";
                     $style = "";
@@ -122,11 +127,11 @@ class MY_LB_Project_Manage extends WP_List_Table
                         $style = ' style="display:none;"';
                     }
                     switch ($rec['status']) {
-                        case 1: $statusName = 'Sold';
+                        case 1: $statusName = 'Đặt Cọc';
                             break;
-                        case 2: $statusName = 'Selling';
+                        case 2: $statusName = 'Đã Bán';
                             break;
-                        case 3: $statusName = 'Unsold';
+                        case 3: $statusName = 'Chưa Bán';
                             break;
                     }
                     $attributes = "$class$style";
@@ -134,19 +139,22 @@ class MY_LB_Project_Manage extends WP_List_Table
                         case 'cb':
                             echo '<th scope="row" class="check-column">' . $this->columnCb($rec) . '</th>';
                             break;
-                        case 'col_proj_id':
+                        case 'col_proc_code':
                             echo '<td ' . $attributes . '><strong>'
-                                    . stripslashes($rec['lb_project_id']) . '</a></strong>';
-                            if (method_exists($this, 'projAction')) {
-                                echo call_user_func(array($this, 'projAction'), $rec);
+                                    . stripslashes($rec['code']) . '</a></strong>';
+                            if (method_exists($this, 'productAction')) {
+                                echo call_user_func(array($this, 'productAction'), $rec);
                                 echo "</td>";
                             }
                             break;
-                        case 'col_proj_name':
-                            echo '<td ' . $attributes . '>' . stripslashes($rec['name']) . '</td>';
+                        case 'col_proc_price':
+                            echo '<td ' . $attributes . '>' . stripslashes($rec['price']) . '</td>';
                             break;
-                        case 'col_proj_status':
+                        case 'col_proc_status':
                             echo '<td ' . $attributes . '>' . stripslashes($statusName) . '</td>';
+                            break;
+                        case 'col_proc_proj':
+                            echo '<td ' . $attributes . '>' . stripslashes($rec['name']) . '</td>';
                             break;
                     }
                 }
