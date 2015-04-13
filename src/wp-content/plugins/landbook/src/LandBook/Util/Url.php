@@ -5,7 +5,7 @@
  * @package LandBook
  */
 
-class Permalink_Util {
+class LandBook_Util_Url {
 
     /**
      * Helper method to build the URL that points to the user profile page
