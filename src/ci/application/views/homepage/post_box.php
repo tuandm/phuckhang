@@ -16,7 +16,8 @@
                 <?php echo $this->view('/homepage/user_like', [
                     'referenceType' => $referenceType,
                     'postId'        => $post->ID,
-                    'numLike'       => $numLike
+                    'numLike'       => $numLike,
+                    'postDate'      => $post->post_date
                 ])
                 ?>
             <?php endif ?>
