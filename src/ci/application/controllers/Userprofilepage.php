@@ -49,26 +49,18 @@ class Userprofilepage extends Base
         $loginTitle = $this->userProfileModel->getTitleByUserId($loginUserId);
         $loginGroups = $this->userProfileModel->getAllUserGroups($loginUserId);
         $loginFriends = $this->userProfileModel->getFriendsByUserId($loginUserId);
-
-        if ($loginGroups['numGroups'] === 0) {
-            $loginGroupNames = '';
-        }
-        foreach ($loginGroups['group'] as $group) {
-            $loginGroupNames[] = get_term($group['group_id'], 'sc_group', ARRAY_A)['name'];
-        }
         $loginUser = array(
             'userId'        => $loginUserId,
             'title'         => $loginTitle,
             'name'          => $loginName,
             'numGroups'     => $loginGroups['numGroups'],
-            'groupNames'    => $loginGroupNames,
             'numFriends'    => $loginFriends['numFriend']
         );
         $this->load->view('layout/layout', array(
-            'content' => $this->render('userprofilepage/index', array(
+            'content' => $this->loadView('userprofilepage/index', array(
                 'viewedUser'    => $viewedUser,
                 'loginUser'     => $loginUser
-            ))
+            ), true)
         ));
     }
 

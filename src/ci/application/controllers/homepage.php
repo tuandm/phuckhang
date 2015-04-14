@@ -46,13 +46,6 @@ class Homepage extends Base
     public function index()
     {
         $feeds = $this->feedModel->getNewFeeds();
-        $groups = $this->userProfileModel->getAllUserGroups(get_current_user_id());
-        if ($groups['numGroups'] === 0) {
-            $groupNames = '';
-        }
-        foreach ($groups['group'] as $group) {
-            $groupNames[] = get_term($group['group_id'], 'sc_group', ARRAY_A)['name'];
-        }
         foreach ($feeds as $key => &$feed) {
             switch ($feed['reference_type']) {
                 case Feed_Model::REFERENCE_TYPE_STATUS:
@@ -65,7 +58,6 @@ class Homepage extends Base
                     $state  = $isLiked ? 'Unlike' : 'Like';
                     $comments = get_comments('type=status&number=5&order=ASC&orderBy=comment_date&status=approve&post_id=' . $status['status_id']);
                     $feed['html'] = $this->render('/homepage/feed_status', array(
-                        'groupNames'    => $groupNames,
                         'status'        => $status,
                         'comments'      => $comments,
                         'numLike'       => $numLike,
@@ -85,7 +77,6 @@ class Homepage extends Base
                     $state  = $isLiked ? 'Unlike' : 'Like';
                     $comments = get_comments('type=post&number=5&order=ASC&orderBy=comment_date&status=approve&post_id=' . $post->ID);
                     $feed['html'] = $this->render('/homepage/feed_post', array(
-                        'groupNames'    => $groupNames,
                         'post'          => $post,
                         'comments'      => $comments,
                         'likeImage'     => $likeImage,
@@ -101,7 +92,7 @@ class Homepage extends Base
             }
         }
         $this->load->view('layout/layout', array(
-            'content' => $this->render('homepage/index', array('feeds' => $feeds)),
+            'content' => $this->loadView('homepage/index', array('feeds' => $feeds), true),
         ));
     }
 

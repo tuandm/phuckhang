@@ -25,6 +25,38 @@ class Base extends CI_Controller
     }
 
     /**
+     * Load View for View Controller
+     *
+     * @param string $view file path
+     * @param array $data
+     * @param bool $allowedLoad
+     * @return string
+     */
+    public function loadView($view, array $data = array(), $allowedLoad = false)
+    {
+        if (get_current_user_id() && $allowedLoad) {
+            $groups = $this->userProfileModel->getAllUserGroups(get_current_user_id());
+
+            if ($groups['numGroups'] === 0) {
+                $groupNames = '';
+            }
+            foreach ($groups['group'] as $group) {
+                $groupNames[] = get_term($group['group_id'], 'sc_group', ARRAY_A)['name'];
+            }
+            $groupData = array(
+                'numGroups'     => $groups['numGroups'],
+                'userId'        => get_current_user_id(),
+                'groupNames'    => $groupNames
+            );
+
+            $content['left'] = $this->render('layout/partial/left_content', $groupData);
+            $content['main'] = $this->render($view, $data);
+            $content['right'] = $this->render('layout/partial/social_sidebar');
+        }
+        return $content;
+    }
+
+    /**
      * Handle ajax request
      *
      * @return mixed
