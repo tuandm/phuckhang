@@ -1,17 +1,39 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Storm
- * Date: 3/24/15
- * Time: 11:19 PM
+ * Util class which helps create URLs
+ * @author Duc Duong <duongthienduc@gmail.com>
+ * @package LandBook
  */
-class Permalink_Util
-{
-    public function getUrl($postTitle, $action, $userId)
-    {
-        global $wpdb;
-        $permalink = $wpdb->get_results( "SELECT guid FROM pk_posts WHERE post_title = '$postTitle' AND post_type = 'page'", OBJECT);
-        $link = $permalink[0]->guid . '/?act=' . $action . '&userId=' . $userId;
-        return $link;
+
+class Permalink_Util {
+
+    /**
+     * Helper method to build the URL that points to the user profile page
+     * @param int $userId ID of the user that the URL points to
+     * @param array|null $params Additional parameters passed to the URL's query string
+     * @return string
+     */
+    public static function buildUserProfileUrl($userId, $params = array()) {
+        if ($params == null) {
+            $params = array();
+        }
+        $params['userId'] = $userId;
+        return site_url('social-userprofilepage?' . build_query($params));
     }
+
+    /**
+     * Helper method to build the URL that points to the user profile page
+     * @param int $groupId ID of the user that the URL points to
+     * @param array|null $params Additional parameters passed to the URL's query string
+     * @return string
+     */
+    public static function buildGroupProfileUrl($groupId, $params = array()) {
+        if ($params == null) {
+            $params = array();
+        }
+        $params['groupId'] = $groupId;
+        // TODO: pass group URL here
+        return site_url('XXX' . build_query($params));
+    }
+
 }
