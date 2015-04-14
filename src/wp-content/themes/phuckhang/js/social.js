@@ -134,36 +134,36 @@ function bindUserCommentTextArea()
     });
 }
 
-        $("#search").keyup(function() {
-            if (allowSearch) {
-                    allowSearch = false;
-                    $.ajax({
-                        type: "post",
-                        url: "/social-user-friends/",
-                        cache: false,
-                        data:
-                        {
-                            act: 'ajax',
-                            callback: 'search',
-                            search: $("#search").val()
-                        },
-                        success: function(response) {
-                            var results = JSON.parse(response);
-                            if (results.success) {
-                                    $('#finalResult').html(results.result);
-                            } else {
-                                $('#finalResult').html($('<li/>').text("No Data Found"));
-                            }
-                            allowSearch = true;
-                        },
-                        error: function() {
-                            alert('Error while request..');
-                        }
-                    });
+$("#search").keyup(function() {
+    if (allowSearch) {
+        allowSearch = false;
+        $.ajax({
+            type: "post",
+            url: "/social-user-friends/",
+            cache: false,
+            data:
+            {
+                act: 'ajax',
+                callback: 'search',
+                search: $("#search").val()
+            },
+            success: function(response) {
+                var results = JSON.parse(response);
+                if (results.success) {
+                    $('#finalResult').html(results.result);
+                } else {
+                    $('#finalResult').html($('<li/>').text("No Data Found"));
+                }
+                allowSearch = true;
+            },
+            error: function() {
+                alert('Error while request..');
             }
-            return false;
         });
+    }
+    return false;
 });
+
 
 function onUserLikeList()
 {
