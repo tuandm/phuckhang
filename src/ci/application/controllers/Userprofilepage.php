@@ -22,6 +22,9 @@ class Userprofilepage extends Base
         $this->load->model('userprofile/User_Profile_Model', 'userProfileModel');
     }
 
+    /**
+     * Default page of user when login
+     */
     public function index()
     {
         // Information for the viewed user profile
@@ -56,12 +59,10 @@ class Userprofilepage extends Base
             'numGroups'     => $loginGroups['numGroups'],
             'numFriends'    => $loginFriends['numFriend']
         );
-        $this->load->view('layout/layout', array(
-            'content' => $this->loadView('userprofilepage/index', array(
+        $this->renderSocialView('userprofilepage/index', array(
                 'viewedUser'    => $viewedUser,
                 'loginUser'     => $loginUser
-            ), true)
-        ));
+            ), true);
     }
 
 }

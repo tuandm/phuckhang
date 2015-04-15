@@ -34,6 +34,7 @@ class Homepage extends Base
     {
         parent::__construct();
         $this->load->helper('date');
+        $this->load->library('permalink_util');
         $this->load->model('Feed_Model', 'feedModel');
         $this->load->model('Status_Model', 'statusModel');
         $this->load->model('Like_Model', 'likeModel');
@@ -91,9 +92,7 @@ class Homepage extends Base
                     break;
             }
         }
-        $this->load->view('layout/layout', array(
-            'content' => $this->loadView('homepage/index', array('feeds' => $feeds), true),
-        ));
+        $this->renderSocialView('homepage/index', array('feeds' => $feeds), true);
     }
 
     /**

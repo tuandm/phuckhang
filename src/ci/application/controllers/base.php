@@ -29,31 +29,41 @@ class Base extends CI_Controller
      *
      * @param string $view file path
      * @param array $data
-     * @param bool $allowedLoad
+     * @param bool $renderFullView
      * @return string
      */
-    public function loadView($view, array $data = array(), $allowedLoad = false)
+    public function renderSocialView($view, array $data = array(), $renderFullView = false)
     {
-        if (get_current_user_id() && $allowedLoad) {
+        /** @var array $content */
+        $content = [];
+        if ($renderFullView && get_current_user_id()) {
+            /** @var array $groups */
             $groups = $this->userProfileModel->getAllUserGroups(get_current_user_id());
 
+            /** @var array $groupNames */
             if ($groups['numGroups'] === 0) {
-                $groupNames = '';
+                $groupNames = [];
             }
             foreach ($groups['group'] as $group) {
                 $groupNames[] = get_term($group['group_id'], 'sc_group', ARRAY_A)['name'];
             }
+            /** @var array $groupData */
             $groupData = array(
                 'numGroups'     => $groups['numGroups'],
                 'userId'        => get_current_user_id(),
                 'groupNames'    => $groupNames
             );
-
-            $content['left'] = $this->render('layout/partial/left_content', $groupData);
-            $content['main'] = $this->render($view, $data);
-            $content['right'] = $this->render('layout/partial/social_sidebar');
+                $content['left'] = $this->render('layout/partial/left_content', $groupData);
+                $content['main'] = $this->render($view, $data);
+                $content['right'] = $this->render('layout/partial/social_sidebar');
         }
-        return $content;
+        if (!empty($content)) {
+            $this->load->view('layout/layout', array(
+                'content' => $content
+            ));
+        } else {
+            die('Can not load this page');
+        }
     }
 
     /**
