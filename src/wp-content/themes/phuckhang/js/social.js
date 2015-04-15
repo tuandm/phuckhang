@@ -164,7 +164,6 @@ $("#search").keyup(function() {
     return false;
 });
 
-
 function onUserLikeList()
 {
     $('.numlike').tooltip();
