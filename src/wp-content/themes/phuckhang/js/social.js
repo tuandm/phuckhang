@@ -163,7 +163,7 @@ function bindUserCommentTextArea()
             }
             return false;
         });
-});
+
 
 function onUserLikeList()
 {
