@@ -74,7 +74,10 @@ body{
   color:#B1E4C4;
   background: none;
 }
-
+    #home-block{
+      max-width: 1260px;
+      margin:auto;
+    }
     #home-block .box{
       /*-webkit-filter: grayscale(100%);
       filter: grayscale(100%);
