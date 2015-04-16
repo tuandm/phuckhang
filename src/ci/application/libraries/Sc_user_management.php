@@ -8,6 +8,9 @@
     */
 define('PERPAGE', 10);
 
+/**
+ * @property mixed _column_headers
+ */
 class Sc_User_Management extends WP_List_Table
 {
     /**
@@ -56,10 +59,10 @@ class Sc_User_Management extends WP_List_Table
 
     /**
      *
-     * @param array $item
+     * @internal param array $item
      * @return string
      */
-    function columnCb($item)
+    function columnCb()
     {
         return sprintf('<input type="checkbox" value="$item->ID" />');
     }
@@ -84,13 +87,13 @@ class Sc_User_Management extends WP_List_Table
     }
 
     /**
-     * (non-PHPdoc)
-     *
      * @see WP_List_Table::prepare_items()
+     *
+     * @param $users
+     * @param $numUsers
      */
     function prepare_items($users, $numUsers)
     {
-        global $wpdb, $_column_headers;
         $totalPages = ceil($numUsers / PERPAGE);
         $this->set_pagination_args(array(
             'total_items'   => $numUsers,
@@ -104,24 +107,23 @@ class Sc_User_Management extends WP_List_Table
     }
 
     /**
-     * (non-PHPdoc)
      *
      * @see WP_List_Table::display_rows()
      * @return string, echo the markup of the rows
-     *         Display the rows of records in the table
      */
  function display_rows()
     {
+        /** @var string $row_class */
         static $row_class = '';
         $row_class = ($row_class == '' ? ' class="alternate"' : '');
-        list ($columns, $hidden, $sortableCol) = $this->get_column_info();
+        list ($columns, $hidden) = $this->get_column_info();
         $records = $this->items;
         if (!empty($this->items)) {
             foreach ($records as $rec) {
                 echo '<tr ' . $row_class . 'id="record_' . $rec['ID'] . '">';
                 foreach ($columns as $column_name => $column_display_name) {
                     $class = "class='$column_name column_$column_name'";
-                    $style = "";
+                    $style = '';
                     if (in_array($column_name, $hidden)) {
                         $style = ' style="display:none;"';
                     }
@@ -149,7 +151,8 @@ class Sc_User_Management extends WP_List_Table
                             foreach ($rec['group_ids'] as $group) {
                                 $groupName = get_term($group['group_id'], 'sc_group');
                                 if (empty($groupName)) {
-                                    $groupName->name = 'No Group';
+                                    echo "Data is invalid";
+                                    continue;
                                 }
                                 echo '<div class="' . '">';
                                 echo "$groupName->name" . str_repeat('&nbsp', 3) 
