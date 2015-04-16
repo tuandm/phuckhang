@@ -24,7 +24,7 @@ Class User_Friends extends Base
         $search = '';
         $userId = $this->input->get('userId');
 
-        if(isset($userId) && $userId === false) {
+        if($userId === false) {
             $userId = wp_get_current_user()->ID;
             $friends = $this->userModel->getAllFriends($userId, $search);
         } else {
@@ -48,7 +48,7 @@ Class User_Friends extends Base
 
         $userId = $this->input->get('userId');
 
-        if(isset($userId) && $userId === false) {
+        if($userId === false) {
             $userId = wp_get_current_user()->ID;
             $friends = $this->userModel->getAllFriends($userId, $search);
         } else {
