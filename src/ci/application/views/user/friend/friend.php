@@ -14,7 +14,7 @@ $url = new Permalink_Util;
         <?php foreach ( $friends as $friend ): ?>
             <div class="col-md-3 col-sm-4 col-xs-6 photo-item friend-item">
                 <a href="<?php echo $url->buildUserProfileUrl($friend['friend_id']); ?>" class="img-responsive"><?php echo get_avatar( $friend['friend_id'], 150 ); ?></a>
-                <a href="#"><span class="friend-name"><?php echo $friend['display_name']; ?></span></a>
+                <a href="<?php echo $url->buildUserProfileUrl($friend['friend_id']); ?>"><span class="friend-name"><?php echo $friend['display_name']; ?></span></a>
                 <?php $user = new WP_User( $friend['friend_id'] ); ?>
                 <span class="friend-role"><?php echo $user->roles[0]; ?></span>
                 <?php if (isset($currentUser->ID) && ($currentUser->ID == $friend['user_id'])) : ?>
