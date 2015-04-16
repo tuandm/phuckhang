@@ -245,6 +245,11 @@ body{
     #home-block .box.box-last{
       border-right: none;
       width: 420px;
+      background: #209346;
+    }
+
+    span.author{
+      color:#FFF;
     }
 
 /**
