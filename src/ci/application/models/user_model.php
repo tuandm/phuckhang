@@ -24,13 +24,14 @@ Class User_Model extends Land_Book_Model
         return $photos;
     }
 
-    public function getAllFriends($search='default')
+    public function getAllFriends($userId, $search='default')
     {
         $this->db
             ->select('*')
             ->from('pk_sc_user_friends')
             ->join('pk_users', 'pk_sc_user_friends.friend_id = pk_users.ID', 'left')
             ->like('display_name', $search)
+            ->where('pk_sc_user_friends.user_id', $userId)
             ->order_by('pk_sc_user_friends.created_date', 'DES');
         $friends = $this->db->get()->result_array();
         return $friends;

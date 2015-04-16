@@ -22,7 +22,15 @@ Class User_Friends extends Base
     public function index()
     {
         $search = '';
-        $friends = $this->userModel->getAllFriends($search);
+        $userId = $this->input->get('userId');
+
+        if(isset($userId) && $userId === false) {
+            $userId = wp_get_current_user()->ID;
+            $friends = $this->userModel->getAllFriends($userId, $search);
+        } else {
+            $friends = $this->userModel->getAllFriends($userId, $search);
+        }
+
         $this->load->view('layout/layout', array(
             'content' => $this->render('user/friend/view', array(
                 'friends' => $friends
@@ -37,7 +45,16 @@ Class User_Friends extends Base
             'result'    => ''
         );
         $search = $this->input->post('search');
-        $friends = $this->userModel->getAllFriends($search);
+
+        $userId = $this->input->get('userId');
+
+        if(isset($userId) && $userId === false) {
+            $userId = wp_get_current_user()->ID;
+            $friends = $this->userModel->getAllFriends($userId, $search);
+        } else {
+            $friends = $this->userModel->getAllFriends($userId, $search);
+        }
+
         if (!empty($friends)) {
             $response['success'] = true;
             $response['result'] = $this->render('/user/friend/friend', array(
