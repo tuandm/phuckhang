@@ -97,4 +97,8 @@ add_action( 'wp_enqueue_scripts', 'phuckhang_scripts' );
 function phuckhang_entry_meta()
 {
 }
-?>
+
+/**
+ *
+ */
+
