@@ -665,6 +665,45 @@ ul.sub-nav li a:hover, ul.sub-nav li.active a{
   float: left;
 }
 
+/*
+ *  CATEGORY Styles & News post
+ */
+
+.news-nav{
+  background: #5d5d5d;
+  padding: 10px 20px;
+  text-align: right;
+  color: #FFF;
+  width: 250px;
+  float: right;
+}
+
+.news-nav span{
+  display: block;
+  padding: 10px 5px 5px 5px;
+}
+
+ul.category-menu{}
+
+ul.category-menu li{
+  display: block;
+  margin: 0px;
+  padding: 5px;
+  list-style: none;
+}
+
+ul.category-menu li a{
+  color: #FFF;
+  font-size: 18px;
+}
+
+
+.category-post{}
+.category-post img{
+  max-width: 100%;
+  height: auto;
+}
+
 
 /**
  * SOCIAL HOME
@@ -1052,6 +1091,10 @@ textarea.message{
       line-height: 18px;
     }
 
+    .project-banner.langsen{
+      background-position: left;
+    }
+
 }
 
 /* XS Portrait for iPhone retina */
@@ -1141,6 +1184,10 @@ textarea.message{
     .banner-link, .banner-link a{
       font-size: 14px;
       line-height: 18px;
+    }
+
+    .project-banner.langsen{
+      background-position: left;
     }
 
 }
