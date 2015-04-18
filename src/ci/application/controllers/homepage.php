@@ -4,7 +4,7 @@
  * @author Tuan Duong <duongthaso@gmail.com>
  * @package LandBook
  */
-
+define("LOGO_SRC", "/wp-content/themes/phuckhang/images/logo.png");
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 include_once('base.php');
@@ -65,12 +65,14 @@ class Homepage extends Base
                         'numUsersLike'  => $numUsersLike,
                         'likeImage'     => $likeImage,
                         'state'         => $state,
+                        'postDate'      => $status['created_time'],
                         'referenceType' => Feed_Model::REFERENCE_TYPE_STATUS,
                         'allowComment'  => true
                     ));
                     break;
                 case Feed_Model::REFERENCE_TYPE_POST:
                     $post = get_post($feed['reference_id']);
+                    $sharedImage = $this->getSharedImage($post->ID);
                     $numLike = $this->likeModel->countLike($post->ID);
                     $numUsersLike = $this->likeModel->getNumUsersLikeByLikeId($post->ID);
                     $isLiked = $this->likeModel->isLiked(get_current_user_id(), $post->ID);
@@ -78,10 +80,12 @@ class Homepage extends Base
                     $state  = $isLiked ? 'Unlike' : 'Like';
                     $comments = get_comments('type=post&number=5&order=ASC&orderBy=comment_date&status=approve&post_id=' . $post->ID);
                     $feed['html'] = $this->render('/homepage/feed_post', array(
+                        'sharedImage'   => $sharedImage,
                         'post'          => $post,
                         'comments'      => $comments,
                         'likeImage'     => $likeImage,
                         'state'         => $state,
+                        'postDate'      => $post->post_date,
                         'numUsersLike'  => $numUsersLike,
                         'numLike'       => $numLike,
                         'referenceType' => Feed_Model::REFERENCE_TYPE_POST,
@@ -116,6 +120,7 @@ class Homepage extends Base
                 'likeImage'     => $likeImage,
                 'numUsersLike'  => $numUsersLike,
                 'state'         => $state,
+                'postDate'      => $status['created_time'],
                 'status'        => $status,
                 'referenceType' => Feed_Model::REFERENCE_TYPE_STATUS,
                 'allowComment'  => true
@@ -242,6 +247,14 @@ class Homepage extends Base
             $newLikeId = $this->likeModel->like($likeData);
             $numLike = $this->likeModel->countLike($postId);
             $isLiked = $this->likeModel->isLiked($userId, $postId);
+            if ($type == 'post') {
+                $postDate = get_post($postId)->post_date;
+                $sharedImage = $this->getSharedImage($postId);
+            } else {
+                $sharedImage = '';
+                $status = $this->statusModel->findById($postId);
+                $postDate = $status['created_time'];
+            }
             $numUsersLike = $this->likeModel->getNumUsersLikeByLikeId($postId);
             $likeImage = $isLiked ? 'down' : 'up';
             $state  = $isLiked ? 'Unlike' : 'Like';
@@ -249,12 +262,14 @@ class Homepage extends Base
                 $response['success'] = true;
                 $response['result'] = $this->render('homepage/user_like', array(
                     'postId'           => $postId,
+                    'sharedImage'      => $sharedImage,
                     'referenceType'    => $type,
                     'userId'           => $userId,
                     'numLike'          => $numLike,
                     'numUsersLike'     => $numUsersLike,
                     'likeImage'        => $likeImage,
-                    'state'            => $state
+                    'state'            => $state,
+                    'postDate'         => $postDate
                 ));
             } else {
                 $response['result'] = "Can not like $type. Please try again.";
@@ -262,4 +277,38 @@ class Homepage extends Base
         }
         return $response;
     }
+
+    /**
+     * @param $postId
+     * @return string
+     */
+    public function getSharedImage($postId)
+    {
+        $image = array();
+        if (get_post($postId)->post_type == 'post') {
+            $content = get_post($postId)->post_content;
+            $count = substr_count($content, '<img');
+            $start = 0;
+            for($i=1 ; $i <= $count ; $i++) {
+                $imgBeg = strpos($content, '<img', $start);
+                $post = substr($content, $imgBeg);
+                $imgEnd = strpos($post, '>');
+                $postOutput = substr($post, 0, $imgEnd);
+                $postOutput = preg_replace('/width="([0-9]*)" height="([0-9]*)"/', '', $postOutput);
+
+                $image[$i] = $postOutput;
+                $start=$imgEnd+1;
+            }
+            if (empty($image)) {
+                return $sharedImage = '<img src=' . LOGO_SRC . '></img>';
+            } else {
+                if (stristr($image[1], '<img')) {
+                    return $sharedImage = $image[1];
+                }
+            }
+        } else {
+            return;
+        }
+    }
+
 }

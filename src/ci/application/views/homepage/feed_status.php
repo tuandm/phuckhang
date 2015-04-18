@@ -19,7 +19,7 @@
                     <?php echo $this->view('/homepage/user_like', [
                         'referenceType'     => $referenceType,
                         'postId'            => $status['status_id'],
-                        'numLike'           => $numLike
+                        'numLike'           => $numLike,
                     ]) ?>
                 <?php endif ?>
             </div>

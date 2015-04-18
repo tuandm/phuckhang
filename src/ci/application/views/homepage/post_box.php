@@ -20,7 +20,6 @@
                     'referenceType' => $referenceType,
                     'postId'        => $post->ID,
                     'numLike'       => $numLike,
-                    'postDate'      => $post->post_date
                 ])
                 ?>
             <?php endif ?>

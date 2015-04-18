@@ -9,7 +9,10 @@
         <i class="fa fa-thumbs-o-<?php echo $likeImage ?>" id="like"> </i>
         <a href="#" class="user-like like-type-<?php echo $referenceType?>" id="like_<?php echo $postId ?>"> <?php echo $state ?> </a> ·
         <i class="fa fa-comment"></i><a class="user-comment" href="#" id="comment-post-<?php echo $postId ?>"> Comment </a> ·
-        <i class="fa fa-facebook"></i> <a href="http://www.facebook.com/sharer.php?u=<?php echo get_permalink($postId) ?>&t=<?php echo get_the_title($postId) ?>" target="blank">Share</a>
+        <?php if ($referenceType == 'post') : ?>
+        <i class="fa fa-facebook"></i>
+        <a href="https://www.facebook.com/sharer/sharer.php?s=100&p[title]=<?php echo get_the_title($postId)?>&p[url]=<?php echo get_the_permalink($postId) ?>&p[images]=<?php echo $sharedImage ?>" title="Share on Facebook.">Share</a>
+        <?php endif ?>
     </div>
     <div class="social-like-count">
         <?php if ($numLike > 0) : ?>
