@@ -744,21 +744,14 @@ ul.sub-nav li a:hover, ul.sub-nav li.active a{
   width: 300px;
 }
 
-#tabs{
-  border-bottom: none;
-}
+#tabs{}
 #tabs li{}
 #tabs li a{
-  padding: 10px 27.6px ;
-}
-
-#tabs.nav-tabs>li{
-  margin-bottom: -2px;
+  padding: 10px 28px ;
 }
 
 textarea.message{
   width: 250px;
-  border: 1px solid #ddd;
 }
 
 .social-tools-wrap{
