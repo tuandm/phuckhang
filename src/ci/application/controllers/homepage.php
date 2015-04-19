@@ -25,11 +25,6 @@ class Homepage extends Base
      */
     public $statusModel;
 
-    /**
-     * @var User_Profile_Model
-     */
-    public $userProfileModel;
-
     public function __construct()
     {
         parent::__construct();
@@ -38,7 +33,6 @@ class Homepage extends Base
         $this->load->model('Feed_Model', 'feedModel');
         $this->load->model('Status_Model', 'statusModel');
         $this->load->model('Like_Model', 'likeModel');
-        $this->load->model('userprofile/User_Profile_Model', 'userProfileModel');
     }
 
     /**
