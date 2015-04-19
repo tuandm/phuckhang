@@ -1,6 +1,6 @@
 
 <div class="panel panel-default">
-    <div class="panel-heading"><strong>Notification</strong></div>
+    <div class="panel-heading"><strong>Notifications</strong></div>
 
     <div class="panel-body">
 
