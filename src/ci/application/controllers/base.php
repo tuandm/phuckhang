@@ -11,6 +11,17 @@ class Base extends CI_Controller
 {
 
     /**
+     * @var User_Profile_Model
+     */
+    public $userProfileModel;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('userprofile/User_Profile_Model', 'userProfileModel');
+    }
+
+    /**
      * Render view file and return renderred content
      *
      * @param string $view file path
@@ -19,6 +30,7 @@ class Base extends CI_Controller
      */
     public function render($view, array $data = array())
     {
+
         ob_start();
         $this->load->view($view, $data);
         return ob_get_clean();

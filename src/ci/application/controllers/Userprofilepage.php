@@ -11,15 +11,9 @@ include_once('base.php');
 class Userprofilepage extends Base
 {
 
-    /**
-     * @var User_Profile_Model
-     */
-    public $userProfileModel;
-
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('userprofile/User_Profile_Model', 'userProfileModel');
     }
 
     /**
