@@ -84,7 +84,7 @@ class LandBook_Model_Group extends LandBook_Model {
     }
 
     /**
-     *
+     * Update User Groups
      */
     function updateUserGroups()
     {

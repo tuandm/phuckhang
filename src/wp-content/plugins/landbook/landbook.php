@@ -10,6 +10,9 @@ define('CI_ADMIN_FOLDER', "admin");
 
 define('SRC_FOLDER', "src");
 
+define('NUM_NOTIFICATIONS', 20);
+define('USER_NOTIFICATION_AVATAR_SIZE', 50);
+
 spl_autoload_register('LandBook::autoload');
 
 /**
