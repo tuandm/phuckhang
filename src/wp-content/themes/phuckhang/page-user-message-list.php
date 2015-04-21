@@ -55,31 +55,31 @@
             <a href="#">(Chưa Đọc) <span class="badge" style="background-color: #0291F9;">2</span></a>
           </div>
           </div>
-          
+
             <div class="panel-body">
               <ul class="list-group">
-               
+
                   <li class="list-group-item not-read" onclick="location.href='#';" style="cursor: pointer;">
                     <div class="row noti-item">
                       <div class="col-sm-2 col-xs-3 noti-avatar">
                         <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
                       </div>
                       <div class="col-sm-10 col-xs-9">
-                        <strong><a href="#">Phát Trí Nguyễn</a></strong> 
+                        <strong><a href="#">Phát Trí Nguyễn</a></strong>
                       </br>
                       Hôm nay trời nắng quá, làm ly bia đi.
                         <span class="noti-datetime">10 phút trước</span>
                       </div>
                     </div>
                   </li>
-           
+
                   <li class="list-group-item not-read" onclick="location.href='#';" style="cursor: pointer;">
                     <div class="row noti-item">
                       <div class="col-sm-2 col-xs-3 noti-avatar">
                         <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
                       </div>
                       <div class="col-sm-10 col-xs-9">
-                        <strong><a href="#">Phát Trí Nguyễn</a></strong> 
+                        <strong><a href="#">Phát Trí Nguyễn</a></strong>
                       </br>
                       Hôm nay trời nắng quá, làm ly bia đi.
                         <span class="noti-datetime">10 phút trước</span>
@@ -93,7 +93,7 @@
                         <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
                       </div>
                       <div class="col-sm-10 col-xs-9">
-                        <strong><a href="#">Phát Trí Nguyễn</a></strong> 
+                        <strong><a href="#">Phát Trí Nguyễn</a></strong>
                       </br>
                       Hôm nay trời nắng quá, làm ly bia đi.
                         <span class="noti-datetime">10 phút trước</span>
@@ -107,7 +107,7 @@
                         <a href="#"><img src="images/avatar.png" height="50" width="50" alt=""></a>
                       </div>
                       <div class="col-sm-10 col-xs-9">
-                        <strong><a href="#">Phát Trí Nguyễn</a></strong> 
+                        <strong><a href="#">Phát Trí Nguyễn</a></strong>
                       </br>
                       Hôm nay trời nắng quá, làm ly bia đi.
                         <span class="noti-datetime">10 phút trước</span>

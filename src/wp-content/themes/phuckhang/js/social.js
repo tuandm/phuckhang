@@ -1,5 +1,6 @@
 var allowSearch = true;
 $(function() {
+    bindUserMessage();
     bindHighLightCommentBox();
     bindUserLike();
     bindUserCommentTextArea();
@@ -168,4 +169,44 @@ function bindUserCommentTextArea()
 function onUserLikeList()
 {
     $('.numlike').tooltip();
+}
+
+function bindUserMessage() {
+        if ($('#messageTab').is('.active')) {
+            $('.userMessage').unbind('keydown').keydown(function (event) {
+                if (event.keyCode == 13 && !event.shiftKey) {
+                    var userMessage = $(this).val();
+                    console.log(userMessage);
+                    var textareaId = $(this).attr('id');
+                    var tmp = textareaId.split('_');
+                    var receiverId = tmp[1];
+                    var messageError = $(this).parent().find('.userMessageError');
+                    var messageSuccess = $(this).parent().find('.userMessageSuccess');
+                    var me = $(this);
+                    $.ajax({
+                        url: '/social-user-message/',
+                        type: 'POST',
+                        data: {
+                            act: 'ajax',
+                            callback: 'sendMessage',
+                            txtUserMessage: userMessage,
+                            receiverId: receiverId
+                        },
+                        success: function (response) {
+                            var result = JSON.parse(response);
+                            if (result.success) {
+                                me.val('');
+                                messageError.hide();
+                                messageSuccess.html(result.result);
+                                bindUserMessage();
+                            } else {
+                                messageError.html(result.result);
+                            }
+                            messageError.fadeIn();
+                        }
+                    });
+                    return false;
+                }
+            });
+        }
 }
