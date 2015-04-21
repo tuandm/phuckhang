@@ -124,6 +124,7 @@ class LandBook_Hook
 
     /**
      * Update group for user
+     *
      */
     function updateUserGroups()
     {

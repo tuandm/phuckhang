@@ -5,6 +5,8 @@
  * Date: 3/28/2015
  * Time: 12:44 AM
  */
+$this->load->library('permalink_util');
+$url = new Permalink_Util();
 ?>
 <div class="panel panel-default">
     <div class="panel-heading"><strong>Thông Tin <?php echo $name ?></strong></div>
@@ -67,7 +69,7 @@
             <?php else : ?>
                 <div class="col-sm-9 info-friend">
                 <?php foreach ($friendIds as $friend) : ?>
-                        <a href="?act=index&userId=<?php echo $friend; ?>"><?php echo (get_simple_local_avatar($friend, 50)); ?></a>
+                        <a href="<?php echo $url->buildUserProfileUrl($friend) ?> "><?php echo (get_simple_local_avatar($friend, 50)) ?></a>
                 <?php endforeach ?>
                 </div>
                 <div class="col-sm-3 pull-right">

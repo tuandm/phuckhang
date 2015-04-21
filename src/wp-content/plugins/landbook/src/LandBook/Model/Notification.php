@@ -28,13 +28,9 @@ class LandBook_Model_Notification extends LandBook_Model
      */
     public function createNotificationsOfActivity($activityId)
     {
-        $userId = get_current_user_id();
-        if ($userId == 0) {
-            die('Invalid user');
-        }
-
         $activity = $this->getRow("SELECT * FROM pk_sc_user_activities WHERE sc_user_activity_id = %d", $activityId);
         $objectId = $activity->object_id;
+        $userId = $activity->user_id;
 
         switch ($activity->type) {
             case LandBook_Model_Activity::TYPE_ADD_STATUS_COMMENT:
@@ -73,10 +69,12 @@ class LandBook_Model_Notification extends LandBook_Model
      */
     protected function createAddStatusCommentNotifications($userId, $objectId)
     {
-        $status = $this->getRow('SELECT * FROM pk_sc_user_status WHERE status_id = %d', $objectId);
+        $status = $this->getRow(
+            'SELECT scus.user_id FROM pk_sc_user_status scus INNER JOIN pk_comments WHERE comment_ID = %d', $objectId);
         if ($status == null) {
             die('Invalid status');
         }
+
         $currentUserName = get_the_author_meta('display_name', $userId);
         $userProfileUrl = $this->buildNotiUserProfileUrl($status->user_id, self::TYPE_STATUS_COMMENT, array('status_id' => $objectId));
         $notiText = sprintf('<a href="%s"><span class="author">%s</span> bình luận về trạng thái của bạn</a>', $userProfileUrl, $currentUserName);

@@ -13,8 +13,8 @@
 <div class="group-wrap">
     <h4>GROUP</h4>
     <ul class="group-links">
-        <?php if (isset($userGroupNames) && !empty($userGroupNames)) : ?>
-            <?php foreach ($userGroupNames as $group) : ?>
+        <?php if (isset($groupNames) && !empty($groupNames)) : ?>
+            <?php foreach ($groupNames as $group) : ?>
                 <li class="group-item"><a href="#"><i class="fa fa-users"></i><span> <?php echo $group; ?></span></a></li>
             <?php endforeach ?>
         <?php else : ?>

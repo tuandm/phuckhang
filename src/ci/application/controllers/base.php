@@ -11,6 +11,17 @@ class Base extends CI_Controller
 {
 
     /**
+     * @var User_Profile_Model
+     */
+    public $userProfileModel;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('userprofile/User_Profile_Model', 'userProfileModel');
+    }
+
+    /**
      * Render view file and return renderred content
      *
      * @param string $view file path
@@ -19,9 +30,52 @@ class Base extends CI_Controller
      */
     public function render($view, array $data = array())
     {
+
         ob_start();
         $this->load->view($view, $data);
         return ob_get_clean();
+    }
+
+    /**
+     * Load View for View Controller
+     *
+     * @param string $view file path
+     * @param array $data
+     * @param bool $renderFullView
+     * @return string
+     */
+    public function renderSocialView($view, array $data = array(), $renderFullView = false)
+    {
+        /** @var array $content */
+        $content = [];
+        if ($renderFullView && get_current_user_id()) {
+            /** @var array $groups */
+            $groups = $this->userProfileModel->getAllUserGroups(get_current_user_id());
+
+            /** @var array $groupNames */
+            if ($groups['numGroups'] === 0) {
+                $groupNames = [];
+            }
+            foreach ($groups['group'] as $group) {
+                $groupNames[] = get_term($group['group_id'], 'sc_group', ARRAY_A)['name'];
+            }
+            /** @var array $groupData */
+            $groupData = array(
+                'numGroups'     => $groups['numGroups'],
+                'userId'        => get_current_user_id(),
+                'groupNames'    => $groupNames
+            );
+                $content['left'] = $this->render('layout/partial/left_content', $groupData);
+                $content['main'] = $this->render($view, $data);
+                $content['right'] = $this->render('layout/partial/social_sidebar');
+        }
+        if (!empty($content)) {
+            $this->load->view('layout/layout', array(
+                'content' => $content
+            ));
+        } else {
+            die('Can not load this page');
+        }
     }
 
     /**
