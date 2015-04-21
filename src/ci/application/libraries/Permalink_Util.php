@@ -32,8 +32,7 @@ class Permalink_Util {
             $params = array();
         }
         $params['groupId'] = $groupId;
-        // TODO: pass group URL here
-        return site_url('XXX' . build_query($params));
+        return site_url('social-group?' . build_query($params));
     }
 
 }

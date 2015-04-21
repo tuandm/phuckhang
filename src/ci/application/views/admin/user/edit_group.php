@@ -4,15 +4,27 @@
         <tr>
             <th><label for="group"><?php _e('Select Group'); ?></label></th>
             <td><?php if (!empty($terms)) : ?>
+                    <?php $options = array('No Role', 'Admin', 'Member'); ?>
                     <?php foreach ($terms as $term) :?>
-                    <?php $checkValue = in_array($term->term_id, $results)? 1 : 0 ; ?>
-                    <input type="checkbox" name="group[]" id="group-<?php echo $term->name; ?>"
-                    value="<?php echo $term->name; ?>"
-                    <?php checked($checkValue, 1); ?> />
-                    <label for="group-<?php echo esc_attr($term->name); ?>">
-                        <?php echo $term->name ?>
-                    </label> <br />
-                    <?php endforeach;?>
+                        <?php if ($term->checked) : ?>
+                            <input checked="checked" type="checkbox" name="group[]" id="group-<?php echo $term->name; ?>"
+                        <?php else : ?>
+                            <input type="checkbox" name="group[]" id="group-<?php echo $term->name; ?>"
+                        <?php endif; ?>
+                        <label for="group-<?php echo esc_attr($term->name); ?>">
+                            <?php echo $term->name; ?>
+                        </label>
+                        <select name = "<?php echo $term->term_id; ?>">
+                            <?php foreach($options as $option) : ?>
+                                <?php if ($term->role == $option) : ?>
+                                    <option value="<?php echo $option; ?>" selected="selected"><?php echo $option; ?></option>
+                                <? else : ?>
+                                    <option value="<?php echo $option; ?>"><?php echo $option; ?></option>
+                                <? endif; ?>
+                            <?php endforeach; ?>
+                        </select><br/>
+                        <?php endforeach; ?>
+                        <br/>
         <!--    If there are no groups terms, display a message.   -->
                 <?php else :?>
                     _e('There are no groups available.);

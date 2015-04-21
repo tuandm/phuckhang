@@ -5,7 +5,8 @@
  * Date: 3/26/15
  * Time: 8:42 PM
  */
-Class User_Group extends CI_Controller
+include_once('base.php');
+Class User_Group extends Base
 {
     /**
      * @var User_Model
@@ -20,10 +21,9 @@ Class User_Group extends CI_Controller
 
     public function index()
     {
-        //$groupId =
-        $group = $this->userModel->getGroupByGroupId(3);
-        $usersInGroup = $this->userModel->getUsersInGroupByGroupID(3);
-        //var_dump($usersInGroup);die;
+        $groupId = $this->input->get('groupID');
+        $group = $this->userModel->getGroupByGroupId($groupId);
+        $usersInGroup = $this->userModel->getUsersInGroupByGroupID($groupId);
         $this->load->view('layout/layout', array(
             'content' => $this->render('user/group/view', array(
                 'group' => $group,
