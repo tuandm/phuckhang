@@ -13,6 +13,8 @@ Class User_Group extends Base
      */
     public $userModel;
 
+    public $statusModel;
+
     public function __construct()
     {
         parent::__construct();
@@ -21,20 +23,56 @@ Class User_Group extends Base
 
     public function index()
     {
-        $groupId = $this->input->get('groupID');
+        $groupId = $this->input->get('groupId');
         $group = $this->userModel->getGroupByGroupId($groupId);
         $usersInGroup = $this->userModel->getUsersInGroupByGroupID($groupId);
-        $this->load->view('layout/layout', array(
-            'content' => $this->render('user/group/view', array(
-                'group' => $group,
-                'usersInGroup' => $usersInGroup
-            )),
-        ));
+        $this->renderSocialView('user/group/view', array(
+            'group' => $group,
+            'usersInGroup' => $usersInGroup
+        ), true);
     }
 
-    public function post()
+    public function handlePostNotice()
     {
-        echo 'aaaa';
-        $this->index();
+        $notice = trim($this->input->post('txtGroupNotice'));
+        $userId = get_current_user_id();
+        $response = array(
+            'success'   => false,
+            'result'    => ''
+        );
+        if ($userId === 0) {
+            $response['result'] = 'Please login first';
+        }
+
+        if (empty($notice)) {
+            $response['result'] = 'Please input notice';
+        }
+
+        if (empty($response['result'])) {
+            $noticeId = $this->userModel->addGroupNotice($userId, $notice);
+            if ($noticeId !== false) {
+                $response['success'] = true;
+                $response['result'] = $this->renderGroupNotice($noticeId);
+            } else {
+                $response['result'] = 'Can not post status. Please try again.';
+            }
+        }
+        return $response;
+    }
+
+    private function renderGroupNotice($noticeId)
+    {
+        $notice = $this->userModel->findById($noticeId);
+        if ($notice !== false && is_array($notice)) {
+            return $this->render('/group/notice_content', array(
+                'postDate'      => $notice['created_time'],
+                'notice'        => $notice,
+                'referenceType' => Feed_Model::REFERENCE_TYPE_NOTICE,
+                'allowComment'  => true
+            ));
+        } else {
+            return '';
+        }
+
     }
 }

@@ -39,6 +39,38 @@ $(function() {
     });
 });
 
+$(function() {
+    $("#btnPostNotice").click(function() {
+        $(this).attr('disabled', true);
+        var groupNotice = $('#txtGroupNotice').val();
+        var me = $(this);
+        $.ajax({
+            url: '/social-group/',
+            type: 'POST',
+            data: {
+                act: 'ajax',
+                callback: 'postNotice',
+                txtGroupNotice: groupNotice
+            },
+            success: function(response) {
+                var result = JSON.parse(response);
+                if (result.success) {
+                    $('#txtGroupNotice').val('');
+                    $('#groupNoticeError').hide();
+                    $('#user_notice_separate').after(result.result).fadeIn('slow');
+                    me.attr('disabled', false);
+                } else {
+                    me.attr('disabled', false);
+                    $('#groupNoticeError').html(result.result);
+                    $('#groupNoticeError').show();
+                }
+                $(this).attr('disabled', false);
+            }
+        });
+        return false;
+    });
+});
+
 /**
  * Off click highlight Comment Box
  */

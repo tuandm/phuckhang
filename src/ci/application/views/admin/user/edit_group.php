@@ -3,30 +3,6 @@
     <table class="form-table">
         <tr>
             <th><label for="group"><?php _e('Select Group'); ?></label></th>
-            <td><?php if (!empty($terms)) : ?>
-                    <?php $options = array('No Role', 'Admin', 'Member'); ?>
-                    <?php foreach ($terms as $term) :?>
-                        <?php if ($term->checked) : ?>
-                            <input checked="checked" type="checkbox" name="group[]" id="group-<?php echo $term->name; ?>"
-                        <?php else : ?>
-                            <input type="checkbox" name="group[]" id="group-<?php echo $term->name; ?>"
-                        <?php endif; ?>
-                        <label for="group-<?php echo esc_attr($term->name); ?>">
-                            <?php echo $term->name; ?>
-                        </label>
-                        <select name = "<?php echo $term->term_id; ?>">
-                            <?php foreach($options as $option) : ?>
-                                <?php if ($term->role == $option) : ?>
-                                    <option value="<?php echo $option; ?>" selected="selected"><?php echo $option; ?></option>
-                                <? else : ?>
-                                    <option value="<?php echo $option; ?>"><?php echo $option; ?></option>
-                                <? endif; ?>
-                            <?php endforeach; ?>
-                        </select><br/>
-                        <?php endforeach; ?>
-                        <br/>
-        <!--    If there are no groups terms, display a message.   -->
-                <?php else :?>
             <?php if (!empty($terms)) : ?>
                     <?php $options = array('No Role', 'Admin', 'Member'); ?>
                     <?php foreach ($terms as $term) : ?>
