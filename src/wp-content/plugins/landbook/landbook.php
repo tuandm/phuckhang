@@ -10,6 +10,9 @@ define('CI_ADMIN_FOLDER', "admin");
 
 define('SRC_FOLDER', "src");
 
+define('NUM_NOTIFICATIONS', 20);
+define('USER_NOTIFICATION_AVATAR_SIZE', 50);
+
 spl_autoload_register('LandBook::autoload');
 
 /**
@@ -102,6 +105,7 @@ class LandBook
         $this->loader->addAction('edit_user_profile', $this->hook, 'selectGroup');
         $this->loader->addAction('profile_update', $this->hook, 'profileRedirect');
         $this->loader->addAction('edit_user_profile_update', $this->hook, 'updateUserGroups');
+        $this->loader->addAction('personal_options_update', $this->hook, 'updateUserGroups');
         $this->loader->addAction('save_activity', $this->hook, 'processAfterSavingActivity');
         $this->loader->run();
     }

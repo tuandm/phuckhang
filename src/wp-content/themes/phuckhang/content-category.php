@@ -15,27 +15,21 @@
   ?>
 
   <header class="entry-header">
+
+    <?php the_date('d/m/Y', '<span class="post-date">', '</span>'); ?>
+
     <?php
       if ( is_single() ) :
         the_title( '<h1 class="entry-title">', '</h1>' );
       else :
-        the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' );
+        the_title( sprintf( '<h4 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h4>' );
       endif;
     ?>
   </header><!-- .entry-header -->
 
   <div class="entry-content">
     <?php
-      /* translators: %s: Name of current post */
-      // the_content( sprintf(
-      //   __( 'Continue reading %s', 'phuckhang' ),
-      //   the_title( '<span class="screen-reader-text">', '</span>', true )
-      // ) );
-
       the_excerpt();
-
-
-
       wp_link_pages( array(
         'before'      => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'phuckhang' ) . '</span>',
         'after'       => '</div>',
