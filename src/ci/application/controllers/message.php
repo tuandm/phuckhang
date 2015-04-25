@@ -10,7 +10,7 @@
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 include_once('base.php');
-class Messagelist extends Base
+class Message extends Base
 {
 
     /**
@@ -32,20 +32,58 @@ class Messagelist extends Base
     }
 
     /**
-     *
+     * Index page of Social User Message Page
      */
     public function index()
     {
         $userId = get_current_user_id();
+        $messages = array();
         $data['userId'] = $userId;
         $data['unreadMessages'] = $this->messageModel->getUnreadMessages($userId);
+        $receivedArrays = $this->messageModel->getSenderIds($userId);
+        foreach ($receivedArrays as $key => $receivedArray) {
+            $senderIds[$key] = $receivedArray['sender_id'];
+        }
         $data['title'] = $this->userModel->getTitleByUserId($userId);
         $data['group'] = $this->userModel->getAllUserGroups($userId)['numGroups'];
         $data['friend'] = $this->userModel->getFriendsByUserId($userId)['numFriend'];
         $data['name']   = get_user_by('id', $userId)->user_nicename;
-        $data['messages'] = $this->messageModel->getNewMessages($userId);
+        foreach ($senderIds as $senderId) {
+            $messages[] = $this->messageModel->getNewMessages($userId, $senderId)[0];
+        }
+        rsort($messages);
+        $data['messages'] = $messages;
         $this->renderSocialView('message/user_message_list', array(
             'data' => $data
+        ), true);
+    }
+
+    /**
+     * List User Message Details
+     */
+    public function messageDetail()
+    {
+        $messageId = intval($this->input->get('messageId'));
+        $message = $this->messageModel->getMessageById($messageId);
+        $userId = get_current_user_id();
+        $receiveMessages = $this->messageModel->getMessageBySenderId($message['sender_id'], $userId);
+        $messages = $this->messageModel->getAllSendAndReplyMessage($message['sender_id'], $userId);
+
+        $data['title'] = $this->userModel->getTitleByUserId($userId);
+        $data['group'] = $this->userModel->getAllUserGroups($userId)['numGroups'];
+        $data['friend'] = $this->userModel->getFriendsByUserId($userId)['numFriend'];
+        $data['name']   = get_user_by('id', $userId)->user_nicename;
+        $data['messages'] = $messages;
+        foreach ($receiveMessages as $receiveMessage) {
+            if ($receiveMessage['status'] == 0) {
+                $this->messageModel->updateMessageStatus($receiveMessage['message_id'], 1);
+            }
+        }
+        $data['unreadMessages'] = $this->messageModel->getUnreadMessages($userId);
+        $data['userId'] = $userId;
+        $this->renderSocialView('message/user_message_detail', array(
+            'data'      => $data,
+            'senderId'  => $message['sender_id']
         ), true);
     }
 

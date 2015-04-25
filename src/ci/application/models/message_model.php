@@ -19,18 +19,22 @@ class Message_Model extends Land_Book_Model
 
     /**
      * Get newest messages for displaying to the message list page
-     * @param int $userId
+     * @param int $receiverId
+     * @param int $senderId
      * @return array|bool
      */
-    public function getNewMessages($userId)
+    public function getNewMessages($receiverId, $senderId)
     {
-        $where = array('receiver_id' => $userId);
+        $where = array(
+            'receiver_id'   => $receiverId,
+            'sender_id'     => $senderId
+        );
         $messages= $this->db
             ->select()
             ->from($this->tableName)
             ->order_by('created_date', 'DESC')
             ->where($where)
-            ->limit(10)
+            ->limit(1)
             ->get()
             ->result_array();
         return $messages;
@@ -51,6 +55,45 @@ class Message_Model extends Land_Book_Model
             ->get()
             ->result_array();
         return $message[0];
+    }
+
+    /**
+     * Get all senderId by receiverId
+     * @param int $receiverId
+     * @return array|bool
+     */
+    public function getSenderIds($receiverId)
+    {
+        $where = array('receiver_id' => $receiverId);
+        $receiveArrays = $this->db
+            ->select('sender_id')
+            ->from($this->tableName)
+            ->where($where)
+            ->distinct('sender_id')
+            ->get()
+            ->result_array();
+        return $receiveArrays;
+    }
+
+    /**
+     * Get all messages from sender Id
+     * @param int $senderId
+     * @param int $receiverId
+     * @return array|bool
+     */
+    public function getMessageBySenderId($senderId, $receiverId)
+    {
+        $where = array(
+            'sender_id'     => $senderId,
+            'receiver_id'   => $receiverId
+    );
+        $messages = $this->db
+            ->select()
+            ->from($this->tableName)
+            ->where($where)
+            ->get()
+            ->result_array();
+        return $messages;
     }
 
     /**
@@ -82,7 +125,6 @@ class Message_Model extends Land_Book_Model
             ->from($this->tableName)
             ->order_by('created_date', 'DESC')
             ->where($where)
-            ->limit(10)
             ->get()
             ->result_array();
         return count($messages);
@@ -115,9 +157,9 @@ class Message_Model extends Land_Book_Model
      * @param $receiverId
      * @return mixed
      */
-    public function getAllSendAndReplyMessage($senderId, $receiverId, $date)
+    public function getAllSendAndReplyMessage($senderId, $receiverId)
     {
-        $query = "((sender_id='$senderId' AND receiver_id='$receiverId') OR (sender_id='$receiverId' AND receiver_id='$senderId')) AND created_date <='$date'";
+        $query = "((sender_id='$senderId' AND receiver_id='$receiverId') OR (sender_id='$receiverId' AND receiver_id='$senderId'))";
         $messages = $this->db
             ->select()
             ->from($this->tableName)

@@ -24,9 +24,9 @@ $url = new Permalink_Util();
                 $time = strtotime($message['created_date']);
                 ?>
                 <?php if ($message['status'] == 0) : ?>
-                    <li class="list-group-item not-read" onclick="location.href='<?php echo $url->buildMessageDetailUrl($message['message_id']) ?>'" style="cursor: pointer;">
+                    <li class="list-group-item not-read" onclick="location.href='<?php echo $url->buildMessageDetailUrl($message['message_id'], array('act' => 'messageDetail')) ?>'" style="cursor: pointer;">
                 <?php else : ?>
-                    <li class="list-group-item " onclick="location.href='<?php echo $url->buildMessageDetailUrl($message['message_id']) ?>'" style="cursor: pointer;">
+                    <li class="list-group-item " onclick="location.href='<?php echo $url->buildMessageDetailUrl($message['message_id'], array('act' => 'messageDetail')) ?>'" style="cursor: pointer;">
                 <?php endif ?>
                 <div class="row noti-item">
                     <div class="col-sm-2 col-xs-3 noti-avatar">
