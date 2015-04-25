@@ -44,6 +44,7 @@ class Message extends Base
         foreach ($receivedArrays as $key => $receivedArray) {
             $senderIds[$key] = $receivedArray['sender_id'];
         }
+
         $data['title'] = $this->userModel->getTitleByUserId($userId);
         $data['group'] = $this->userModel->getAllUserGroups($userId)['numGroups'];
         $data['friend'] = $this->userModel->getFriendsByUserId($userId)['numFriend'];
@@ -51,6 +52,7 @@ class Message extends Base
         foreach ($senderIds as $senderId) {
             $messages[] = $this->messageModel->getNewMessages($userId, $senderId)[0];
         }
+
         rsort($messages);
         $data['messages'] = $messages;
         $this->renderSocialView('message/user_message_list', array(
@@ -79,6 +81,7 @@ class Message extends Base
                 $this->messageModel->updateMessageStatus($receiveMessage['message_id'], 1);
             }
         }
+
         $data['unreadMessages'] = $this->messageModel->getUnreadMessages($userId);
         $data['userId'] = $userId;
         $this->renderSocialView('message/user_message_detail', array(

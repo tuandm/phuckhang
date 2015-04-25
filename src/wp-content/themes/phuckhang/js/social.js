@@ -172,7 +172,7 @@ function onUserLikeList()
 }
 
 /**
- * Bind User Message
+ * Bind User Message send from social-sidebar
  */
 function bindUserMessage() {
     if ($('#messageTab').is('.active')) {
@@ -217,7 +217,7 @@ function bindUserMessage() {
 }
 
 /**
- *
+ * Send message from User Message detail box.
  */
 function bindReplyMessage()
 {

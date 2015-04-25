@@ -30,12 +30,12 @@ $url = new Permalink_Util();
                 <?php endif ?>
                 <div class="row noti-item">
                     <div class="col-sm-2 col-xs-3 noti-avatar">
-                        <a href="<?php echo $url->buildUserProfileUrl($message['sender_id']) ?>"><?php echo get_simple_local_avatar($message['sender_id'], 50)?></a>
+                        <a href="<?php echo $url->buildUserProfileUrl($message['sender_id']) ?>"><?php echo get_simple_local_avatar($message['sender_id'], 50) ?></a>
                     </div>
                     <div class="col-sm-10 col-xs-9">
-                        <strong><a href="<?php echo $url->buildUserProfileUrl($message['sender_id']) ?>"><?php echo $message['sender_name']?></a></strong>
+                        <strong><a href="<?php echo $url->buildUserProfileUrl($message['sender_id']) ?>"><?php echo $message['sender_name'] ?></a></strong>
                         </br>
-                        <?php echo $message['message']?>
+                        <?php echo $message['message'] ?>
                         <span class="noti-datetime"><?php echo timespan($time, time()) . ' ago' ?></span>
                     </div>
                 </div>

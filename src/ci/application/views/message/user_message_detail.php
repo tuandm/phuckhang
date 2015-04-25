@@ -8,13 +8,12 @@ echo $this->view('/userprofilepage/user_login_info',
     ]);
 $this->load->library('permalink_util');
 $url = new Permalink_Util();
-
 ?>
 <div class="panel panel-default">
     <div class="panel-heading clearfix">
         <strong class="pull-left">Tin Nhắn</strong>
         <div class="pull-right">
-            <span class="badge" style="background-color: #0291F9;"><?php echo $data['unreadMessages']?></span> (Chưa Đọc)
+            <span class="badge" style="background-color: #0291F9;"><?php echo $data['unreadMessages'] ?></span> (Chưa Đọc)
         </div>
     </div>
 
