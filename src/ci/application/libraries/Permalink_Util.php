@@ -36,4 +36,18 @@ class Permalink_Util {
         return site_url('XXX' . build_query($params));
     }
 
+    /**
+     * Helper method to build the URL that points to the message detail page
+     * @param int $messageId ID of the message that the URL points to
+     * @param array|null $params Additional parameters passed to the URL's query string
+     * @return string
+     */
+    public static function buildMessageDetailUrl($messageId, $params = array()) {
+        if ($params == null) {
+            $params = array();
+        }
+        $params['messageId'] = $messageId;
+        return site_url('social-user-messagedetail?' . build_query($params));
+    }
+
 }

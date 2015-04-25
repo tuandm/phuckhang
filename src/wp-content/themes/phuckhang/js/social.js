@@ -1,5 +1,7 @@
 var allowSearch = true;
 $(function() {
+    bindReplyMessage();
+    bindUserMessage();
     bindHighLightCommentBox();
     bindUserLike();
     bindUserCommentTextArea();
@@ -167,4 +169,93 @@ $("#search").keyup(function() {
 function onUserLikeList()
 {
     $('.numlike').tooltip();
+}
+
+/**
+ * Bind User Message
+ */
+function bindUserMessage() {
+    if ($('#messageTab').is('.active')) {
+        $('.userMessage').unbind('keydown').keydown(function (event) {
+            if (event.keyCode == 13 && !event.shiftKey) {
+                var userMessage = $(this).val();
+                console.log(userMessage);
+                var textareaId = $(this).attr('id');
+                var tmp = textareaId.split('_');
+                var receiverId = tmp[1];
+                var messageError = $(this).parent().find('.userMessageError');
+                var messageSuccess = $(this).parent().find('.userMessageSuccess');
+                var me = $(this);
+                $.ajax({
+                    url: '/social-user-message/',
+                    type: 'POST',
+                    data: {
+                        act: 'ajax',
+                        callback: 'sendMessage',
+                        txtUserMessage: userMessage,
+                        receiverId: receiverId
+                    },
+                    success: function (response) {
+                        var result = JSON.parse(response);
+                        if (result.success) {
+                            me.val('');
+                            messageError.hide();
+                            messageSuccess.html(result.result);
+                            messageSuccess.fadeIn();
+                            bindUserMessage();
+                        } else {
+                            messageSuccess.hide();
+                            messageError.html(result.result);
+                            messageError.fadeIn();
+                        }
+                    }
+                });
+                return false;
+            }
+        });
+    }
+}
+
+/**
+ *
+ */
+function bindReplyMessage()
+{
+    $("#btnSendMessage").click(function() {
+        $(this).attr('disabled', true);
+        console.log($(this));
+        var userMessage = $('#txtUserMessage').val();
+        var textAreaId = $(this).attr('class');
+        var tmp = textAreaId.split('_');
+        var receiverId = tmp[1];
+        var me = $(this);
+        $.ajax({
+            url: '/social-user-message/',
+            type: 'POST',
+            data: {
+                act: 'ajax',
+                callback: 'sendMessage',
+                txtUserMessage: userMessage,
+                receiverId: receiverId
+            },
+            success: function (response) {
+                var result = JSON.parse(response);
+                if (result.success) {
+                    $('#txtUserMessage').val('');
+                    $('#replyError').hide();
+                    $('#replySuccessfully').html(result.result);
+                    $('#replySuccessfully').show();
+                    me.attr('disabled', false);
+                    bindReplyMessage();
+                } else {
+                    me.attr('disabled', false);
+                    console.log($(this));
+                    $('#replySuccessfully').hide();
+                    $('#replyError').html(result.result);
+                    $('#replyError').show();
+                }
+            }
+        });
+        return false;
+    });
 }
