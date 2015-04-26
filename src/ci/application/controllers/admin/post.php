@@ -73,7 +73,7 @@ class Post extends CI_Controller
     public function delete()
     {
         if (!is_admin()) {
-            $postId = (int)$this->input->get('post');
+            $postId = (int) $this->input->get('post');
             if ($postId > 0) {
                 wp_delete_post($postId);
                 $this->index();

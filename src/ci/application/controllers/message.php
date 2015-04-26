@@ -65,7 +65,7 @@ class Message extends Base
      */
     public function messageDetail()
     {
-        $messageId = intval($this->input->get('messageId'));
+        $messageId = (int) $this->input->get('messageId');
         $message = $this->messageModel->getMessageById($messageId);
         $userId = get_current_user_id();
         $receiveMessages = $this->messageModel->getMessageBySenderId($message['sender_id'], $userId);
@@ -98,7 +98,7 @@ class Message extends Base
     {
         $message = trim($this->input->post('txtUserMessage'));
         $sendMessageUserId = get_current_user_id();
-        $receivedMessageUserId = intval($this->input->post('receiverId'));
+        $receivedMessageUserId = (int) $this->input->post('receiverId');
         $response = array(
             'success'   => false,
             'result'    => ''
