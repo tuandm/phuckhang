@@ -26,7 +26,7 @@ class Feed_Model extends Land_Book_Model
     /**
      * Reference for user' comment
      */
-    const REFERENCE_TYPE_NOTICE = 'notice';
+    const REFERENCE_TYPE_NOTIFICATION = 'notification';
 
     /**
      * @var string

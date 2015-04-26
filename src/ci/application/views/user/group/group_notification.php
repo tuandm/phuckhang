@@ -1,4 +1,5 @@
 <?php
+$this->load->library('permalink_util');
 $url = new Permalink_Util;
 ?>
 
@@ -8,11 +9,11 @@ $url = new Permalink_Util;
         <div class="feed">
             <div class="row">
                 <div class="person col-lg-3 col-xs-3">
-                    <a href="<?php echo $url->buildUserProfileUrl($notice['user_id']) ?>" ><?php echo get_simple_local_avatar($notice['user_id'], 100) ?></a>
+                    <a href="<?php echo $url->buildUserProfileUrl($notification['user_id']) ?>" ><?php echo get_simple_local_avatar($notification['user_id'], 100) ?></a>
                 </div>
                 <div class="feed-content col-lg-9 col-xs-9">
                     <p>
-                        <?php echo $notice['status']?>
+                        <?php echo $notification['status']?>
                     </p>
                 </div>
             </div>

@@ -75,32 +75,32 @@ Class User_Model extends Land_Book_Model
         return $role;
     }
 
-    public function addGroupNotice($userId, $notice)
+    public function addGroupNotification($userId, $notification)
     {
         $now = date('Y-m-d H:i:s');
         $result = $this->db->insert('pk_sc_user_status', array(
-            'status'        => $notice,
+            'status'        => $notification,
             'user_id'       => $userId,
             'created_time'  => $now,
             'updated_time'  => $now,
         ));
 
         if ($result) {
-            $noticeId = $this->db->insert_id();
+            $notificationId = $this->db->insert_id();
             $feedModel = new Feed_Model();
-            $feedResult = $feedModel->insert($userId, $noticeId, Feed_Model::REFERENCE_TYPE_NOTICE);
+            $feedResult = $feedModel->insert($userId, $notificationId, Feed_Model::REFERENCE_TYPE_NOTIFICATION);
             if ($feedResult == false) {
                 return false;
             }
         }
-        return $noticeId;
+        return $notificationId;
     }
 
-    public function findById($noticeId)
+    public function findById($notificationId)
     {
         $rows = $this->db->select()
             ->from('pk_sc_user_status')
-            ->where('status_id', $noticeId)
+            ->where('status_id', $notificationId)
             ->get()
             ->result_array();
         if (empty($rows)) {
