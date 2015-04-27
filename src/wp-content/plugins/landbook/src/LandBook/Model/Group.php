@@ -50,18 +50,6 @@ class LandBook_Model_Group extends LandBook_Model {
     }
 
     /**
-     * Update group for user
-     * @param array $updateData
-     * @param int $userId
-     * @return false|int
-     */
-    public function updateGroup(array $updateData, $userId)
-    {
-        $result = $this->getWpdb()->update('pk_users', $updateData, $userId);
-        return $result;
-    }
-
-    /**
      * Get groupId by Name
      * @param $postUserGroup
      * @return int|bool
@@ -84,11 +72,10 @@ class LandBook_Model_Group extends LandBook_Model {
     }
 
     /**
-     *
+     * Update User Groups
      */
-    function updateUserGroups()
+    public function updateUserGroups()
     {
-        $updateData = filter_input_array(INPUT_POST);
         $userId = filter_input(INPUT_POST, 'user_id');
         $postUserGroups = filter_input(INPUT_POST, 'group', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
         if ($postUserGroups == null) {
@@ -105,7 +92,6 @@ class LandBook_Model_Group extends LandBook_Model {
             $this->deleteGroup($deleteData);
         }
 
-        $this->updateGroup($updateData, $userId);
         foreach ($postUserGroups as $postUserGroup) {
             $checkGroup = in_array($postUserGroup, $currentUserGroups) ? 1 : 0;
             if ($checkGroup == 0) {

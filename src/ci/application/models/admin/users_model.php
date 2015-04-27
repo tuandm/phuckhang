@@ -6,6 +6,10 @@
 require_once(dirname(dirname(__FILE__)) . "/land_book_model.php");
 class Users_Model extends Land_Book_Model {
 
+    /**
+     * @var wpdb
+     */
+    protected $wpdb;
     public function __construct()
     {
         parent::__construct();
@@ -94,6 +98,20 @@ class Users_Model extends Land_Book_Model {
                     ->result_array();
         }
         return count($results);
+    }
+
+    /**
+     * Get Group Name and Id by User Id
+     * @param int $userId
+     * @return array|bool
+     */
+    public function getGroupNameByUserId($userId){
+        global $wpdb;
+        $sql = "SELECT group_id, pk_terms.name FROM pk_sc_user_groups
+                INNER JOIN pk_terms ON pk_sc_user_groups.group_id = pk_terms.term_id
+                WHERE pk_sc_user_groups.user_id = $userId";
+        $results = $wpdb->get_results("$sql", ARRAY_A);
+        return $results;
     }
 
 }

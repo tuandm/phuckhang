@@ -39,6 +39,38 @@ $(function() {
     });
 });
 
+$(function() {
+    $("#btnPostGroupNotification").click(function() {
+        $(this).attr('disabled', true);
+        var groupNotification = $('#txtGroupNotification').val();
+        var me = $(this);
+        $.ajax({
+            url: '/social-group-notification/',
+            type: 'POST',
+            data: {
+                act: 'ajax',
+                callback: 'postGroupNotification',
+                txtGroupNotification: groupNotification
+            },
+            success: function(response) {
+                var result = JSON.parse(response);
+                if (result.success) {
+                    $('#txtGroupNotification').val('');
+                    $('#groupNotificationError').hide();
+                    $('#user_notification_separate').after(result.result).fadeIn('slow');
+                    me.attr('disabled', false);
+                } else {
+                    me.attr('disabled', false);
+                    $('#groupNotificationError').html(result.result);
+                    $('#groupNotificationError').show();
+                }
+                $(this).attr('disabled', false);
+            }
+        });
+        return false;
+    });
+});
+
 /**
  * Off click highlight Comment Box
  */
@@ -134,36 +166,35 @@ function bindUserCommentTextArea()
     });
 }
 
-        $("#search").keyup(function() {
-            if (allowSearch) {
-                    allowSearch = false;
-                    $.ajax({
-                        type: "post",
-                        url: "/social-user-friends/",
-                        cache: false,
-                        data:
-                        {
-                            act: 'ajax',
-                            callback: 'search',
-                            search: $("#search").val()
-                        },
-                        success: function(response) {
-                            var results = JSON.parse(response);
-                            if (results.success) {
-                                    $('#finalResult').html(results.result);
-                            } else {
-                                $('#finalResult').html($('<li/>').text("No Data Found"));
-                            }
-                            allowSearch = true;
-                        },
-                        error: function() {
-                            alert('Error while request..');
-                        }
-                    });
+$("#search").keyup(function() {
+    if (allowSearch) {
+        allowSearch = false;
+        $.ajax({
+            type: "post",
+            url: "/social-user-friends/",
+            cache: false,
+            data:
+            {
+                act: 'ajax',
+                callback: 'search',
+                search: $("#search").val()
+            },
+            success: function(response) {
+                var results = JSON.parse(response);
+                if (results.success) {
+                    $('#finalResult').html(results.result);
+                } else {
+                    $('#finalResult').html($('<li/>').text("No Data Found"));
+                }
+                allowSearch = true;
+            },
+            error: function() {
+                alert('Error while request..');
             }
-            return false;
         });
-
+    }
+    return false;
+});
 
 function onUserLikeList()
 {

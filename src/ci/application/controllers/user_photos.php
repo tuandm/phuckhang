@@ -5,7 +5,8 @@
  * Date: 3/23/15
  * Time: 5:39 PM
  */
-Class User_Photos extends CI_Controller
+include_once('base.php');
+Class User_Photos extends Base
 {
     /**
      * @var User_Model
@@ -20,12 +21,12 @@ Class User_Photos extends CI_Controller
 
     public function index()
     {
-        $photos = $this->userModel->getAllPhotos();
-        $this->load->view('layout/layout', array(
-            'content' => $this->render('user/photo/view', array(
-                'photos' => $photos
-            )),
-        ));
+        $userId = ($this->input->get('userId')) ? $this->input->get('userId') : get_current_user_id();
+        $photos = $this->userModel->getAllPhotos($userId);
+        $this->renderSocialView('user/photo/view', array(
+            'photos' => $photos,
+            'user'   => $userId
+        ), true);
     }
 
     public function addImages()

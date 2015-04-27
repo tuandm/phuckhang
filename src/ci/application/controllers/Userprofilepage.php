@@ -11,17 +11,14 @@ include_once('base.php');
 class Userprofilepage extends Base
 {
 
-    /**
-     * @var User_Profile_Model
-     */
-    public $userProfileModel;
-
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('userprofile/User_Profile_Model', 'userProfileModel');
     }
 
+    /**
+     * Default page of user when login
+     */
     public function index()
     {
         // Information for the viewed user profile
@@ -49,27 +46,17 @@ class Userprofilepage extends Base
         $loginTitle = $this->userProfileModel->getTitleByUserId($loginUserId);
         $loginGroups = $this->userProfileModel->getAllUserGroups($loginUserId);
         $loginFriends = $this->userProfileModel->getFriendsByUserId($loginUserId);
-
-        if ($loginGroups['numGroups'] === 0) {
-            $loginGroupNames = '';
-        }
-        foreach ($loginGroups['group'] as $group) {
-            $loginGroupNames[] = get_term($group['group_id'], 'sc_group', ARRAY_A)['name'];
-        }
         $loginUser = array(
             'userId'        => $loginUserId,
             'title'         => $loginTitle,
             'name'          => $loginName,
             'numGroups'     => $loginGroups['numGroups'],
-            'groupNames'    => $loginGroupNames,
             'numFriends'    => $loginFriends['numFriend']
         );
-        $this->load->view('layout/layout', array(
-            'content' => $this->render('userprofilepage/index', array(
+        $this->renderSocialView('userprofilepage/index', array(
                 'viewedUser'    => $viewedUser,
                 'loginUser'     => $loginUser
-            ))
-        ));
+            ), true);
     }
 
 }
