@@ -21,15 +21,8 @@ Class User_Photos extends Base
 
     public function index()
     {
-        $userId = $this->input->get('userId');
-
-        if($userId == false) {
-            $userId = wp_get_current_user()->ID;
-            $photos = $this->userModel->getAllPhotos($userId);
-        } else {
-            $photos = $this->userModel->getAllPhotos($userId);
-        }
-
+        $userId = ($this->input->get('userId')) ? $this->input->get('userId') : get_current_user_id();
+        $photos = $this->userModel->getAllPhotos($userId);
         $this->renderSocialView('user/photo/view', array(
             'photos' => $photos,
             'user'   => $userId
