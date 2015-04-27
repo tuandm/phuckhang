@@ -22,7 +22,7 @@ class LandBook_Model_Feed extends LandBook_Model
     public function insertFeedAfterPublishPost($userId, $postId)
     {
         return $this->getWpdb()->insert(
-            'pk_user_feed',
+            'pk_sc_user_feed',
             array(
                 'user_id'           => $userId,
                 'reference_id'      => $postId,

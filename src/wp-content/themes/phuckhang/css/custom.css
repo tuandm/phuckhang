@@ -1,4 +1,6 @@
 /**
  * For Miscellaneous class/id
  */
-
+.noti-item .author {
+    font-weight: bold;
+}

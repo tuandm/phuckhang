@@ -17,6 +17,6 @@
         </tbody>
     </table>
     <input name="post-id" id="post-id" value="<?php echo $post->ID; ?>" size="40" aria-required="true" type="hidden">
-    <input type="hidden" id="action" name="act" value="updatePost"><br>
-    <p class="submit"><input name="update" id="submit" class="button button-primary" value="Update" type="submit"></p>
+    <input type="hidden" id="action" name="act" value="update"><br>
+    <p class="submit"><input name="update" id="submit" class="button button-primary" value="update" type="submit"></p>
 </form>

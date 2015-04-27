@@ -68,10 +68,16 @@ class LandBook_Loader
      * @param  string    $hook        The name of the WordPress hook to which we're registering a callback.
      * @param  object    $component   The object that contains the method to be called when the hook is fired.
      * @param  string    $callback    The function that resides on the specified component.
+     * @param  int       $priority        Optional. Used to specify the order in which the functions
+     *                                  associated with a particular action are executed. Default 10.
+     *                                  Lower numbers correspond with earlier execution,
+     *                                  and functions with the same priority are executed
+     *                                  in the order in which they were added to the action.
+     * @param  int       $accepted_args   Optional. The number of arguments the function accepts. Default 1.
      */
-    public function addFilter($hook, $component, $callback)
+    public function addFilter($hook, $component, $callback, $priority = 10, $accepted_args = 1)
     {
-        $this->_filters = $this->_add($this->_filters, $hook, $component, $callback);
+        $this->_filters = $this->_add($this->_filters, $hook, $component, $callback, $priority, $accepted_args);
     }
 
     /**
@@ -125,7 +131,7 @@ class LandBook_Loader
     public function run()
     {
         foreach ($this->_filters as $hook) {
-            add_filter($hook['hook'], array($hook['component'], $hook['callback']));
+            add_filter($hook['hook'], array($hook['component'], $hook['callback']), $hook['priority'], $hook['acccepted_args']);
         }
 
         foreach ($this->_actions as $hook) {

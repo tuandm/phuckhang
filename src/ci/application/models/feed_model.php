@@ -26,7 +26,7 @@ class Feed_Model extends Land_Book_Model
     /**
      * @var string
      */
-    protected $tableName = 'pk_user_feed';
+    protected $tableName = 'pk_sc_user_feed';
 
     /**
      * Get newest feeds for displaying to the homepage
@@ -38,6 +38,7 @@ class Feed_Model extends Land_Book_Model
         $feeds = $this->db
             ->select()
             ->from($this->tableName)
+            ->order_by('feed_id', 'DESC')
             ->limit(10)
             ->get()
             ->result_array();

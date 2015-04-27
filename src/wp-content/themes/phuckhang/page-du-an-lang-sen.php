@@ -1,5 +1,7 @@
 <?php
-  get_header();
+    wp_enqueue_script('jquery-cycle2', get_template_directory_uri() . '/js/jquery.cycle2.min.js', array(), '2.1.6', true);
+    wp_enqueue_script('jquery-cycle2-scrollVert', get_template_directory_uri() . '/js/jquery.cycle2.scrollVert.min.js', array('jquery-cycle2'), '2.1.6', true);
+    get_header();
 ?>
   <div class="project-banner langsen">
     <div class="banner-info">
