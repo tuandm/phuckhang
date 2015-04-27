@@ -3,26 +3,16 @@
  * Author: Storm
  */
 $this->load->helper('url');
-$user = wp_get_current_user();
+$userId = get_current_user_id();
 ?>
 <div class="photo-header">
     <div class="row">
         <div class="col-xs-4 col-sm-5">
             <h4 class="text-primary">Hình ảnh</h4>
         </div>
-        <?php if (isset($user->ID) && ($user->ID == $photos[1]['user_id'])) : ?>
-            <form method="post" action="" enctype="multipart/form-data" />
-            <div class="fileUpload btn btn-primary">
-                <span>Up hình ảnh mới</span>
-                <input id="uploadBtn" type="file" class="upload" name="myImages"/>
-            </div>
-            <div class="col-xs-4 col-sm-4">
-                <input type="text" name="txtDescription" id="uploadFile" class="form-control" required>
-            </div>
-                <input type="submit" placeholder="Upload" value="Upload">
-                <input type="hidden" id="action" name="act" value="addImages">
-            </form>
-            <?php endif;?>
+        <?php if (isset($userId) && ($user == $userId)) : ?>
+            <?php echo $this->view('/user/photo/add_photo') ?>
+        <?php endif; ?>
     </div>
 </div>
 <div class="photo-wrap">
@@ -34,8 +24,3 @@ $user = wp_get_current_user();
         <?php endforeach; ?>
     </div>
 </div>
-<script>
-    document.getElementById("uploadBtn").onchange = function () {
-        document.getElementById("uploadFile").value = this.value;
-    };
-</script>

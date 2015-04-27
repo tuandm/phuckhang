@@ -31,7 +31,8 @@ Class User_Photos extends Base
         }
 
         $this->renderSocialView('user/photo/view', array(
-            'photos' => $photos
+            'photos' => $photos,
+            'user'   => $userId
         ), true);
     }
 
