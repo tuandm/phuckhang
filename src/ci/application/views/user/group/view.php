@@ -23,9 +23,6 @@ $url = new Permalink_Util;
         <?php echo $this->view('/user/group/add_notification') ?>
     <?php endif; ?>
 
-    <div class="clearfix"></div>
-</div>
-
-<div class="clearfix" id="user_notification_separate">
-    <?php echo $this->view('/user/group/group_notification') ?>
+<div class="clearfix" id="user_notification_separate"></div>
+    <?php echo $this->view('/user/group/group_feed') ?>
 </div>

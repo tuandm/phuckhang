@@ -68,7 +68,7 @@ Class Group_Notifications extends Base
         }
 
         if (empty($notification)) {
-            $response['result'] = 'Please input notice';
+            $response['result'] = 'Please input notification';
         }
 
         if (empty($response['result'])) {
