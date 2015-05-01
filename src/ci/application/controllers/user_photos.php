@@ -21,17 +21,17 @@ Class User_Photos extends Base
 
     public function index()
     {
-        $photos = $this->userModel->getAllPhotos();
-        $this->load->view('layout/layout', array(
-            'content' => $this->render('user/photo/view', array(
-                'photos' => $photos
-            )),
-        ));
+        $userId = ($this->input->get('userId')) ? $this->input->get('userId') : get_current_user_id();
+        $photos = $this->userModel->getAllPhotos($userId);
+        $this->renderSocialView('user/photo/view', array(
+            'photos' => $photos,
+            'user'   => $userId
+        ), true);
     }
 
     public function addImages()
     {
-        $config['upload_path'] = 'upload';
+        $config['upload_path'] = UPLOAD_PHOTOS_DIR;
         $config['allowed_types'] = 'jpg|png|gif';
         $this->load->library('upload', $config);
 

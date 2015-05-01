@@ -10,7 +10,7 @@ class Post extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('ScPostManage');
+        $this->load->library('sc_post_management');
         $this->load->model('admin/Posts', 'postModel');
         $this->load->library('form_validation');
     }
@@ -53,9 +53,9 @@ class Post extends CI_Controller
             $content = $this->input->post('post-content');
             $id = $this->input->post('post-id');
             $args = array(
-                'ID'            => $id,
-                'post_title'    => $title,
-                'post_content'  => $content
+                            'ID'            => $id,
+                            'post_title'    => $title,
+                            'post_content'  => $content
             );
             wp_update_post($args);
             $this->index();

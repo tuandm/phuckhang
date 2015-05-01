@@ -22,8 +22,8 @@ function phuckhang_setup() {
    *
    * See: https://codex.wordpress.org/Function_Reference/add_theme_support#Post_Thumbnails
    */
-  //add_theme_support( 'post-thumbnails' );
-  //set_post_thumbnail_size( 825, 510, true );
+   add_theme_support( 'post-thumbnails' );
+   set_post_thumbnail_size( 800, 536, true );
 
   // This theme uses wp_nav_menu() in two locations.
   register_nav_menus( array(
@@ -53,6 +53,19 @@ endif;
 
 add_action( 'after_setup_theme', 'phuckhang_setup' );
 
+// // Changing excerpt length
+// function new_excerpt_length($length) {
+//   return 100;
+// }
+// add_filter('excerpt_length', 'new_excerpt_length');
+
+// // Changing excerpt more
+// function new_excerpt_more($more) {
+//   return '...';
+// }
+
+// add_filter('excerpt_more', 'new_excerpt_more');
+
 
 /**
  * Enqueue scripts and styles.
@@ -78,5 +91,14 @@ function phuckhang_scripts() {
 
 add_action( 'wp_enqueue_scripts', 'phuckhang_scripts' );
 
+/**
+ *
+ */
+function phuckhang_entry_meta()
+{
+}
 
-?>
+/**
+ *
+ */
+
