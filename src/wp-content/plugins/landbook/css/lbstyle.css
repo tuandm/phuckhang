@@ -2,6 +2,8 @@
     color: #ff0000;
     font-size: small;
 }
+
+}
 .fileUpload {
     position: relative;
     overflow: hidden;
@@ -19,3 +21,4 @@
     filter: alpha(opacity=0);
 }}
 
+}
