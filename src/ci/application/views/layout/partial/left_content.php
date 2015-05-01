@@ -14,7 +14,7 @@ if (is_page_template('page-landbook.php')) {
 }
 ?>
 <div class="<?php echo $leftContentHtmlClasses;?>">
-    <?php if (isset($userId)): ?>
+    <?php if (isset($currentUserId)): ?>
     <div class="news-nav news-nav_feed text-uppercase">
         <span>Nhóm</span>
         <ul class="category-menu">
