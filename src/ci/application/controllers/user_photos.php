@@ -31,7 +31,7 @@ Class User_Photos extends Base
 
     public function addImages()
     {
-        $config['upload_path'] = 'upload';
+        $config['upload_path'] = UPLOAD_PHOTOS_DIR;
         $config['allowed_types'] = 'jpg|png|gif';
         $this->load->library('upload', $config);
 
