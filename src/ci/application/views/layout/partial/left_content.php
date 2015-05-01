@@ -5,22 +5,25 @@
  * Date: 3/26/2015
  * Time: 11:58 PM
  */
-?>
-<div class="col-lg-2 col-lg-offset-0 col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-3 col-xs-11 col-xs-offset-1">
-<div class="avatar">
-    <?php echo (get_simple_local_avatar($userId, 150)); ?>
-</div>
-<div class="group-wrap">
-    <h4>GROUP</h4>
-    <ul class="group-links">
-        <?php if (isset($groupNames) && !empty($groupNames)) : ?>
-            <?php foreach ($groupNames as $group) : ?>
-                <li class="group-item"><a href="#"><i class="fa fa-users"></i><span> <?php echo $group; ?></span></a></li>
-            <?php endforeach ?>
-        <?php else : ?>
-            <?php echo 'There is no group'; ?>
-        <?php endif ?>
-    </ul>
-</div>
 
+
+if (is_page_template('page-landbook.php')) {
+    $leftContentHtmlClasses = 'col-xs-12 col-sm-12 col-md-3 col-lg-3';
+} else {
+    $leftContentHtmlClasses = 'col-lg-2 col-lg-offset-0 col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-3 col-xs-11 col-xs-offset-1';
+}
+?>
+<div class="<?php echo $leftContentHtmlClasses;?>">
+    <div class="news-nav news-nav_feed text-uppercase">
+        <span>Nhóm</span>
+        <ul class="category-menu">
+            <?php if (isset($groups) && !empty($groups)) : ?>
+                <?php foreach ($groups as $group) : ?>
+                    <li class="group-item"><a href="<?php echo Permalink_Util::buildGroupProfileUrl($group->group_id); ?>"><?php echo $group->group_name; ?></a></li>
+                <?php endforeach ?>
+            <?php else : ?>
+                <li>Bạn không trong nhóm nào</li>
+            <?php endif ?>
+        </ul>
+    </div>
 </div>
