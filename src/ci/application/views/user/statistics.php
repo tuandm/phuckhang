@@ -4,7 +4,7 @@
     <ul id="" class="clearfix ">
 
         <li class="col-sm-4 col-xs-12 text-left">
-            <a href="#" class="fa-pkn-human">Hồ sơ của tôi</a>
+            <a href="<?php echo $this->permalinkUtil->buildUserProfileUrl(); ?>" class="fa-pkn-human">Hồ sơ của tôi</a>
         </li>
 
         <li class="col-sm-4 col-xs-12  text-center ">
@@ -19,7 +19,7 @@
         </li>
 
         <li class="col-sm-4  col-xs-12  text-right">
-            <a href="#" class="fa-pkn-sound">
+            <a href="<?php echo $this->permalinkUtil->userNotificationsPage(); ?>" class="fa-pkn-sound">
                 Thông báo
                 <span class="fa-stack">
                   <i class="fa fa-circle fa-stack-2x text-gray"></i>
