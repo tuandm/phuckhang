@@ -105,7 +105,7 @@ class Base extends CI_Controller
         if ($userId == 0) {
             return $data;
         }
-        $data['userId'] = $userId;
+        $data['currentUserId'] = $userId;
 
         $groups = $this->userProfileModel->getAllUserGroups($userId);
         foreach ($groups as $group) {

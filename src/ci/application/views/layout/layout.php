@@ -18,7 +18,7 @@ get_header();
             <?php endif; ?>
 
             <div class="<?php echo $mainContentHtmlClasses; ?>">
-                <?php if (isset($userId) && $userId != 0): ?>
+                <?php if (isset($currentUserId) && $currentUserId != 0): ?>
                     <?php echo $this->view('/user/statistics'); ?>
                 <?php endif; ?>
 
