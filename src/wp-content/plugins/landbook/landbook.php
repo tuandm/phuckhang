@@ -84,10 +84,6 @@ class LandBook
         $userId = $user->ID;
         if ($redirect_to == 'social' && $userId != 0) {
             return site_url('phuc-khang-net');
-        } else if (isset($user->roles) && in_array('administrator', $user->roles)) {
-            return admin_url();
-        } else if ($userId != 0) {
-            return home_url();
         } else {
             return $redirect_to;
         }
