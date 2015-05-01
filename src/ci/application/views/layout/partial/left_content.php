@@ -14,6 +14,7 @@ if (is_page_template('page-landbook.php')) {
 }
 ?>
 <div class="<?php echo $leftContentHtmlClasses;?>">
+    <?php if (isset($userId)): ?>
     <div class="news-nav news-nav_feed text-uppercase">
         <span>Nhóm</span>
         <ul class="category-menu">
@@ -26,4 +27,5 @@ if (is_page_template('page-landbook.php')) {
             <?php endif ?>
         </ul>
     </div>
+    <?php endif; ?>
 </div>
