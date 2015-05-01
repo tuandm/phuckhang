@@ -19,7 +19,7 @@ if (is_page_template('page-landbook.php')) {
         <ul class="category-menu">
             <?php if (isset($groups) && !empty($groups)) : ?>
                 <?php foreach ($groups as $group) : ?>
-                    <li class="group-item"><a href="<?php echo Permalink_Util::buildGroupProfileUrl($group->group_id); ?>"><?php echo $group->group_name; ?></a></li>
+                    <li class="group-item"><a href="<?php echo $group->group_url; ?>"><?php echo $group->group_name; ?></a></li>
                 <?php endforeach ?>
             <?php else : ?>
                 <li>Bạn không trong nhóm nào</li>

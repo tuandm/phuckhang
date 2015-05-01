@@ -15,10 +15,16 @@ class Base extends CI_Controller
      */
     public $userProfileModel;
 
+    /**
+     * @var Permalink_Util
+     */
+    public $permalinkUtil;
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('userprofile/User_Profile_Model', 'userProfileModel');
+        $this->load->library('permalink_util', '', 'permalinkUtil');
     }
 
     /**
@@ -53,7 +59,9 @@ class Base extends CI_Controller
             $data['userId'] = $userId;
             $groups = $this->userProfileModel->getAllUserGroups($userId);
             foreach ($groups as $group) {
-                $group->group_name = get_term($group->group_id, 'sc_group', ARRAY_A)['name'];
+                $groupId = $group->group_id;
+                $group->group_name = get_term($groupId, 'sc_group', ARRAY_A)['name'];
+                $group->group_url = $this->permalinkUtil->buildGroupProfileUrl($groupId);
             }
             $content['left'] = $this->render('layout/partial/left_content', array('groups' => $groups));
             $content['main'] = $this->render($view, $data);

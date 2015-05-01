@@ -28,7 +28,9 @@ class Userprofilepage extends Base
         $viewedName = $this->userProfileModel->getUserInfoById($viewedUserId)['user_nicename'];
         $viewedEmail = $this->userProfileModel->getUserInfoById($viewedUserId)['user_email'];
         $viewedFriends = $this->userProfileModel->getFriendsByUserId($viewedUserId);
-        $viewedDob = empty($this->userProfileModel->getDOBByUserId($viewedUserId)) ? '' : date("d-m-Y", strtotime($this->userProfileModel->getDOBByUserId($viewedUserId)));
+
+        $userDob = $this->userProfileModel->getDOBByUserId($viewedUserId);
+        $viewedDob = !empty($viewedUserId) ? date("d-m-Y", strtotime($userDob)) : '';
         $viewedUser = array(
             'userId'        => $viewedUserId,
             'title'         => $viewedTitle,
@@ -50,13 +52,13 @@ class Userprofilepage extends Base
             'userId'        => $loginUserId,
             'title'         => $loginTitle,
             'name'          => $loginName,
-            'numGroups'     => $loginGroups['numGroups'],
+            'numGroups'     => count($loginGroups),
             'numFriends'    => $loginFriends['numFriend']
         );
         $this->renderSocialView('userprofilepage/index', array(
-                'viewedUser'    => $viewedUser,
-                'loginUser'     => $loginUser
-            ), true);
+            'viewedUser'    => $viewedUser,
+            'loginUser'     => $loginUser
+        ), true);
     }
 
 }
