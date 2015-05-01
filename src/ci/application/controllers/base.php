@@ -50,20 +50,14 @@ class Base extends CI_Controller
      * @param bool $renderFullView
      * @return string
      */
-    public function renderSocialView($view, array $data = array(), $renderFullView = false)
+    public function renderSocialView($view, $data = array(), $renderFullView = false)
     {
         /** @var array $content */
         $content = [];
         if ($renderFullView) {
-            $userId = get_current_user_id();
-            $data['userId'] = $userId;
-            $groups = $this->userProfileModel->getAllUserGroups($userId);
-            foreach ($groups as $group) {
-                $groupId = $group->group_id;
-                $group->group_name = get_term($groupId, 'sc_group', ARRAY_A)['name'];
-                $group->group_url = $this->permalinkUtil->buildGroupProfileUrl($groupId);
-            }
-            $content['left'] = $this->render('layout/partial/left_content', array('groups' => $groups));
+            $data = $this->bindUserSocialData($data);
+
+            $content['left'] = $this->render('layout/partial/left_content', $data);
             $content['main'] = $this->render($view, $data);
             $content['right'] = $this->render('layout/partial/social_sidebar');
         }
@@ -99,4 +93,29 @@ class Base extends CI_Controller
         }
         echo json_encode($this->$handle());
     }
+
+    /**
+     * Set data needed to render common parts of user social page
+     * @param $data
+     * @return array
+     */
+    protected function bindUserSocialData($data)
+    {
+        $userId = get_current_user_id();
+        if ($userId == 0) {
+            return $data;
+        }
+        $data['userId'] = $userId;
+
+        $groups = $this->userProfileModel->getAllUserGroups($userId);
+        foreach ($groups as $group) {
+            $groupId = $group->group_id;
+            $group->group_name = get_term($groupId, 'sc_group', ARRAY_A)['name'];
+            $group->group_url = $this->permalinkUtil->buildGroupProfileUrl($groupId);
+        }
+        $data['groups'] = $groups;
+
+        return $data;
+    }
+
 }
