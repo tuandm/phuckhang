@@ -15,8 +15,12 @@ class LandBook_Hook
      */
     public function handleShortcode(array $attributes) {
         // Get optional attributes and assign default values if not present
-        $page = isset($attributes['page']) ? $attributes['page'] : 'home';
+        $page = isset($attributes['page']) ? $attributes['page'] : 'homepage';
         $action = isset($_REQUEST['act']) ? $_REQUEST['act'] : 'index';
+        if ($page == 'homepage' && get_current_user_id() == 0) {
+            wp_redirect(wp_login_url('social'));
+            exit();
+        }
         $landBookContent = LandBook_Controller::getInstance()->forwardRequestToCI([
             'controller' => $page,
             'action' => $action
