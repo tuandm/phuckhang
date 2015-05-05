@@ -41,7 +41,7 @@ Class User_Photos extends Base
         }
         else {
             $data = $this->upload->data();
-            $path = "upload/";
+            $path = UPLOAD_PHOTOS_DIR;
             $fileName = $data['file_name'];
             $user = wp_get_current_user();
             $description = $this->input->post('txtDescription');

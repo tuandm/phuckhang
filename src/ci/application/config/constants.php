@@ -40,5 +40,5 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
 define('UPLOAD_DIR',		'upload');
-define('UPLOAD_PHOTOS_DIR',		UPLOAD_DIR . '/photos');
-define('UPLOAD_PRODUCTS_DIR',		UPLOAD_DIR . '/products');
+define('UPLOAD_PHOTOS_DIR',		UPLOAD_DIR . '/photos/');
+define('UPLOAD_PRODUCTS_DIR',		UPLOAD_DIR . '/products/');
