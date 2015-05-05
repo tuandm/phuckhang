@@ -105,7 +105,8 @@ class LandBook
         $this->loader->addAction('edit_user_profile', $this->hook, 'selectGroup');
         $this->loader->addAction('profile_update', $this->hook, 'profileRedirect');
         $this->loader->addAction('edit_user_profile_update', $this->hook, 'updateUserGroups');
-        $this->loader->addAction('save_activity', $this->hook, 'processAfterSavingActivity');
+        $this->loader->addAction('save_activity', $this->hook, 'processAfterSavingActivity', 10, 1);
+        $this->loader->addAction('save_comment', $this->hook, 'processAfterSavingUserComment', 10, 1);
         $this->loader->run();
     }
 

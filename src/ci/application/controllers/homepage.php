@@ -51,7 +51,7 @@ class Homepage extends Base
                     $isLiked = $this->likeModel->isLiked(get_current_user_id(), $status['status_id']);
                     $likeImage = $isLiked ? 'down' : 'up';
                     $state  = $isLiked ? 'Unlike' : 'Like';
-                    $comments = get_comments('type=status&number=5&order=ASC&orderBy=comment_date&status=approve&post_id=' . $status['status_id']);
+                    $comments = get_comments('type=status&number=5&order=DESC&orderBy=comment_date&status=approve&post_id=' . $status['status_id']);
                     $feed['html'] = $this->render('/homepage/feed_status', array(
                         'status'        => $status,
                         'comments'      => $comments,
@@ -199,15 +199,20 @@ class Homepage extends Base
                 'comment_author_IP'     => $this->input->ip_address(),
                 'comment_agent'         => $this->input->user_agent(),
                 'comment_date'          => date('Y-m-d H:i:s'),
-                'comment_approved'      => 1,
+                'comment_approved'      => 1
             );
             $newCommentId = wp_insert_comment($commentData);
+            /**
+             * Fires once a comment has been saved.
+             * //TODO if need further parameter
+             */
             if ($newCommentId !== false) {
                 $response['success'] = true;
                 $response['result'] = $this->render('/layout/partial/comment', array('comment' => get_comment($newCommentId)));
             } else {
                 $response['result'] = 'Can not post comment. Please try again.';
             }
+        do_action('save_comment', $newCommentId);
         }
         return $response;
     }

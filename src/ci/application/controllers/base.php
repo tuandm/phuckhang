@@ -48,7 +48,7 @@ class Base extends CI_Controller
     {
         /** @var array $content */
         $content = [];
-        if ($renderFullView && get_current_user_id()) {
+        if ($renderFullView) {
             /** @var array $groups */
             $groups = $this->userProfileModel->getAllUserGroups(get_current_user_id());
 

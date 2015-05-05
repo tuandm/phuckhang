@@ -33,23 +33,23 @@ class LandBook_Model_Notification extends LandBook_Model
         $userId = $activity->user_id;
 
         switch ($activity->type) {
-            case LandBook_Model_Activity::TYPE_ADD_STATUS_COMMENT:
+            case LandBook_Constant::TYPE_ADD_STATUS_COMMENT:
                 $result = $this->createAddStatusCommentNotifications($userId, $objectId);
                 break;
 
-            case LandBook_Model_Activity::TYPE_ADD_USER_PHOTO:
+            case LandBook_Constant::TYPE_ADD_USER_PHOTO:
                 $result = $this->createAddPhotoNotifications($userId, $objectId);
                 break;
 
-            case LandBook_Model_Activity::TYPE_ADD_USER_STATUS:
+            case LandBook_Constant::TYPE_ADD_USER_STATUS:
                 $result = $this->createAddUserStatusNotifications($userId, $objectId);
                 break;
 
-            case LandBook_Model_Activity::TYPE_ADD_GROUP_STATUS:
+            case LandBook_Constant::TYPE_ADD_GROUP_STATUS:
                 $result = $this->createAddUserStatusNotifications($userId, $objectId);
                 break;
 
-            case LandBook_Model_Activity::TYPE_LIKE_COMMENT:
+            case LandBook_Constant::TYPE_LIKE_COMMENT:
                 $result = $this->createAddUserStatusNotifications($userId, $objectId);
                 break;
 
@@ -70,13 +70,13 @@ class LandBook_Model_Notification extends LandBook_Model
     protected function createAddStatusCommentNotifications($userId, $objectId)
     {
         $status = $this->getRow(
-            'SELECT scus.user_id FROM pk_sc_user_status scus INNER JOIN pk_comments WHERE comment_ID = %d', $objectId);
+            'SELECT scus.user_id FROM pk_sc_user_status scus INNER JOIN pk_comments com ON scus.status_id=com.comment_post_ID WHERE comment_ID = %d', $objectId);
         if ($status == null) {
             die('Invalid status');
         }
 
         $currentUserName = get_the_author_meta('display_name', $userId);
-        $userProfileUrl = $this->buildNotiUserProfileUrl($status->user_id, self::TYPE_STATUS_COMMENT, array('status_id' => $objectId));
+        $userProfileUrl = $this->buildNotiUserProfileUrl($userId, self::TYPE_STATUS_COMMENT, array('status_id' => $objectId));
         $notiText = sprintf('<a href="%s"><span class="author">%s</span> bình luận về trạng thái của bạn</a>', $userProfileUrl, $currentUserName);
         return $this->createNotification(
             $userId,

@@ -185,4 +185,15 @@ class LandBook_Hook
         $notificationModel->createNotificationsOfActivity($activityId);
     }
 
+    /**
+     * Handle user comment status action needs to be hooked after comment is saved
+     *
+     * @param int $objectId
+     */
+    public function processAfterSavingUserComment($objectId)
+    {
+        $activityModel = new LandBook_Model_Activity();
+        $activityModel->createAddCommentStatusActivity($objectId);
+    }
+
 }
