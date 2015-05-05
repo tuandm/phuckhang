@@ -149,29 +149,27 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>A0201</td>
-                  <td>618,297,547</td>
-                  <td><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/promotion-icon.png" height="20" width="20" class="icon"> khuyến mãi</td>
-                  <td>50m2</td>
-                </tr>
+                    <?php $products = LandBook_Projects::getInstance()->listProducts();
+                    function getProductStatus($value)
+                    {
+                        switch ($value) {
+                            case '3' :
+                                return 'Khuyến Mãi';
+                            case '2' :
+                                return 'Đã Bán';
+                            case '1' :
+                                return 'Đang Đặt';
+                        }
+                    }
+                    ?>
+                    <?php foreach ($products as $product) : ?>
                 <tr>
-                  <td>A0201</td>
-                  <td>618,297,547</td>
-                  <td><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/promotion-icon.png" height="20" width="20" class="icon">khuyến mãi</td>
-                  <td>50m2</td>
+                    <td><?php echo $product->code; ?></td>
+                    <td><?php echo $product->price; ?></td>
+                    <td><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/promotion-icon.png" height="20" width="20" class="icon"><?php echo getProductStatus($product->status); ?></td>
+                    <td><?php echo $product->area; ?></td>
                 </tr>
-                <tr>
-                  <td>A0201</td>
-                  <td>618,297,547</td>
-                  <td><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/sold-icon.png" height="20" width="20" class="icon">đã bán</td>
-                  <td>50m2</td>
-                </tr>
-                <tr>
-                  <td>A0201</td>
-                  <td>618,297,547</td>
-                  <td><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/available-icon.png" height="20" width="20" class="icon">còn hàng</td>
-                  <td>50m2</td>
-                </tr>
+                <?php endforeach; ?>
               </tbody>
             </table>
         </div>

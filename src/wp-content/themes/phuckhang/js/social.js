@@ -200,3 +200,28 @@ function onUserLikeList()
 {
     $('.numlike').tooltip();
 }
+
+$('#status').change(function() {
+    var status = $( "#status option:selected" ).text();
+    $.ajax({
+        url: '/du-an-lang-sen/',
+        type: 'POST',
+        data: {
+            act: 'ajax',
+            callback: 'listProducts',
+            status: status
+        },
+        success: function(response) {
+            var result = JSON.parse(response);
+            if (result.success) {
+                me.val('');
+                commentError.hide();
+                $('div.comment-text').before(result.result).fadeIn('slow');
+            } else {
+                commentError.html(result.result);
+                commentError.fadeIn();
+            }
+        }
+    });
+    return false;
+});

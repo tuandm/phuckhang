@@ -1,6 +1,6 @@
 <?php
 /**
- * Author: Duc Duong
+ * Author: Storm
  */
 
 class LandBook_Projects extends LandBook_Admin {
@@ -22,4 +22,36 @@ class LandBook_Projects extends LandBook_Admin {
         return 'project';
     }
 
+    public function listProducts()
+    {
+        $projectModel = new LandBook_Model_Project();
+        return $projectModel->getProducts();
+    }
+
+    public function handleListProducts()
+    {
+        $response = array(
+            'success'   => false,
+            'result'    => ''
+        );
+
+        $status = $this->input->post('status');
+        $area = '';
+        $price = '';
+
+        $projectModel = new LandBook_Model_Project();
+        $where = $projectModel->searchKeywork($status,$area,$price);
+        $projectModel->getProducts($where);
+
+        if (!empty($status)) {
+            $response['success'] = true;
+            $response['result'] = $this->render('/user/friend/friend', array(
+                'status' => $status
+            ));
+        } else {
+            $response['success'] = false;
+        }
+
+        return $response;
+    }
 }
