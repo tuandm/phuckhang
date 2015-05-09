@@ -1,4 +1,4 @@
-<?php
+<?php if (isset($loginUser)):
 echo $this->view('/userprofilepage/user_login_info',
     [
         'name'          => $loginUser['name'],
@@ -6,6 +6,8 @@ echo $this->view('/userprofilepage/user_login_info',
         'numFriends'    => $loginUser['numFriends'],
         'numGroups'     => $loginUser['numGroups'],
     ]);
+endif;
+
 echo $this->view('/userprofilepage/user_viewed_info',
     [
         'userId'        => $viewedUser['userId'],

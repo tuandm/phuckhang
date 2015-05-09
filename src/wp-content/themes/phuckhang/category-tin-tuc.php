@@ -42,15 +42,30 @@
       <?php
 
       while ( have_posts() ) : the_post();
-        get_template_part( 'content', 'category' );
+        get_template_part( 'content', 'category');
       endwhile;
 
       // Previous/next page navigation.
-      the_posts_pagination( array(
-        'prev_text'          => __( 'Previous page', 'phuckhang' ),
-        'next_text'          => __( 'Next page', 'phuckhang' ),
-        'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'phuckhang' ) . ' </span>',
-      ) );
+      //wp_pagenavi();
+
+      $args = array(
+        'base'               => '%_%',
+        'format'             => '?page=%#%',
+        'total'              => 1,
+        'current'            => 0,
+        'show_all'           => False,
+        'end_size'           => 1,
+        'mid_size'           => 2,
+        'prev_next'          => True,
+        'prev_text'          => __('« Previous'),
+        'next_text'          => __('Next »'),
+        'type'               => 'plain',
+        'add_args'           => False,
+        'add_fragment'       => '',
+        'before_page_number' => '',
+        'after_page_number'  => ''
+      );
+      echo paginate_links( $args );
 
     // If no content, include the "No posts found" template.
     else :

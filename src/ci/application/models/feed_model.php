@@ -24,6 +24,11 @@ class Feed_Model extends Land_Book_Model
     const REFERENCE_TYPE_COMMENT = 'comment';
 
     /**
+     * Reference for user' comment
+     */
+    const REFERENCE_TYPE_NOTIFICATION = 'notification';
+
+    /**
      * @var string
      */
     protected $tableName = 'pk_sc_user_feed';

@@ -29,7 +29,6 @@ class Homepage extends Base
     {
         parent::__construct();
         $this->load->helper('date');
-        $this->load->library('permalink_util');
         $this->load->model('Feed_Model', 'feedModel');
         $this->load->model('Status_Model', 'statusModel');
         $this->load->model('Like_Model', 'likeModel');

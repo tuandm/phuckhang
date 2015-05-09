@@ -67,7 +67,7 @@ class LandBook
         }
         // Hooking
         add_filter('redirect_post_location', array($this, 'redirectPage'), 10, 3);
-        add_filter('login_redirect', array($this, 'redirectUserProfile'), 10, 3);
+        add_filter('login_redirect', array($this, 'loginRedirectHandle'), 10, 3);
         add_filter('redirect_post_location', array($this, 'redirectPage'), 10, 3);
         $this->registerHooks();
     }
@@ -78,17 +78,12 @@ class LandBook
      * @param $user
      * @return string|void
      */
-    public function redirectUserProfile($redirect_to, $request, $user)
+    public function loginRedirectHandle($redirect_to, $request, $user)
     {
         global $user;
-        $redirect_to = home_url('/wp-login');
-        if (isset($user->roles) && is_array($user->roles)) {
-            if (in_array('administrator', $user->roles)) {
-                // redirect them to the default place
-                return home_url('/wp-admin/');
-            } else {
-                return home_url("/social-userprofilepage/?act=index&userId=$user->ID");
-            }
+        $userId = $user->ID;
+        if ($redirect_to == 'social' && $userId != 0) {
+            return site_url('phuc-khang-net');
         } else {
             return $redirect_to;
         }
@@ -105,11 +100,15 @@ class LandBook
         $this->loader->addAction('edit_user_profile', $this->hook, 'selectGroup');
         $this->loader->addAction('profile_update', $this->hook, 'profileRedirect');
         $this->loader->addAction('edit_user_profile_update', $this->hook, 'updateUserGroups');
+
+        // Hook action for user activities and user notifications.
         $this->loader->addAction('save_activity', $this->hook, 'processAfterSavingActivity', 10, 1);
         $this->loader->addAction('save_comment', $this->hook, 'processAfterSavingUserStatusComment', 10, 1);
         $this->loader->addAction('save_user_status', $this->hook, 'processAfterSavingUserStatus', 10, 1);
         $this->loader->addAction('save_user_like_status', $this->hook, 'processAfterSavingUserLikeStatus', 10, 1);
         $this->loader->addAction('save_user_like_post', $this->hook, 'processAfterSavingUserLikePost', 10, 1);
+        $this->loader->addAction('personal_options_update', $this->hook, 'updateUserGroups');
+        $this->loader->addAction('save_activity', $this->hook, 'processAfterSavingActivity');
         $this->loader->run();
     }
 

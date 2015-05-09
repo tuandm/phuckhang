@@ -28,7 +28,9 @@ class Userprofilepage extends Base
         $viewedName = $this->userProfileModel->getUserInfoById($viewedUserId)['user_nicename'];
         $viewedEmail = $this->userProfileModel->getUserInfoById($viewedUserId)['user_email'];
         $viewedFriends = $this->userProfileModel->getFriendsByUserId($viewedUserId);
-        $viewedDob = empty($this->userProfileModel->getDOBByUserId($viewedUserId)) ? '' : date("d-m-Y", strtotime($this->userProfileModel->getDOBByUserId($viewedUserId)));
+
+        $userDob = $this->userProfileModel->getDOBByUserId($viewedUserId);
+        $viewedDob = !empty($viewedUserId) ? date("d-m-Y", strtotime($userDob)) : '';
         $viewedUser = array(
             'userId'        => $viewedUserId,
             'title'         => $viewedTitle,
@@ -40,23 +42,26 @@ class Userprofilepage extends Base
             'numFriends'    => $viewedFriends['numFriend']
         );
 
-        // Information for login user profile
+        $data = array('viewedUser' => $viewedUser);
+
         $loginUserId = get_current_user_id();
-        $loginName = $this->userProfileModel->getUserInfoById($loginUserId)['user_nicename'];
-        $loginTitle = $this->userProfileModel->getTitleByUserId($loginUserId);
-        $loginGroups = $this->userProfileModel->getAllUserGroups($loginUserId);
-        $loginFriends = $this->userProfileModel->getFriendsByUserId($loginUserId);
-        $loginUser = array(
-            'userId'        => $loginUserId,
-            'title'         => $loginTitle,
-            'name'          => $loginName,
-            'numGroups'     => $loginGroups['numGroups'],
-            'numFriends'    => $loginFriends['numFriend']
-        );
-        $this->renderSocialView('userprofilepage/index', array(
-                'viewedUser'    => $viewedUser,
-                'loginUser'     => $loginUser
-            ), true);
+        if ($loginUserId != 0) {
+            // Information for login user profile
+            $loginName = $this->userProfileModel->getUserInfoById($loginUserId)['user_nicename'];
+            $loginTitle = $this->userProfileModel->getTitleByUserId($loginUserId);
+            $loginGroups = $this->userProfileModel->getAllUserGroups($loginUserId);
+            $loginFriends = $this->userProfileModel->getFriendsByUserId($loginUserId);
+            $loginUser = array(
+                'userId' => $loginUserId,
+                'title' => $loginTitle,
+                'name' => $loginName,
+                'numGroups' => count($loginGroups),
+                'numFriends' => $loginFriends['numFriend']
+            );
+            $data['loginUser'] = $loginUser;
+        }
+
+        $this->renderSocialView('userprofilepage/index', $data, true);
     }
 
 }

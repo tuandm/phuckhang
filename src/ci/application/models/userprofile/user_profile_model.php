@@ -162,20 +162,16 @@ class User_Profile_Model extends CI_Model
      * Get All User Groups by UserId
      *
      * @param int $userId
-     * @return array|bool
+     * @return array
      */
     public function getAllUserGroups($userId)
     {
         $groups = $this->db
-            ->select('*')
+            ->select('group_id')
             ->from('pk_sc_user_groups')
             ->where('pk_sc_user_groups.user_id', $userId)
-            ->get()->result_array();
-        $data = array(
-            'group'     => $groups,
-            'numGroups' => count($groups)
-        );
-        return $data;
+            ->get()->result();
+        return $groups;
     }
 
 }

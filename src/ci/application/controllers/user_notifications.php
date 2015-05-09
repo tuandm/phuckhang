@@ -30,6 +30,10 @@ class User_Notifications extends Base
      */
     public function index()
     {
+        if (get_current_user_id() == 0) {
+            wp_redirect(wp_login_url(get_permalink()));
+            exit();
+        }
         $this->load->library('date_util', '', 'dateUtil');
         $page = $this->input->get('page');
         $notifications = $this->userNotificationModel->findUserNotifications(get_current_user_id(), $page, NUM_NOTIFICATIONS);

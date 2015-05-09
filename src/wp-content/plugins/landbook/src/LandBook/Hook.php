@@ -15,7 +15,7 @@ class LandBook_Hook
      */
     public function handleShortcode(array $attributes) {
         // Get optional attributes and assign default values if not present
-        $page = isset($attributes['page']) ? $attributes['page'] : 'home';
+        $page = isset($attributes['page']) ? $attributes['page'] : 'homepage';
         $action = isset($_REQUEST['act']) ? $_REQUEST['act'] : 'index';
         $landBookContent = LandBook_Controller::getInstance()->forwardRequestToCI([
             'controller' => $page,
