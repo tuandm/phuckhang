@@ -9,7 +9,12 @@
 class Status_Model extends Land_Book_Model
 {
     /**
-     * @var
+     * User status type constants
+     */
+    const USER_STATUS = 'user';
+
+    /**
+     * @var string
      */
     protected $tableName = 'pk_sc_user_status';
 
@@ -18,7 +23,7 @@ class Status_Model extends Land_Book_Model
      *
      * @param int $userId
      * @param string $status
-     * @return bool
+     * @return bool|int
      */
     public function addUserStatus($userId, $status)
     {
@@ -29,6 +34,8 @@ class Status_Model extends Land_Book_Model
             'user_id'       => $userId,
             'created_time'  => $now,
             'updated_time'  => $now,
+            'status_type'   => self::USER_STATUS,
+            'reference_id'  => $userId,
         ));
 
         if ($result) {

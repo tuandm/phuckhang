@@ -186,14 +186,47 @@ class LandBook_Hook
     }
 
     /**
-     * Handle user comment status action needs to be hooked after comment is saved
+     * Handle user comments a status action that needs to be hooked after that comment is saved
      *
      * @param int $objectId
      */
-    public function processAfterSavingUserComment($objectId)
+    public function processAfterSavingUserStatusComment($objectId)
     {
         $activityModel = new LandBook_Model_Activity();
-        $activityModel->createAddCommentStatusActivity($objectId);
+        $activityModel->createAddStatusCommentActivity($objectId);
+    }
+
+    /**
+     * Handle user adds a status action that needs to be hooked after that status is saved
+     *
+     * @param int $objectId
+     */
+    public function processAfterSavingUserStatus($objectId)
+    {
+        $activityModel = new LandBook_Model_Activity();
+        $activityModel->createAddUserStatusActivity($objectId);
+    }
+
+    /**
+     * Handle user likes a status action that needs to be hooked after that like is saved
+     *
+     * @param int $objectId
+     */
+    public function processAfterSavingUserLikeStatus($objectId)
+    {
+        $activityModel = new LandBook_Model_Activity();
+        $activityModel->createAddUserLikeStatusActivity($objectId);
+    }
+
+    /**
+     * Handle user likes a post action that needs to be hooked after that like is saved
+     *
+     * @param int $objectId
+     */
+    public function processAfterSavingUserLikePost($objectId)
+    {
+        $activityModel = new LandBook_Model_Activity();
+        $activityModel->createAddUserLikePostActivity($objectId);
     }
 
 }

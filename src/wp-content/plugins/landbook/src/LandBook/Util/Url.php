@@ -22,6 +22,20 @@ class LandBook_Util_Url {
     }
 
     /**
+     * Helper method to build the URL that points to the home page
+     * @param int $statusId ID that the URL points to
+     * @param array|null $params Additional parameters passed to the URL's query string
+     * @return string
+     */
+    public static function buildUserStatusUrl($statusId, $params = array()) {
+        if ($params == null) {
+            $params = array();
+        }
+        $params['statusId'] = $statusId;
+        return site_url('social-homepage?' . build_query($params));
+    }
+
+    /**
      * Helper method to build the URL that points to the user profile page
      * @param int $groupId ID of the user that the URL points to
      * @param array|null $params Additional parameters passed to the URL's query string

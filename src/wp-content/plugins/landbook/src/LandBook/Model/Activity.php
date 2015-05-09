@@ -14,7 +14,7 @@ class LandBook_Model_Activity extends LandBook_Model
      * @param array $data
      * @return int|false
      */
-    public function createActivity($data)
+    protected function createActivity($data)
     {
         $activityId = 0;
         $data['activity_date'] = LandBook_Util::now();
@@ -27,12 +27,12 @@ class LandBook_Model_Activity extends LandBook_Model
     }
 
     /**
-     * Create Activities of the action that user adds comment to a status
+     * Create Activities when user adds comment to a status
      *
      * @param int $objectId
      * @return int|false
      */
-    public function createAddCommentStatusActivity($objectId)
+    public function createAddStatusCommentActivity($objectId)
     {
         $comment = $this->getRow(
             'SELECT * FROM pk_comments WHERE comment_ID = %d', $objectId);
@@ -44,10 +44,42 @@ class LandBook_Model_Activity extends LandBook_Model
 
         return $this->createActivity(
             array(
-                'type' => LandBook_Constant::TYPE_ADD_STATUS_COMMENT,
+                'user_id'   => $comment->user_id,
                 'object_id' => $objectId,
-                'user_id'   => $comment->user_id
+                'type'      => LandBook_Constant::TYPE_ADD_STATUS_COMMENT
             )
         );
+    }
+
+    /**
+     * Create Activities when user adds status
+     *
+     * @param int $objectId
+     * @return false|int
+     */
+    public function createAddUserStatusActivity($objectId)
+    {
+        $status = $this->getRow('SELECT * FROM pk_sc_user_status WHERE status_id = %d', $objectId);
+        if ($status == null) {
+            wp_die('Invalid Status');
+        }
+
+        return $this->createActivity(
+            array(
+                'user_id'            => $status->user_id,
+                'object_id'          => $objectId,
+                'type'               => LandBook_Constant::TYPE_ADD_USER_STATUS
+            )
+        );
+    }
+
+    /**
+     * Create Activities when user likes a status
+     *
+     * @param int $objectId
+     */
+    public function createAddUserLikeStatusActivity($objectId)
+    {
+        //TODO
     }
 }

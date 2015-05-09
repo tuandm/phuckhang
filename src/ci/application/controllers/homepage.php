@@ -149,6 +149,11 @@ class Homepage extends Base
             if ($statusId !== false) {
                 $response['success'] = true;
                 $response['result'] = $this->renderUserStatus($statusId);
+                /**
+                 * Fires once a user status has been saved.
+                 * //TODO if need further parameter
+                 */
+                do_action('save_user_status', $statusId);
             } else {
                 $response['result'] = 'Can not post status. Please try again.';
             }
@@ -202,17 +207,17 @@ class Homepage extends Base
                 'comment_approved'      => 1
             );
             $newCommentId = wp_insert_comment($commentData);
+            if ($newCommentId !== false) {
+                $response['success'] = true;
+                $response['result'] = $this->render('/layout/partial/comment', array('comment' => get_comment($newCommentId)));
             /**
              * Fires once a comment has been saved.
              * //TODO if need further parameter
              */
-            if ($newCommentId !== false) {
-                $response['success'] = true;
-                $response['result'] = $this->render('/layout/partial/comment', array('comment' => get_comment($newCommentId)));
+                do_action('save_comment', $newCommentId);
             } else {
                 $response['result'] = 'Can not post comment. Please try again.';
             }
-        do_action('save_comment', $newCommentId);
         }
         return $response;
     }
@@ -270,6 +275,11 @@ class Homepage extends Base
                     'state'            => $state,
                     'postDate'         => $postDate
                 ));
+                /**
+                 * Fires once a user likes post/status has been saved.
+                 * //TODO if need further parameter
+                 */
+                do_action('save_user_like_' . $type, $newLikeId);
             } else {
                 $response['result'] = "Can not like $type. Please try again.";
             }
