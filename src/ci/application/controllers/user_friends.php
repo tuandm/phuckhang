@@ -22,12 +22,13 @@ Class User_Friends extends Base
     public function index()
     {
         $search = '';
-        $friends = $this->userModel->getAllFriends($search);
-        $this->load->view('layout/layout', array(
-            'content' => $this->render('user/friend/view', array(
-                'friends' => $friends
-            )),
-        ));
+        $userId = ($this->input->get('userId')) ? $this->input->get('userId') : get_current_user_id();
+        $friends = $this->userModel->getAllFriends($userId, $search);
+
+        $this->renderSocialView('user/friend/view', array(
+                'friends' => $friends,
+                'userId'    => $userId
+        ), true);
     }
 
     public function handleSearch()
@@ -37,11 +38,14 @@ Class User_Friends extends Base
             'result'    => ''
         );
         $search = $this->input->post('search');
-        $friends = $this->userModel->getAllFriends($search);
+        $userId = ($this->input->get('userId')) ? $this->input->get('userId') : get_current_user_id();
+        $friends = $this->userModel->getAllFriends($userId, $search);
+
         if (!empty($friends)) {
             $response['success'] = true;
             $response['result'] = $this->render('/user/friend/friend', array(
-                'friends' => $friends
+                'friends' => $friends,
+                'userId'    => $userId
             ));
         } else {
             $response['success'] = false;

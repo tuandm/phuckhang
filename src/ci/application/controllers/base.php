@@ -15,10 +15,16 @@ class Base extends CI_Controller
      */
     public $userProfileModel;
 
+    /**
+     * @var Permalink_Util
+     */
+    public $permalinkUtil;
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('userprofile/User_Profile_Model', 'userProfileModel');
+        $this->load->library('permalink_util', '', 'permalinkUtil');
     }
 
     /**
@@ -44,31 +50,18 @@ class Base extends CI_Controller
      * @param bool $renderFullView
      * @return string
      */
-    public function renderSocialView($view, array $data = array(), $renderFullView = false)
+    public function renderSocialView($view, $data = array(), $renderFullView = false)
     {
         /** @var array $content */
         $content = [];
         if ($renderFullView) {
-            /** @var array $groups */
-            $groups = $this->userProfileModel->getAllUserGroups(get_current_user_id());
+            $data = $this->bindUserSocialData($data);
 
-            /** @var array $groupNames */
-            if ($groups['numGroups'] === 0) {
-                $groupNames = [];
-            }
-            foreach ($groups['group'] as $group) {
-                $groupNames[] = get_term($group['group_id'], 'sc_group', ARRAY_A)['name'];
-            }
-            /** @var array $groupData */
-            $groupData = array(
-                'numGroups'     => $groups['numGroups'],
-                'userId'        => get_current_user_id(),
-                'groupNames'    => $groupNames
-            );
-                $content['left'] = $this->render('layout/partial/left_content', $groupData);
-                $content['main'] = $this->render($view, $data);
-                $content['right'] = $this->render('layout/partial/social_sidebar');
+            $content['left'] = $this->render('layout/partial/left_content', $data);
+            $content['main'] = $this->render($view, $data);
+            $content['right'] = $this->render('layout/partial/social_sidebar');
         }
+
         if (!empty($content)) {
             $this->load->view('layout/layout', array(
                 'content' => $content
@@ -100,4 +93,29 @@ class Base extends CI_Controller
         }
         echo json_encode($this->$handle());
     }
+
+    /**
+     * Set data needed to render common parts of user social page
+     * @param $data
+     * @return array
+     */
+    protected function bindUserSocialData($data)
+    {
+        $userId = get_current_user_id();
+        if ($userId == 0) {
+            return $data;
+        }
+        $data['currentUserId'] = $userId;
+
+        $groups = $this->userProfileModel->getAllUserGroups($userId);
+        foreach ($groups as $group) {
+            $groupId = $group->group_id;
+            $group->group_name = get_term($groupId, 'sc_group', ARRAY_A)['name'];
+            $group->group_url = $this->permalinkUtil->buildGroupProfileUrl($groupId);
+        }
+        $data['groups'] = $groups;
+
+        return $data;
+    }
+
 }

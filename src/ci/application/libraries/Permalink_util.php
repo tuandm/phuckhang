@@ -13,12 +13,17 @@ class Permalink_Util {
      * @param array|null $params Additional parameters passed to the URL's query string
      * @return string
      */
-    public static function buildUserProfileUrl($userId, $params = array()) {
+    public static function buildUserProfileUrl($userId = null, $params = array()) {
         if ($params == null) {
             $params = array();
         }
-        $params['userId'] = $userId;
-        return site_url('social-userprofilepage?' . build_query($params));
+
+        if ($userId != null) {
+            $params['userId'] = $userId;
+            return site_url('social-userprofilepage?' . build_query($params));
+        } else {
+            return site_url('social-userprofilepage');
+        }
     }
 
     /**
@@ -32,8 +37,15 @@ class Permalink_Util {
             $params = array();
         }
         $params['groupId'] = $groupId;
-        // TODO: pass group URL here
-        return site_url('XXX' . build_query($params));
+        return site_url('social-group?' . build_query($params));
+    }
+
+    /**
+     * Helper method to get the URL that points to the user notifications page
+     * @return string
+     */
+    public static function userNotificationsPage() {
+        return site_url('social-user-notifications');
     }
 
     /**

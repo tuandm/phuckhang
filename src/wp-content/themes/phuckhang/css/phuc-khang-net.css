@@ -1,0 +1,196 @@
+/*
+    pkn : Phuc Khang net
+*/
+.fs10 {
+    font-size: 10px;
+}
+
+.fs12 {
+    font-size: 12px;
+}
+
+.text-gray {
+    color: #959595;
+}
+
+.fa-pkn-human {
+    background: url('../images/icons/icon-human.png') left center no-repeat;
+    /*width: 17px;
+    height: 16px;
+    display: block;*/
+}
+
+.fa-pkn-sound {
+    background: url('../images/icons/icon-sound.png') left center no-repeat;
+    /*width: 17px;
+    height: 14px;
+    display: block;*/
+}
+
+.fa-pkn-message {
+    background: url('../images/icons/icon-message.png') left center no-repeat;
+    /*display: block;
+    width: 13px;
+    height: 14px;*/
+}
+
+#user_status_action {
+    height: 35px;
+    border: 1px solid #d4d4d4;
+    margin-bottom: 5px;
+    line-height: 35px;
+    padding-right: 30px;
+}
+
+#user_status_action [class*="fa-pkn-"] {
+}
+
+#user_status_action ul {
+    padding-left: 30px;
+}
+
+#user_status_action li {
+    list-style: none;
+}
+
+#user_status_action li a {
+    color: #030303;
+    font-size: 14px;
+    padding-left: 24px;
+}
+
+#user_status_action li a:hover {
+    text-decoration: none;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+/* User Feed */
+.user-feed-media {
+    padding: 10px 5px;
+    font-size: 14px;
+    color: #5d5d5d;
+
+}
+
+.user-feed-media .media-left {
+    padding-right: 20px;
+}
+
+.user-feed-media .media-body p {
+    font-size: 14px;
+    color: #5d5d5d;
+}
+
+.user-feed-media .media-body a {
+    color: #030303;
+    font-size: 14px;
+}
+
+.user-feed-media .media-body a.feed-title {
+    font-size: 18px;
+    display: block;
+    margin: 10px auto 8px;
+}
+
+/* Feed */
+body.page-template-page-landbook-php .social-cotent {
+    margin-top: 0;
+}
+
+body.page-template-page-landbook-php .feed {
+    margin-bottom: 20px;
+    margin-top: 0;
+    padding: 15px 15px 0;
+}
+
+body.page-template-page-landbook-php #user-profile {
+    margin-top: 10px;
+}
+
+body.page-template-page-landbook-php .comment-item_wrapper {
+    background-color: #ebebeb;
+}
+
+body.page-template-page-landbook-php .comment-item_wrapper .comment-item {
+    background-color: #ebebeb;
+    margin-top: 0;
+    clear: both;
+    overflow: hidden;
+    border-top: none;
+}
+
+body.page-template-page-landbook-php .comment-item_wrapper .comment-item.comment-form {
+    background-color: transparent !important;
+}
+
+body.page-template-page-landbook-php .comment-item_wrapper .comment-item:first-child {
+    background: #e9f6f2;
+}
+
+body.page-template-page-landbook-php .comment-item {
+    background-color: #ebebeb;
+}
+
+body.page-template-page-landbook-php .comment-item textarea {
+    border-radius: 0;
+}
+
+.feed-pagination {
+    border-top: 1px solid;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.feed-pagination a, .feed-pagination span {
+    color: #5d5d5d;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.feed-pagination a {
+    text-decoration: none;
+}
+
+.feed-pagination span.current-page {
+    color: black;
+}
+
+@media (max-width: 767px) {
+    body.page-template-page-landbook-php #user_status_separate {
+        width: 100%;
+    }
+
+    #user_status_action {
+        height: auto;
+        overflow: hidden;
+    }
+
+    #user_status_action li {
+        display: block;
+        float: left;
+        width: 100%;
+        text-align: left;
+    }
+
+    .news-nav_feed {
+        width: 100%;
+        float: none;
+        text-align: left;
+    }
+}
+
+@media (min-width: 768px) {
+    .news-nav_feed {
+        width: 100%;
+        float: none;
+        text-align: left;
+    }
+}
+
+@media (min-width: 992px) {
+
+}
+
+@media (min-width: 1200px) {
+
+}
