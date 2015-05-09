@@ -55,25 +55,7 @@ class Base extends CI_Controller
         /** @var array $content */
         $content = [];
         if ($renderFullView) {
-            /** @var array $groups */
-            $groups = $this->userProfileModel->getAllUserGroups(get_current_user_id());
-
-            /** @var array $groupNames */
-            if ($groups['numGroups'] === 0) {
-                $groupNames = [];
-            }
-            foreach ($groups['group'] as $group) {
-                $groupNames[] = get_term($group['group_id'], 'sc_group', ARRAY_A)['name'];
-            }
-            /** @var array $groupData */
-            $groupData = array(
-                'numGroups'     => $groups['numGroups'],
-                'userId'        => get_current_user_id(),
-                'groupNames'    => $groupNames
-            );
-                $content['left'] = $this->render('layout/partial/left_content', $groupData);
-                $content['main'] = $this->render($view, $data);
-                $content['right'] = $this->render('layout/partial/social_sidebar');
+            $data = $this->bindUserSocialData($data);
 
             $content['left'] = $this->render('layout/partial/left_content', $data);
             $content['main'] = $this->render($view, $data);
