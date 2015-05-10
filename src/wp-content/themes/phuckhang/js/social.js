@@ -42,6 +42,7 @@ $(function() {
 $(function() {
     $("#btnPostGroupNotification").click(function() {
         $(this).attr('disabled', true);
+        var groupId = $(".txtGroup").attr('id');
         var groupNotification = $('#txtGroupNotification').val();
         var me = $(this);
         $.ajax({
@@ -50,6 +51,7 @@ $(function() {
             data: {
                 act: 'ajax',
                 callback: 'postGroupNotification',
+                txtGroupId: groupId,
                 txtGroupNotification: groupNotification
             },
             success: function(response) {

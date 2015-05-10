@@ -74,6 +74,28 @@ class LandBook_Model_Activity extends LandBook_Model
     }
 
     /**
+     * Create Activities when user adds status of a group
+     *
+     * @param int $objectId
+     * @return false|int
+     */
+    public function createAddGroupStatusActivity($objectId)
+    {
+        $status = $this->getRow('SELECT * FROM pk_sc_user_status WHERE status_id = %d', $objectId);
+        if ($status == null) {
+            wp_die('Invalid Status');
+        }
+
+        return $this->createActivity(
+            array(
+                'user_id'            => $status->user_id,
+                'object_id'          => $objectId,
+                'type'               => LandBook_Constant::TYPE_ADD_GROUP_STATUS
+            )
+        );
+    }
+
+    /**
      * Create Activities when user likes a status
      *
      * @param int $objectId

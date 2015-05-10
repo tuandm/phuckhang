@@ -208,6 +208,17 @@ class LandBook_Hook
     }
 
     /**
+     * Handle user adds a status to group action that needs to be hooked after that status is saved
+     *
+     * @param int $objectId
+     */
+    public function processAfterSavingGroupStatus($objectId)
+    {
+        $activityModel = new LandBook_Model_Activity();
+        $activityModel->createAddGroupStatusActivity($objectId);
+    }
+
+    /**
      * Handle user likes a status action that needs to be hooked after that like is saved
      *
      * @param int $objectId

@@ -86,6 +86,7 @@ class Homepage extends Base
                     ));
                     break;
                 default;
+                    $feed['html'] = '';
                     break;
             }
         }

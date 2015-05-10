@@ -9,6 +9,11 @@ require_once('land_book_model.php');
 require_once('feed_model.php');
 Class User_Model extends Land_Book_Model
 {
+    /**
+     * User status type constants
+     */
+    const GROUP_STATUS = 'group';
+
     public function addUserPhotos($dataPhotos)
     {
         return $this->create('pk_sc_user_photos', $dataPhotos);
@@ -77,14 +82,24 @@ Class User_Model extends Land_Book_Model
         return $role;
     }
 
-    public function addGroupNotification($userId, $notification)
+    /**
+     * Add a group notification into database
+     *
+     * @param int $userId
+     * @param string $notification
+     * @param int $groupId
+     * @return bool|int
+     */
+    public function addGroupNotification($userId, $notification, $groupId)
     {
         $now = date('Y-m-d H:i:s');
         $result = $this->db->insert('pk_sc_user_status', array(
             'status'        => $notification,
             'user_id'       => $userId,
+            'reference_id'  => $groupId,
+            'status_type'   => User_Model::GROUP_STATUS,
             'created_time'  => $now,
-            'updated_time'  => $now,
+            'updated_time'  => $now
         ));
 
         if ($result) {

@@ -7,7 +7,10 @@
  */
 class LandBook_Model_Notification extends LandBook_Model
 {
-
+    /**
+     * @var User_Model
+     */
+    public $userModel;
     /**
      * Create corresponding notifications of an activity
      *
@@ -34,7 +37,7 @@ class LandBook_Model_Notification extends LandBook_Model
                 break;
 
             case LandBook_Constant::TYPE_ADD_GROUP_STATUS:
-                $result = $this->createAddUserStatusNotifications($userId, $objectId);
+                $result = $this->createAddGroupStatusNotifications($userId, $objectId);
                 break;
 
             case LandBook_Constant::TYPE_LIKE_STATUS:
@@ -199,23 +202,28 @@ class LandBook_Model_Notification extends LandBook_Model
     protected function createAddGroupStatusNotifications($userId, $objectId)
     {
         $status = $this->getRow('SELECT * FROM pk_sc_user_status WHERE status_id = %d', $objectId);
+        $userInGroups= $this->getResults('SELECT sug.user_id FROM pk_sc_user_groups sug WHERE group_id = %d', $status->reference_id);
         if ($status == null) {
             wp_die('Invalid Status');
         }
+        foreach ($userInGroups as $userIdInGroup) {
+            $currentUserName = get_the_author_meta('display_name', $userId);
+            $userProfileUrl = $this->buildNotiUserProfileUrl($userId, LandBook_Constant::TYPE_GROUP_STATUS, array('status_id' => $objectId));
 
-        $currentUserName = get_the_author_meta('display_name', $userId);
-        $userProfileUrl = $this->buildNotiUserProfileUrl($userId, LandBook_Constant::TYPE_USER_STATUS, array('photo_id' => $objectId));
-
-        $notiText = sprintf('<a href="%s"><span class="author">%s</span> đã đăng trên dòng thời gian</a>', $userProfileUrl, $currentUserName);
-        return $this->createNotification(
-            $userId,
-            array(
-                'user_id'               => $status->reference_id,
-                'notification_type'     => LandBook_Constant::TYPE_USER_STATUS,
-                'reference_id'          => $objectId,
-                'notification_text'     => $notiText,
-            )
-        );
+            $notiText = sprintf('<a href="%s"><span class="author">%s</span> đã đăng trên dòng thời gian</a>', $userProfileUrl, $currentUserName);
+            $notificationId = $this->createNotification(
+                $userId,
+                array(
+                    'user_id'               => $userIdInGroup->user_id,
+                    'notification_type'     => LandBook_Constant::TYPE_GROUP_STATUS,
+                    'reference_id'          => $objectId,
+                    'notification_text'     => $notiText,
+                )
+            );
+            if (!$notificationId) {
+                return;
+            }
+        }
     }
 
     /**
