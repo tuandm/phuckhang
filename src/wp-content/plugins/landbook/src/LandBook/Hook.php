@@ -240,4 +240,15 @@ class LandBook_Hook
         $activityModel->createAddUserLikePostActivity($objectId);
     }
 
+    /**
+     * Handle user add a photo action that needs to be hooked after that photo is saved
+     *
+     * @param int $objectId
+     */
+    public function processAfterSavingUserPhoto($objectId)
+    {
+        $activityModel = new LandBook_Model_Activity();
+        $activityModel->createAddUserPhotoActivity($objectId);
+    }
+
 }

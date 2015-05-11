@@ -96,12 +96,51 @@ class LandBook_Model_Activity extends LandBook_Model
     }
 
     /**
-     * Create Activities when user likes a status
+     * Create Activity when user add a photos
+     *
+     * @param $objectId int
+     * @return false|int
+     */
+    public function createAddUserPhotoActivity($objectId)
+    {
+        $photo = $this->getRow('SELECT * FROM pk_sc_user_photos WHERE sc_user_photo_id = %d', $objectId);
+        if ($photo == null) {
+            die('Invalid photo');
+        }
+        var_dump($photo);
+        return $this->createActivity(
+            array(
+                'user_id'       => $photo->user_id,
+                'object_id'     => $photo->sc_user_photo_id,
+                'type'          => LandBook_Constant::TYPE_ADD_USER_PHOTO
+            )
+        );
+    }
+
+    /**
+     * Create Activities when user likes for a status
      *
      * @param int $objectId
+     * @return int
      */
     public function createAddUserLikeStatusActivity($objectId)
     {
-        //TODO
+        $like = $this->getRow('SELECT * FROM pk_sc_user_like WHERE reference_id = %d AND reference_type = %s', $objectId, 'post');
+        if ($like == null) {
+            wp_die('Invalid like');
+        }
+
+        $activity = $this->getRow('SELECT * FROM pk_sc_user_activities WHERE object_id = %d AND user_id = %d', $objectId, $like->user_id);
+        if ($activity == null) {
+            return;
+        } else {
+            return $this->createActivity(
+                array(
+                    'user_id'            => $like->user_id,
+                    'object_id'          => $objectId,
+                    'type'               => LandBook_Constant::TYPE_LIKE_STATUS
+                )
+            );
+        }
     }
 }

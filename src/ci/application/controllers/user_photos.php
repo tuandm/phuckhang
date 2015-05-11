@@ -53,10 +53,11 @@ Class User_Photos extends Base
                 'description' => $description
             );
 
-            $this->userModel->addUserPhotos($dataPhotos);
+            $photoId = $this->userModel->addUserPhotos($dataPhotos);
+            if ($photoId) {
+                do_action('save_user_photo', $photoId);
+            }
             $this->index();
         }
     }
 }
-
-?>
