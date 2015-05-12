@@ -568,7 +568,7 @@ ol.project-indicators li.active, ol.project-indicators li.cycle-pager-active {
 
 /* Sub navigation */
 
-.sub-nav-wrap {
+.sub-nav-project-detail {
     margin-right: 20px;
     margin-top: 28px;
 }
@@ -1092,7 +1092,12 @@ textarea.message {
     }
 
     .sub-nav-wrap {
-        display: none;
+      /* display: none; */
+        position: fixed;
+        right: 0%;
+        top: 20%;
+        z-index: 255;
+        opacity: 0.8;
     }
 }
 
