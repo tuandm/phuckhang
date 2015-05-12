@@ -17,26 +17,32 @@ class LandBook_Ajax {
         return self::$instance;
     }
 
-    public function projectProducts() {
-        $response = array(
-            'success'   => false,
-            'result'    => ''
-        );
-        $status = $this->input->post('status');
-        $area = '';
-        $price = '';
+    public function listProducts($projectId)
+    {
         $projectModel = new LandBook_Model_Project();
-        $where = $projectModel->searchKeywork($status,$area,$price);
-        $projectModel->getProducts($where);
-        if (!empty($status)) {
-            $response['success'] = true;
-            $response['result'] = $this->render('', array(
-                'status' => $status
-            ));
-        } else {
-            $response['success'] = false;
+        $products =  $projectModel->getProducts($projectId);
+
+        foreach($products as $pros) {
+            $pros->status = $this->getProductStatus($pros->status);
         }
-        return $response;
+
+        return $products;
     }
 
+    public function getProductStatus($value)
+    {
+        switch ($value) {
+            case '3' :
+                return 'Khuyến Mãi';
+                break;
+            case '2' :
+                return 'Đã Bán';
+                break;
+            case '1' :
+                return 'Còn Hàng';
+                break;
+            default :
+                return 'Còn trống';
+        }
+    }
 }

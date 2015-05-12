@@ -201,27 +201,26 @@ function onUserLikeList()
     $('.numlike').tooltip();
 }
 
-$('#status').change(function() {
-    var status = $( "#status option:selected" ).text();
-    $.ajax({
-        url: '/du-an-lang-sen/',
-        type: 'POST',
-        data: {
-            act: 'ajax',
-            callback: 'listProducts',
-            status: status
-        },
-        success: function(response) {
-            var result = JSON.parse(response);
-            if (result.success) {
-                me.val('');
-                commentError.hide();
-                $('div.comment-text').before(result.result).fadeIn('slow');
-            } else {
-                commentError.html(result.result);
-                commentError.fadeIn();
-            }
+$(document).ready(function() {
+    $('#products').dataTable({
+        initComplete: function () {
+            this.api().columns().every( function () {
+                var column = this;
+                var select = $('<select><option value="">Tất Cả</option></select>')
+                    .appendTo( $(column.footer()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );
         }
     });
-    return false;
-});
+} );

@@ -3,7 +3,13 @@
     wp_enqueue_script('jquery-cycle2-scrollVert', get_template_directory_uri() . '/js/jquery.cycle2.scrollVert.min.js', array('jquery-cycle2'), '2.1.6', true);
     get_header();
 ?>
-  <div class="project-banner langsen">
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri(); ?>/css/jquery.dataTables.css">
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="<?php echo get_template_directory_uri(); ?>/js/jquery.dataTables.min.js"></script>
+<div class="project-banner langsen">
     <div class="banner-info">
       <span class="banner-sub">Dự Án</span>
       <span class="banner-title">Làng Sen Việt Nam</span>
@@ -107,70 +113,38 @@
 
         <div id="onsale" class="project-detail">
             <h2 class="sub-header">Mở Bán</h2>
-
             <table class="table table-hover onsale-table">
-              <thead>
-                <tr>
-                  <th>
-                    <input type="text" name="code" id="code" class="form-control" value="" pattern="" title=""><br />
-                    Mã số
-                  </th>
-                  <th>
-                      <select name="price" id="price" class="form-control" required="required">
-                        <option value="">Giá</option>
-                        <option value="">450,644,555</option>
-                        <option value="">500,644,555</option>
-                        <option value="">618,297,547</option>
-                      </select>
-                    <br />
-                    Giá
-                    </th>
-                  <th>
-                    <select name="status" id="status" class="form-control" required="required">
-                      <option value="">Tình Trạng</option>
-                      <option value="">Khuyến mãi</option>
-                      <option value="">Đã bán</option>
-                      <option value="">Còn hàng</option>
-                    </select>
-                    <br />
-                    Tình Trạng
-                  </th>
-                  <th>
-                    <select name="status" id="status" class="form-control" required="required">
-                      <option value="">Diện Tích</option>
-                      <option value="">50m2</option>
-                      <option value="">60m2</option>
-                      <option value="">70m2</option>
-                    </select>
-                    <br />
-                    Diện Tích
-                    </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                    <?php $products = LandBook_Projects::getInstance()->listProducts();
-                    function getProductStatus($value)
-                    {
-                        switch ($value) {
-                            case '3' :
-                                return 'Khuyến Mãi';
-                            case '2' :
-                                return 'Đã Bán';
-                            case '1' :
-                                return 'Đang Đặt';
-                        }
-                    }
-                    ?>
+                <?php $projectId = get_post_meta( get_the_ID(), 'projectId', true ); ?>
+                <input type="hidden" id="projectId" name="projectId" value="<?php echo $projectId; ?>">
+                <table id="products" class="display" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Mã Số</th>
+                            <th>Giá</th>
+                            <th>Tình Trạng</th>
+                            <th>Diện Tích</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Mã Số</th>
+                            <th>Giá</th>
+                            <th>Tình Trạng</th>
+                            <th>Diện Tích</th>
+                        </tr>
+                        </tfoot>
+                    <?php $products = LandBook_Ajax::getInstance()->listProducts($projectId); ?>
+                    <tbody>
                     <?php foreach ($products as $product) : ?>
-                <tr>
-                    <td><?php echo $product->code; ?></td>
-                    <td><?php echo $product->price; ?></td>
-                    <td><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/promotion-icon.png" height="20" width="20" class="icon"><?php echo getProductStatus($product->status); ?></td>
-                    <td><?php echo $product->area; ?></td>
-                </tr>
-                <?php endforeach; ?>
-              </tbody>
+                    <tr>
+                        <td><?php echo $product->code; ?></td>
+                        <td><?php echo $product->price; ?></td>
+                        <td><?php echo $product->status; ?></td>
+                        <td><?php echo $product->area; ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
             </table>
         </div>
 
@@ -251,5 +225,4 @@
   </div>
 
 </div>
-
 <?php get_footer(); ?>
