@@ -51,6 +51,30 @@ class Feed_Model extends Land_Book_Model
     }
 
     /**
+     * Get newest feeds for displaying to the group page
+     *
+     * @param int $groupId
+     * @return array|bool
+     */
+    public function getNewGroupFeeds($groupId)
+    {
+        $where = array(
+            'pk_sc_user_status.reference_id'    => $groupId,
+            'reference_type'                    => Feed_Model::REFERENCE_TYPE_GROUP_STATUS
+        );
+        $feeds = $this->db
+            ->select()
+            ->from($this->tableName)
+            ->where($where)
+            ->join('pk_sc_user_status',"$this->tableName.reference_id = pk_sc_user_status.status_id",'inner')
+            ->order_by('feed_id', 'DESC')
+            ->limit(10)
+            ->get()
+            ->result_array();
+        return $feeds;
+    }
+
+    /**
      * Insert to feed table when new post is posted
      *
      * @param int $userId

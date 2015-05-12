@@ -7,7 +7,6 @@
     </ul>
 
     <div class="tab-content">
-        <?php var_dump($userId) ;?>
         <textarea class="message userMessage" id="receiver_<?php echo $userId ?>" rows="5"></textarea>
         <div class="userMessageSuccess" style="display: none;"></div>
         <div class="userMessageError" style="display: none;"></div>

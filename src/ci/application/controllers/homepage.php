@@ -65,7 +65,7 @@ class Homepage extends Base
                         'likeImage'     => $likeImage,
                         'state'         => $state,
                         'postDate'      => $status['created_time'],
-                        'referenceType' => Feed_Model::REFERENCE_TYPE_STATUS,
+                        'referenceType' => Feed_Model::REFERENCE_TYPE_USER_STATUS,
                         'allowComment'  => true
                     ));
                     break;
@@ -125,7 +125,7 @@ class Homepage extends Base
                 'state'         => $state,
                 'postDate'      => $status['created_time'],
                 'status'        => $status,
-                'referenceType' => Feed_Model::REFERENCE_TYPE_STATUS,
+                'referenceType' => Feed_Model::REFERENCE_TYPE_USER_STATUS,
                 'allowComment'  => true
             ));
         } else {
