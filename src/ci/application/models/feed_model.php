@@ -16,7 +16,7 @@ class Feed_Model extends Land_Book_Model
     /**
      * Reference for user's status
      */
-    const REFERENCE_TYPE_STATUS  = 'status';
+    const REFERENCE_TYPE_USER_STATUS  = 'user_status';
 
     /**
      * Reference for user' comment
@@ -26,7 +26,7 @@ class Feed_Model extends Land_Book_Model
     /**
      * Reference for user' comment
      */
-    const REFERENCE_TYPE_NOTIFICATION = 'notification';
+    const REFERENCE_TYPE_GROUP_STATUS = 'group_status';
 
     /**
      * @var string

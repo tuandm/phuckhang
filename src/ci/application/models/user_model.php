@@ -96,11 +96,11 @@ Class User_Model extends Land_Book_Model
         return $notificationId;
     }
 
-    public function findById($notificationId)
+    public function findById($groupStatusId)
     {
         $rows = $this->db->select()
             ->from('pk_sc_user_status')
-            ->where('status_id', $notificationId)
+            ->where('status_id', $groupStatusId)
             ->get()
             ->result_array();
         if (empty($rows)) {

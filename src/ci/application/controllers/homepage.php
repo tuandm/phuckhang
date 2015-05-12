@@ -21,6 +21,11 @@ class Homepage extends Base
     public $likeModel;
 
     /**
+     * @var User_Model
+     */
+    public $userModel;
+
+    /**
      * @var Status_Model
      */
     public $statusModel;
@@ -33,6 +38,7 @@ class Homepage extends Base
         $this->load->model('Feed_Model', 'feedModel');
         $this->load->model('Status_Model', 'statusModel');
         $this->load->model('Like_Model', 'likeModel');
+        $this->load->model('User_Model', 'userModel');
     }
 
     /**
@@ -43,7 +49,7 @@ class Homepage extends Base
         $feeds = $this->feedModel->getNewFeeds();
         foreach ($feeds as $key => &$feed) {
             switch ($feed['reference_type']) {
-                case Feed_Model::REFERENCE_TYPE_STATUS:
+                case Feed_Model::REFERENCE_TYPE_USER_STATUS:
                     $status = $this->statusModel->findById($feed['reference_id']);
                     $feed['html'] = $this->renderUserStatus($feed['reference_id']);
                     $numLike = $this->likeModel->countLike($status['status_id']);
@@ -86,6 +92,10 @@ class Homepage extends Base
                         'allowComment'  => true
                     ));
                     break;
+                case Feed_Model::REFERENCE_TYPE_GROUP_STATUS:
+                    $feed['html'] = $this->renderGroupStatus($feed['reference_id']);
+                    break;
+                    break;
                 default;
                     break;
             }
@@ -117,6 +127,27 @@ class Homepage extends Base
                 'postDate'      => $status['created_time'],
                 'status'        => $status,
                 'referenceType' => Feed_Model::REFERENCE_TYPE_STATUS,
+                'allowComment'  => true
+            ));
+        } else {
+            return '';
+        }
+
+    }
+
+    /**
+     * Render A Group Status block
+     *
+     * @param int $groupStatusId
+     * @return string
+     */
+    private function renderGroupStatus($groupStatusId)
+    {
+        $groupStatus = $this->userModel->findById($groupStatusId);
+        if ($groupStatus !== false && is_array($groupStatus)) {
+            return $this->render('/user/group/group_status', array(
+                'groupStatus'   => $groupStatus,
+                'referenceType' => Feed_Model::REFERENCE_TYPE_GROUP_STATUS,
                 'allowComment'  => true
             ));
         } else {
