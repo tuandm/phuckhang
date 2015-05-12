@@ -1,6 +1,6 @@
 <?php
 /**
- * Author: Duc Duong
+ * Author: Storm
  */
 
 class LandBook_Projects extends LandBook_Admin {
@@ -22,4 +22,9 @@ class LandBook_Projects extends LandBook_Admin {
         return 'project';
     }
 
+    public function listProducts($projectId)
+    {
+        $projectModel = new LandBook_Model_Project();
+        return $projectModel->getProducts($projectId);
+    }
 }
