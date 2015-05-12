@@ -40,6 +40,38 @@ $(function() {
     });
 });
 
+$(function() {
+    $("#btnPostGroupNotification").click(function() {
+        $(this).attr('disabled', true);
+        var groupNotification = $('#txtGroupNotification').val();
+        var me = $(this);
+        $.ajax({
+            url: '/social-group-notification/',
+            type: 'POST',
+            data: {
+                act: 'ajax',
+                callback: 'postGroupNotification',
+                txtGroupNotification: groupNotification
+            },
+            success: function(response) {
+                var result = JSON.parse(response);
+                if (result.success) {
+                    $('#txtGroupNotification').val('');
+                    $('#groupNotificationError').hide();
+                    $('#user_notification_separate').after(result.result).fadeIn('slow');
+                    me.attr('disabled', false);
+                } else {
+                    me.attr('disabled', false);
+                    $('#groupNotificationError').html(result.result);
+                    $('#groupNotificationError').show();
+                }
+                $(this).attr('disabled', false);
+            }
+        });
+        return false;
+    });
+});
+
 /**
  * Off click highlight Comment Box
  */
