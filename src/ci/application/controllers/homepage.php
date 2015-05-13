@@ -85,7 +85,8 @@ class Homepage extends Base
                         'allowComment'  => true
                     ));
                     break;
-                default;
+                default:
+                $feed['html'] = '';
                     break;
             }
         }

@@ -874,6 +874,10 @@ textarea.message {
     border-top: 1px solid #ddd;
 }
 
+.pt20{
+    padding-top: 20px;
+}
+
 /**
  * Message
  */
@@ -888,6 +892,10 @@ textarea.message {
 .user-info {
     padding-bottom: 20px;
     padding-top: 100px;
+}
+
+.user-info-header{
+    padding-top: 30px;
 }
 
 .user-span-control {
@@ -1099,6 +1107,10 @@ textarea.message {
         z-index: 255;
         opacity: 0.8;
     }
+
+    .user-info-header{
+        padding-left: 20px;
+    }
 }
 
 /* xs */
@@ -1174,6 +1186,10 @@ textarea.message {
 
     .project-banner.langsen {
         background-position: left;
+    }
+
+    .user-info-header{
+        padding-left: 20px;
     }
 
 }
@@ -1271,6 +1287,10 @@ textarea.message {
 
     .project-banner.langsen {
         background-position: left;
+    }
+
+    .user-info-header{
+        padding-left: 20px;
     }
 
 }
