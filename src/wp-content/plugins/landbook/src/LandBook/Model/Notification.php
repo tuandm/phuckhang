@@ -85,7 +85,7 @@ class LandBook_Model_Notification extends LandBook_Model
      *
      * @param int $objectId
      * @param int $userId
-     * @return int|false
+     * @return bool
      */
     protected function createAddPhotoNotifications($userId, $objectId)
     {
@@ -98,19 +98,16 @@ class LandBook_Model_Notification extends LandBook_Model
         $userPhotoUrl = $this->buildNotiUserPhotoUrl($photo->user_id, LandBook_Constant::TYPE_USER_PHOTO, array('photo_id' => $objectId));
         $notiText = sprintf('<a href="%s"><span class="author">%s</span> thêm một ảnh mới</a>', $userPhotoUrl, $currentUserName);
 
-        $friends = $this->getResults(
-            'SELECT user_id, friend_id FROM pk_sc_user_friends WHERE user_id = %d OR friend_id = %d',
-            [$userId, $userId]);
+        $friendListIds = $this->getFriendListByUserId($userId);
         if (empty($friends)) {
             return false;
         }
 
-        foreach ($friends as $friend) {
-            $friendId = ($friend->user_id == $photo->user_id) ? $friend->friend_id : $friend->user_id;
+        foreach ($friendListIds as $friendListId) {
             $this->createNotification(
                 $photo->user_id,
                 array(
-                    'user_id'               => $friendId,
+                    'user_id'               => $friendListId,
                     'notification_type'     => LandBook_Constant::TYPE_USER_PHOTO,
                     'reference_id'          => $objectId,
                     'notification_text'     => $notiText,
@@ -126,7 +123,7 @@ class LandBook_Model_Notification extends LandBook_Model
      *
      * @param int $userId
      * @param int $objectId
-     * @return int|false
+     * @return bool
      */
     protected function createAddUserStatusNotifications($userId, $objectId)
     {
@@ -140,20 +137,25 @@ class LandBook_Model_Notification extends LandBook_Model
         if ($status->user_id != $userId) {
             return;
         }
-
+        $friendListIds = $this->getFriendListByUserId($userId);
+        if (!$friendListIds) {
+            return false;
+        }
         $currentUserName = get_the_author_meta('display_name', $userId);
         $statusUrl = $this->buildNotiUserStatusUrl($status->status_id, LandBook_Constant::TYPE_USER_STATUS, array('status_id' => $objectId));
-
         $notiText = sprintf('<a href="%s"><span class="author">%s</span> đã đăng trên dòng thời gian</a>', $statusUrl, $currentUserName);
-        return $this->createNotification(
-            $userId,
-            array(
-                'user_id'               => $status->reference_id,
-                'notification_type'     => LandBook_Constant::TYPE_USER_STATUS,
-                'reference_id'          => $objectId,
-                'notification_text'     => $notiText,
-            )
-        );
+        foreach ($friendListIds as $friendListId) {
+            $this->createNotification(
+                $userId,
+                array(
+                    'user_id'               => $friendListId,
+                    'notification_type'     => LandBook_Constant::TYPE_USER_STATUS,
+                    'reference_id'          => $objectId,
+                    'notification_text'     => $notiText,
+                )
+            );
+        }
+        return true;
     }
 
     /**
@@ -202,9 +204,9 @@ class LandBook_Model_Notification extends LandBook_Model
         }
         foreach ($userInGroups as $userIdInGroup) {
             $currentUserName = get_the_author_meta('display_name', $userId);
-            $userProfileUrl = $this->buildNotiUserProfileUrl($userId, LandBook_Constant::TYPE_GROUP_STATUS, array('status_id' => $objectId));
+            $groupUrl = $this->buildNotiGroupUrl($status->reference_id, LandBook_Constant::TYPE_GROUP_STATUS, array('status_id' => $objectId));
 
-            $notiText = sprintf('<a href="%s"><span class="author">%s</span> đã đăng trên dòng thời gian</a>', $userProfileUrl, $currentUserName);
+            $notiText = sprintf('<a href="%s"><span class="author">%s</span> đã đăng trên dòng thời gian</a>', $groupUrl, $currentUserName);
             $notificationId = $this->createNotification(
                 $userId,
                 array(
@@ -341,5 +343,28 @@ class LandBook_Model_Notification extends LandBook_Model
         return LandBook_Util_Url::buildGroupProfileUrl($groupId, $params);
     }
 
-
+    /**
+     * Get all user 's friend list.
+     *
+     * @param int $userId
+     * @return array|false
+     */
+    protected function getFriendListByUserId($userId)
+    {
+        $friendListIds = array();
+        $results = $this->getResults('SELECT * FROM pk_sc_user_friends WHERE user_id = %d OR friend_id = %d', [$userId, $userId]);
+        if (is_null($results)) {
+            return false;
+        }
+        foreach ($results as $result) {
+            if ($result->user_id == $userId) {
+                $friendListIds[] = $result->friend_id;
+            } else {
+                $friendListIds[] = $result->user_id;
+            }
+        }
+        $friendListIds = array_unique($friendListIds);
+        return $friendListIds;
+    }
+    
 }

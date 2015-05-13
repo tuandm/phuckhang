@@ -18,7 +18,7 @@ class LandBook_Util_Url {
             $params = array();
         }
         $params['userId'] = $userId;
-        return site_url('social-userprofilepage?' . build_query($params));
+        return site_url('social-user-profile?' . build_query($params));
     }
 
     /**
@@ -46,7 +46,7 @@ class LandBook_Util_Url {
             $params = array();
         }
         $params['groupId'] = $groupId;
-        return site_url('social-group-notification?' . build_query($params));
+        return site_url('social-group-status?' . build_query($params));
     }
 
     /**

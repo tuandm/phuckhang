@@ -107,7 +107,6 @@ class LandBook_Model_Activity extends LandBook_Model
         if ($photo == null) {
             die('Invalid photo');
         }
-        var_dump($photo);
         return $this->createActivity(
             array(
                 'user_id'       => $photo->user_id,
@@ -143,4 +142,5 @@ class LandBook_Model_Activity extends LandBook_Model
             );
         }
     }
+
 }

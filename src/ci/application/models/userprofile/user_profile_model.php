@@ -40,7 +40,7 @@ class User_Profile_Model extends CI_Model
      * Function getUserPhoneById
      *
      * @param $userId
-     * @return null|array
+     * @return null|string
      */
     public function getPhoneNumberById($userId)
     {
@@ -64,7 +64,7 @@ class User_Profile_Model extends CI_Model
      * Get DOB of user by userId
      *
      * @param int $userId
-     * @return array|bool
+     * @return string|bool
      */
     public function getDOBByUserId($userId)
     {
@@ -86,7 +86,7 @@ class User_Profile_Model extends CI_Model
      * Get User Title by UserId
      *
      * @param int $userId
-     * @return bool|array
+     * @return string|array
      */
     public function getTitleByUserId($userId)
     {

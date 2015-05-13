@@ -92,7 +92,7 @@ Class User_Model extends Land_Book_Model
             'status'        => $groupStatus,
             'user_id'       => $userId,
             'reference_id'  => $groupId,
-            'status_type'   => User_Model::GROUP_STATUS,
+            'status_type'   => Feed_Model::REFERENCE_TYPE_GROUP_STATUS,
             'created_time'  => $now,
         ));
 

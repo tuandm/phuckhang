@@ -205,7 +205,7 @@ class Homepage extends Base
             'success'   => false,
             'result'    => ''
         );
-        if (!in_array($type, [Feed_Model::REFERENCE_TYPE_POST, Feed_Model::REFERENCE_TYPE_STATUS])) {
+        if (!in_array($type, [Feed_Model::REFERENCE_TYPE_POST, Feed_Model::REFERENCE_TYPE_USER_STATUS])) {
             $response['result'] = 'Invalid Type';
         }
 

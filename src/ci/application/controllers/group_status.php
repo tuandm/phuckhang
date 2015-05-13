@@ -82,6 +82,10 @@ Class Group_Status extends Base
             if ($groupStatusId!== false) {
                 $response['success'] = true;
                 $response['result'] = $this->renderGroupStatus($groupStatusId);
+                /**
+                 * Fires once a group status has been saved.
+                 * //TODO if need further parameter
+                 */
                 do_action('save_group_status', $groupStatusId);
             } else {
                 $response['result'] = 'Can not post status. Please try again.';

@@ -55,6 +55,10 @@ Class User_Photos extends Base
 
             $photoId = $this->userModel->addUserPhotos($dataPhotos);
             if ($photoId) {
+                /**
+                 * Fires once a user add photo action has been saved.
+                 * //TODO if need further parameter
+                 */
                 do_action('save_user_photo', $photoId);
             }
             $this->index();
