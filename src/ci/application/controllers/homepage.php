@@ -94,8 +94,8 @@ class Homepage extends Base
                 case Feed_Model::REFERENCE_TYPE_GROUP_STATUS:
                     $feed['html'] = $this->renderGroupStatus($feed['reference_id']);
                     break;
-                    break;
-                default;
+                default:
+                $feed['html'] = '';
                     break;
             }
         }

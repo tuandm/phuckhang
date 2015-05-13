@@ -198,37 +198,31 @@ img.desaturate:hover {
 #home-block .box.box-picture {
     background: url('images/box-picture-bg.jpg') center center no-repeat;
     background-size: 100%;
-/ / propotional resize
 }
 
 #home-block .box.box-picture a {
     background: url('images/box-picture-bg-bw.jpg') center center no-repeat;
     background-size: 100%;
-/ / propotional resize
 }
 
 #home-block .box.box-video {
     background: url('images/box-video-bg.jpg') center center no-repeat;
     background-size: 100%;
-/ / propotional resize
 }
 
 #home-block .box.box-video a {
     background: url('images/box-video-bg-bw.jpg') center center no-repeat;
     background-size: 100%;
-/ / propotional resize
 }
 
 #home-block .box.box-contact {
     background: url('images/box-contact-bg.jpg') center center no-repeat;
     background-size: 100%;
-/ / propotional resize
 }
 
 #home-block .box.box-contact a {
     background: url('images/box-contact-bg-bw.jpg') center center no-repeat;
     background-size: 100%;
-/ / propotional resize
 }
 
 #home-block .box.box-contact a:hover, #home-block .box.box-picture a:hover, #home-block .box.box-video a:hover {
@@ -568,7 +562,7 @@ ol.project-indicators li.active, ol.project-indicators li.cycle-pager-active {
 
 /* Sub navigation */
 
-.sub-nav-wrap {
+.sub-nav-project-detail {
     margin-right: 20px;
     margin-top: 28px;
 }
@@ -874,6 +868,10 @@ textarea.message {
     border-top: 1px solid #ddd;
 }
 
+.pt20{
+    padding-top: 20px;
+}
+
 /**
  * Message
  */
@@ -888,6 +886,10 @@ textarea.message {
 .user-info {
     padding-bottom: 20px;
     padding-top: 100px;
+}
+
+.user-info-header{
+    padding-top: 30px;
 }
 
 .user-span-control {
@@ -1074,17 +1076,17 @@ textarea.message {
 
     #home-block .box.box-picture {
         background-size: 100%;
-    / / propotional resize
+
     }
 
     #home-block .box.box-video {
         background-size: 100%;
-    / / propotional resize
+
     }
 
     #home-block .box.box-contact {
         background-size: 100%;
-    / / propotional resize
+
     }
 
     .project-wrap {
@@ -1092,7 +1094,16 @@ textarea.message {
     }
 
     .sub-nav-wrap {
-        display: none;
+      /* display: none; */
+        position: fixed;
+        right: 0%;
+        top: 20%;
+        z-index: 255;
+        opacity: 0.8;
+    }
+
+    .user-info-header{
+        padding-left: 20px;
     }
 }
 
@@ -1109,17 +1120,14 @@ textarea.message {
 
     #home-block .box.box-picture {
         background-size: 100%;
-    / / propotional resize
     }
 
     #home-block .box.box-video {
         background-size: 100%;
-    / / propotional resize
     }
 
     #home-block .box.box-contact {
         background-size: 100%;
-    / / propotional resize
     }
 
     #home-block .box-news p {
@@ -1144,7 +1152,12 @@ textarea.message {
     }
 
     .sub-nav-wrap {
-        display: none;
+      /* display: none; */
+        position: fixed;
+        right: 0%;
+        top: 20%;
+        z-index: 255;
+        opacity: 0.8;
     }
 
     .banner-info {
@@ -1171,6 +1184,10 @@ textarea.message {
         background-position: left;
     }
 
+    .user-info-header{
+        padding-left: 20px;
+    }
+
 }
 
 /* XS Portrait for iPhone retina */
@@ -1182,7 +1199,7 @@ textarea.message {
         display: block;
         background-color: #333333;
         background-size: 100%;
-    / / propotional resize float : left;
+ float : left;
         border-top: 1px solid #FFF;
     }
 
@@ -1197,17 +1214,17 @@ textarea.message {
 
     #home-block .box.box-picture {
         background-size: 100%;
-    / / propotional resize
+
     }
 
     #home-block .box.box-video {
         background-size: 100%;
-    / / propotional resize
+
     }
 
     #home-block .box.box-contact {
         background-size: 100%;
-    / / propotional resize
+
     }
 
     img#logo {
@@ -1266,6 +1283,10 @@ textarea.message {
 
     .project-banner.langsen {
         background-position: left;
+    }
+
+    .user-info-header{
+        padding-left: 20px;
     }
 
 }

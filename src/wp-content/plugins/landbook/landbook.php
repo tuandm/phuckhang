@@ -56,6 +56,7 @@ class LandBook
         $this->hook = new LandBook_Hook();
         if (is_admin()) {
             $this->loader->addAction('admin_menu', $this->hook, 'createMenuItems', 999);
+
             $this->register_css();
             // AJAX action is handled by wp-admin/admin-ajax.php
             $this->loader->addAction('wp_ajax_project_products', $this->hook, 'projectProducts');
@@ -65,6 +66,7 @@ class LandBook
             // Register redirect page after login
             $this->register_js();
         }
+        $this->register_css();
         // Hooking
         add_filter('redirect_post_location', array($this, 'redirectPage'), 10, 3);
         add_filter('login_redirect', array($this, 'loginRedirectHandle'), 10, 3);
