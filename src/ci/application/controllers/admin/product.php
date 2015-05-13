@@ -115,7 +115,6 @@ class Product extends CI_Controller {
             $code = $this->input->post('product-code');
             $status = $this->input->post('status');
             $price = $this->input->post('price');
-            var_dump($this->input->post());
             $projId = $this->input->post('project-name');
             $productId = $this->input->post('product-id');
             $product = array(

@@ -9,11 +9,6 @@ require_once('land_book_model.php');
 require_once('feed_model.php');
 Class User_Model extends Land_Book_Model
 {
-    /**
-     * User status type constants
-     */
-    const GROUP_STATUS = 'group';
-
     public function addUserPhotos($dataPhotos)
     {
         return $this->create('pk_sc_user_photos', $dataPhotos);
@@ -83,41 +78,40 @@ Class User_Model extends Land_Book_Model
     }
 
     /**
-     * Add a group notification into database
+     * Add a Group Status into pk_sc_user_status
      *
-     * @param int $userId
-     * @param string $notification
      * @param int $groupId
-     * @return bool|int
+     * @param int $userId
+     * @param string $groupStatus
+     * @return int|false
      */
-    public function addGroupNotification($userId, $notification, $groupId)
+    public function addGroupStatus($userId, $groupStatus, $groupId)
     {
         $now = date('Y-m-d H:i:s');
         $result = $this->db->insert('pk_sc_user_status', array(
-            'status'        => $notification,
+            'status'        => $groupStatus,
             'user_id'       => $userId,
             'reference_id'  => $groupId,
             'status_type'   => User_Model::GROUP_STATUS,
             'created_time'  => $now,
-            'updated_time'  => $now
         ));
 
         if ($result) {
-            $notificationId = $this->db->insert_id();
+            $groupStatusId = $this->db->insert_id();
             $feedModel = new Feed_Model();
-            $feedResult = $feedModel->insert($userId, $notificationId, Feed_Model::REFERENCE_TYPE_NOTIFICATION);
+            $feedResult = $feedModel->insert($userId, $groupStatusId, Feed_Model::REFERENCE_TYPE_GROUP_STATUS);
             if ($feedResult == false) {
                 return false;
             }
         }
-        return $notificationId;
+        return $groupStatusId;
     }
 
-    public function findById($notificationId)
+    public function findById($groupStatusId)
     {
         $rows = $this->db->select()
             ->from('pk_sc_user_status')
-            ->where('status_id', $notificationId)
+            ->where('status_id', $groupStatusId)
             ->get()
             ->result_array();
         if (empty($rows)) {

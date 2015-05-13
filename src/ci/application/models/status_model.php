@@ -9,11 +9,6 @@
 class Status_Model extends Land_Book_Model
 {
     /**
-     * User status type constants
-     */
-    const USER_STATUS = 'user';
-
-    /**
      * @var string
      */
     protected $tableName = 'pk_sc_user_status';
@@ -30,18 +25,19 @@ class Status_Model extends Land_Book_Model
         $now = date('Y-m-d H:i:s');
         $this->startTransaction();
         $result = $this->db->insert($this->tableName, array(
-            'status'        => $status,
-            'user_id'       => $userId,
-            'created_time'  => $now,
-            'updated_time'  => $now,
-            'status_type'   => self::USER_STATUS,
-            'reference_id'  => $userId,
+
+            'status'            => $status,
+            'user_id'           => $userId,
+            'status_type'       => Feed_Model::REFERENCE_TYPE_USER_STATUS,
+            'reference_id'      => $userId,
+            'created_time'      => $now,
+            'updated_time'      => $now,
         ));
 
         if ($result) {
             $statusId = $this->db->insert_id();
             $feedModel = new Feed_Model();
-            $feedResult = $feedModel->insert($userId, $statusId, Feed_Model::REFERENCE_TYPE_STATUS);
+            $feedResult = $feedModel->insert($userId, $statusId, Feed_Model::REFERENCE_TYPE_USER_STATUS);
             if ($feedResult == false) {
                 $this->rollbackTransaction();
                 return false;

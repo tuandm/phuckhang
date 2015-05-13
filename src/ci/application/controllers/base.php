@@ -54,7 +54,9 @@ class Base extends CI_Controller
     {
         /** @var array $content */
         $content = [];
+
         if ($renderFullView) {
+
             $data = $this->bindUserSocialData($data);
 
             $content['left'] = $this->render('layout/partial/left_content', $data);

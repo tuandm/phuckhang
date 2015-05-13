@@ -1,5 +1,6 @@
 var allowSearch = true;
 $(function() {
+    bindUserMessage();
     bindHighLightCommentBox();
     bindUserLike();
     bindUserCommentTextArea();
@@ -40,31 +41,31 @@ $(function() {
 });
 
 $(function() {
-    $("#btnPostGroupNotification").click(function() {
+    $("#btnPostGroupStatus").click(function() {
         $(this).attr('disabled', true);
-        var groupId = $(".txtGroup").attr('id');
-        var groupNotification = $('#txtGroupNotification').val();
+        var groupId = $('.groupStatus').attr('id');
+        var groupStatus = $('#txtGroupStatus').val();
         var me = $(this);
         $.ajax({
-            url: '/social-group-notification/',
+            url: '/social-group-status/',
             type: 'POST',
             data: {
                 act: 'ajax',
-                callback: 'postGroupNotification',
-                txtGroupId: groupId,
-                txtGroupNotification: groupNotification
+                callback: 'postGroupStatus',
+                txtGroupStatus: groupStatus,
+                groupId: groupId
             },
             success: function(response) {
                 var result = JSON.parse(response);
                 if (result.success) {
-                    $('#txtGroupNotification').val('');
-                    $('#groupNotificationError').hide();
-                    $('#user_notification_separate').after(result.result).fadeIn('slow');
+                    $('#txtGroupStatus').val('');
+                    $('#groupStatusError').hide();
+                    $('#user_status_separate').after(result.result).fadeIn('slow');
                     me.attr('disabled', false);
                 } else {
                     me.attr('disabled', false);
-                    $('#groupNotificationError').html(result.result);
-                    $('#groupNotificationError').show();
+                    $('#groupStatusError').html(result.result);
+                    $('#groupStatusError').show();
                 }
                 $(this).attr('disabled', false);
             }
@@ -202,3 +203,66 @@ function onUserLikeList()
 {
     $('.numlike').tooltip();
 }
+
+function bindUserMessage() {
+        if ($('#messageTab').is('.active')) {
+            $('.userMessage').unbind('keydown').keydown(function (event) {
+                if (event.keyCode == 13 && !event.shiftKey) {
+                    var userMessage = $(this).val();
+                    console.log(userMessage);
+                    var textareaId = $(this).attr('id');
+                    var tmp = textareaId.split('_');
+                    var receiverId = tmp[1];
+                    var messageError = $(this).parent().find('.userMessageError');
+                    var messageSuccess = $(this).parent().find('.userMessageSuccess');
+                    var me = $(this);
+                    $.ajax({
+                        url: '/social-user-message/',
+                        type: 'POST',
+                        data: {
+                            act: 'ajax',
+                            callback: 'sendMessage',
+                            txtUserMessage: userMessage,
+                            receiverId: receiverId
+                        },
+                        success: function (response) {
+                            var result = JSON.parse(response);
+                            if (result.success) {
+                                me.val('');
+                                messageError.hide();
+                                messageSuccess.html(result.result);
+                                bindUserMessage();
+                            } else {
+                                messageError.html(result.result);
+                            }
+                            messageError.fadeIn();
+                        }
+                    });
+                    return false;
+                }
+            });
+        }
+}
+$(document).ready(function() {
+    $('#products').dataTable({
+        initComplete: function () {
+            this.api().columns().every( function () {
+                var column = this;
+                var select = $('<select><option value="">Tất Cả</option></select>')
+                    .appendTo( $(column.footer()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );
+        }
+    });
+} );
