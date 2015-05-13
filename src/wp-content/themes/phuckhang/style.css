@@ -198,37 +198,31 @@ img.desaturate:hover {
 #home-block .box.box-picture {
     background: url('images/box-picture-bg.jpg') center center no-repeat;
     background-size: 100%;
-/ / propotional resize
 }
 
 #home-block .box.box-picture a {
     background: url('images/box-picture-bg-bw.jpg') center center no-repeat;
     background-size: 100%;
-/ / propotional resize
 }
 
 #home-block .box.box-video {
     background: url('images/box-video-bg.jpg') center center no-repeat;
     background-size: 100%;
-/ / propotional resize
 }
 
 #home-block .box.box-video a {
     background: url('images/box-video-bg-bw.jpg') center center no-repeat;
     background-size: 100%;
-/ / propotional resize
 }
 
 #home-block .box.box-contact {
     background: url('images/box-contact-bg.jpg') center center no-repeat;
     background-size: 100%;
-/ / propotional resize
 }
 
 #home-block .box.box-contact a {
     background: url('images/box-contact-bg-bw.jpg') center center no-repeat;
     background-size: 100%;
-/ / propotional resize
 }
 
 #home-block .box.box-contact a:hover, #home-block .box.box-picture a:hover, #home-block .box.box-video a:hover {
@@ -1082,17 +1076,17 @@ textarea.message {
 
     #home-block .box.box-picture {
         background-size: 100%;
-    / / propotional resize
+
     }
 
     #home-block .box.box-video {
         background-size: 100%;
-    / / propotional resize
+
     }
 
     #home-block .box.box-contact {
         background-size: 100%;
-    / / propotional resize
+
     }
 
     .project-wrap {
@@ -1126,17 +1120,14 @@ textarea.message {
 
     #home-block .box.box-picture {
         background-size: 100%;
-    / / propotional resize
     }
 
     #home-block .box.box-video {
         background-size: 100%;
-    / / propotional resize
     }
 
     #home-block .box.box-contact {
         background-size: 100%;
-    / / propotional resize
     }
 
     #home-block .box-news p {
@@ -1161,7 +1152,12 @@ textarea.message {
     }
 
     .sub-nav-wrap {
-        display: none;
+      /* display: none; */
+        position: fixed;
+        right: 0%;
+        top: 20%;
+        z-index: 255;
+        opacity: 0.8;
     }
 
     .banner-info {
@@ -1203,7 +1199,7 @@ textarea.message {
         display: block;
         background-color: #333333;
         background-size: 100%;
-    / / propotional resize float : left;
+ float : left;
         border-top: 1px solid #FFF;
     }
 
@@ -1218,17 +1214,17 @@ textarea.message {
 
     #home-block .box.box-picture {
         background-size: 100%;
-    / / propotional resize
+
     }
 
     #home-block .box.box-video {
         background-size: 100%;
-    / / propotional resize
+
     }
 
     #home-block .box.box-contact {
         background-size: 100%;
-    / / propotional resize
+
     }
 
     img#logo {
