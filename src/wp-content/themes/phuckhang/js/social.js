@@ -1,7 +1,7 @@
 var allowSearch = true;
 $(function() {
-    bindReplyMessage();
     bindUserMessage();
+    bindReplyMessage();
     bindHighLightCommentBox();
     bindUserLike();
     bindUserCommentTextArea();
@@ -42,29 +42,31 @@ $(function() {
 });
 
 $(function() {
-    $("#btnPostGroupNotification").click(function() {
+    $("#btnPostGroupStatus").click(function() {
         $(this).attr('disabled', true);
-        var groupNotification = $('#txtGroupNotification').val();
+        var groupId = $('.groupStatus').attr('id');
+        var groupStatus = $('#txtGroupStatus').val();
         var me = $(this);
         $.ajax({
-            url: '/social-group-notification/',
+            url: '/social-group-status/',
             type: 'POST',
             data: {
                 act: 'ajax',
-                callback: 'postGroupNotification',
-                txtGroupNotification: groupNotification
+                callback: 'postGroupStatus',
+                txtGroupStatus: groupStatus,
+                groupId: groupId
             },
             success: function(response) {
                 var result = JSON.parse(response);
                 if (result.success) {
-                    $('#txtGroupNotification').val('');
-                    $('#groupNotificationError').hide();
-                    $('#user_notification_separate').after(result.result).fadeIn('slow');
+                    $('#txtGroupStatus').val('');
+                    $('#groupStatusError').hide();
+                    $('#user_status_separate').after(result.result).fadeIn('slow');
                     me.attr('disabled', false);
                 } else {
                     me.attr('disabled', false);
-                    $('#groupNotificationError').html(result.result);
-                    $('#groupNotificationError').show();
+                    $('#groupStatusError').html(result.result);
+                    $('#groupStatusError').show();
                 }
                 $(this).attr('disabled', false);
             }
@@ -291,3 +293,27 @@ function bindReplyMessage()
         return false;
     });
 }
+
+$(document).ready(function() {
+    $('#products').dataTable({
+        initComplete: function () {
+            this.api().columns().every( function () {
+                var column = this;
+                var select = $('<select><option value="">Tất Cả</option></select>')
+                    .appendTo( $(column.footer()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );
+        }
+    });
+} );

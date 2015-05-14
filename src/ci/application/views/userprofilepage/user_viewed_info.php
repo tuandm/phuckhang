@@ -15,7 +15,7 @@ $url = new Permalink_Util();
             <li class="active">Thông tin chung </li>
         </ul>
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-3 pt20">
                 <?php echo (get_simple_local_avatar($userId, 150)) ?>
             </div>
             <div class="col-sm-9">

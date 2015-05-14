@@ -16,7 +16,7 @@ class Feed_Model extends Land_Book_Model
     /**
      * Reference for user's status
      */
-    const REFERENCE_TYPE_STATUS  = 'status';
+    const REFERENCE_TYPE_USER_STATUS  = 'user_status';
 
     /**
      * Reference for user' comment
@@ -26,7 +26,7 @@ class Feed_Model extends Land_Book_Model
     /**
      * Reference for user' comment
      */
-    const REFERENCE_TYPE_NOTIFICATION = 'notification';
+    const REFERENCE_TYPE_GROUP_STATUS = 'group_status';
 
     /**
      * @var string
@@ -43,6 +43,30 @@ class Feed_Model extends Land_Book_Model
         $feeds = $this->db
             ->select()
             ->from($this->tableName)
+            ->order_by('feed_id', 'DESC')
+            ->limit(10)
+            ->get()
+            ->result_array();
+        return $feeds;
+    }
+
+    /**
+     * Get newest feeds for displaying to the group page
+     *
+     * @param int $groupId
+     * @return array|bool
+     */
+    public function getNewGroupFeeds($groupId)
+    {
+        $where = array(
+            'pk_sc_user_status.reference_id'    => $groupId,
+            'reference_type'                    => Feed_Model::REFERENCE_TYPE_GROUP_STATUS
+        );
+        $feeds = $this->db
+            ->select()
+            ->from($this->tableName)
+            ->where($where)
+            ->join('pk_sc_user_status',"$this->tableName.reference_id = pk_sc_user_status.status_id",'inner')
             ->order_by('feed_id', 'DESC')
             ->limit(10)
             ->get()

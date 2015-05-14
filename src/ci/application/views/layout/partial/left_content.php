@@ -27,5 +27,17 @@ if (is_page_template('page-landbook.php')) {
             <?php endif ?>
         </ul>
     </div>
+
+    <?php else: ?>
+
+    <div class="social-register news-nav news-nav_feed text-uppercase">
+        <h4>Chưa đăng thành viên</h4>
+        <p>
+            Vui lòng liên hệ quản lý để trở thành thành viên và sử dụng toàn bộ chức năng trong Network.
+        </p>
+        <button type="button" class="btn btn-default btn-warning btn-large">Đăng Ký Ngay</button>
+    </div>
+
     <?php endif; ?>
 </div>
+
