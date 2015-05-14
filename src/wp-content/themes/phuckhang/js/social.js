@@ -1,6 +1,7 @@
 var allowSearch = true;
 $(function() {
     bindUserMessage();
+    bindReplyMessage();
     bindHighLightCommentBox();
     bindUserLike();
     bindUserCommentTextArea();
@@ -204,42 +205,115 @@ function onUserLikeList()
     $('.numlike').tooltip();
 }
 
+/**
+ * Bind User Message send from social-sidebar
+ */
 function bindUserMessage() {
-        if ($('#messageTab').is('.active')) {
-            $('.userMessage').unbind('keydown').keydown(function (event) {
-                if (event.keyCode == 13 && !event.shiftKey) {
-                    var userMessage = $(this).val();
-                    console.log(userMessage);
-                    var textareaId = $(this).attr('id');
-                    var tmp = textareaId.split('_');
-                    var receiverId = tmp[1];
-                    var messageError = $(this).parent().find('.userMessageError');
-                    var messageSuccess = $(this).parent().find('.userMessageSuccess');
-                    var me = $(this);
-                    $.ajax({
-                        url: '/social-user-message/',
-                        type: 'POST',
-                        data: {
-                            act: 'ajax',
-                            callback: 'sendMessage',
-                            txtUserMessage: userMessage,
-                            receiverId: receiverId
-                        },
-                        success: function (response) {
-                            var result = JSON.parse(response);
-                            if (result.success) {
-                                me.val('');
-                                messageError.hide();
-                                messageSuccess.html(result.result);
-                                bindUserMessage();
-                            } else {
-                                messageError.html(result.result);
-                            }
+    if ($('#messageTab').is('.active')) {
+        $('.userMessage').unbind('keydown').keydown(function (event) {
+            if (event.keyCode == 13 && !event.shiftKey) {
+                var userMessage = $(this).val();
+                console.log(userMessage);
+                var textareaId = $(this).attr('id');
+                var tmp = textareaId.split('_');
+                var receiverId = tmp[1];
+                var messageError = $(this).parent().find('.userMessageError');
+                var messageSuccess = $(this).parent().find('.userMessageSuccess');
+                var me = $(this);
+                $.ajax({
+                    url: '/social-user-message/',
+                    type: 'POST',
+                    data: {
+                        act: 'ajax',
+                        callback: 'sendMessage',
+                        txtUserMessage: userMessage,
+                        receiverId: receiverId
+                    },
+                    success: function (response) {
+                        var result = JSON.parse(response);
+                        if (result.success) {
+                            me.val('');
+                            messageError.hide();
+                            messageSuccess.html(result.result);
+                            messageSuccess.fadeIn();
+                            bindUserMessage();
+                        } else {
+                            messageSuccess.hide();
+                            messageError.html(result.result);
                             messageError.fadeIn();
                         }
-                    });
-                    return false;
-                }
-            });
-        }
+                    }
+                });
+                return false;
+            }
+        });
+    }
 }
+
+/**
+ * Send message from User Message detail box.
+ */
+function bindReplyMessage()
+{
+    $("#btnSendMessage").click(function() {
+        $(this).attr('disabled', true);
+        console.log($(this));
+        var userMessage = $('#txtUserMessage').val();
+        var textAreaId = $(this).attr('class');
+        var tmp = textAreaId.split('_');
+        var receiverId = tmp[1];
+        var me = $(this);
+        $.ajax({
+            url: '/social-user-messages/',
+            type: 'POST',
+            data: {
+                act: 'ajax',
+                callback: 'sendMessage',
+                txtUserMessage: userMessage,
+                receiverId: receiverId
+            },
+            success: function (response) {
+                var result = JSON.parse(response);
+                if (result.success) {
+                    $('#txtUserMessage').val('');
+                    $('#replyError').hide();
+                    $('#replySuccessfully').html(result.result);
+                    $('#replySuccessfully').show();
+                    me.attr('disabled', false);
+                    bindReplyMessage();
+                } else {
+                    me.attr('disabled', false);
+                    console.log($(this));
+                    $('#replySuccessfully').hide();
+                    $('#replyError').html(result.result);
+                    $('#replyError').show();
+                }
+            }
+        });
+        return false;
+    });
+}
+
+$(document).ready(function() {
+    $('#products').dataTable({
+        initComplete: function () {
+            this.api().columns().every( function () {
+                var column = this;
+                var select = $('<select><option value="">Tất Cả</option></select>')
+                    .appendTo( $(column.footer()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );
+        }
+    });
+});
