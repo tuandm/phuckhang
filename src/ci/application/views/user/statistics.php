@@ -1,5 +1,4 @@
 <div id="user_status_action" class="bg bg-success col-sm-10 col-md-10">
-
     <!--Desktop Size-->
     <ul id="" class="clearfix ">
 
@@ -31,3 +30,5 @@
     </ul>
     <!--Desktop Size-->
 </div>
+
+<div class="clearfix"></div>

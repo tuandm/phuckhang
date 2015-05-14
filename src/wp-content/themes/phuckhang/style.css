@@ -871,6 +871,11 @@ textarea.message {
     padding-top: 20px;
 }
 
+.col-no-padding{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
 /**
  * Message
  */
