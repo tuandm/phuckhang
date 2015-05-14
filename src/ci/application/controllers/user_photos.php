@@ -16,12 +16,14 @@ Class User_Photos extends Base
     public function __construct()
     {
         parent::__construct();
+        $this->load->helper('url');
         $this->load->model('User_Model', 'userModel');
     }
 
     public function index()
     {
-        $userId = ($this->input->get('userId')) ? $this->input->get('userId') : get_current_user_id();
+        $uId = $this->input->get('userId');
+        $userId = ($uId) ? $uId : get_current_user_id();
         $photos = $this->userModel->getAllPhotos($userId);
         $this->renderSocialView('user/photo/view', array(
             'photos' => $photos,
@@ -32,7 +34,7 @@ Class User_Photos extends Base
     public function addImages()
     {
         $config['upload_path'] = UPLOAD_PHOTOS_DIR;
-        $config['allowed_types'] = 'jpg|png|gif';
+        $config['allowed_types'] = 'jpg|png|gif|jpeg';
         $this->load->library('upload', $config);
 
         if (!$this->upload->do_upload('myImages')) {
@@ -43,20 +45,19 @@ Class User_Photos extends Base
             $data = $this->upload->data();
             $path = UPLOAD_PHOTOS_DIR;
             $fileName = $data['file_name'];
-            $user = wp_get_current_user();
+            $userId = get_current_user_id();
             $description = $this->input->post('txtDescription');
 
             $dataPhotos = array(
-                'user_id' => $user->ID,
+                'user_id' => $userId,
                 'name' => $fileName,
                 'path' => $path,
                 'description' => $description
             );
 
             $this->userModel->addUserPhotos($dataPhotos);
-            $this->index();
+            redirect(get_option('siteurl') . '/social-user-photos/', 'refresh');
         }
     }
 }
-
 ?>
