@@ -20,7 +20,7 @@ Class User_Model extends Land_Book_Model
             ->select('pk_sc_user_photos.user_id, pk_sc_user_photos.name, pk_sc_user_photos.path, pk_sc_user_photos.description, pk_users.user_login')
             ->from('pk_sc_user_photos')
             ->join('pk_users', 'pk_sc_user_photos.user_id = pk_users.ID', 'left')
-            ->where('pk_sc_user_photos.user_id', $userId)
+            ->where('pk_sc_user_photos.user_id', $this->db->escape($userId))
             ->order_by('pk_sc_user_photos.sc_user_photo_id', 'ASC');
         $photos = $this->db->get()->result_array();
         return $photos;
@@ -33,7 +33,7 @@ Class User_Model extends Land_Book_Model
             ->from('pk_sc_user_friends')
             ->join('pk_users', 'pk_sc_user_friends.friend_id = pk_users.ID', 'left')
             ->like('display_name', $search)
-            ->where('pk_sc_user_friends.user_id', $userId)
+            ->where('pk_sc_user_friends.user_id', $this->db->escape($userId))
             ->order_by('pk_sc_user_friends.created_date', 'DES');
         $friends = $this->db->get()->result_array();
         return $friends;
@@ -41,7 +41,7 @@ Class User_Model extends Land_Book_Model
 
     public function  removeFriend($userId, $friendId)
     {
-        return $this->db->delete('pk_sc_user_friends', array('user_id' => $userId, 'friend_id' => $friendId));
+        return $this->db->delete('pk_sc_user_friends', array('user_id' => $this->db->escape($userId), 'friend_id' => $this->db->escape($friendId)));
     }
 
     public function getUsersInGroupByGroupID($groupId)
@@ -49,7 +49,7 @@ Class User_Model extends Land_Book_Model
         $this->db
             ->select('pk_sc_user_groups.user_id')
             ->from('pk_sc_user_groups')
-            ->where('pk_sc_user_groups.group_id', $groupId);
+            ->where('pk_sc_user_groups.group_id', $this->db->escape($groupId));
         $users = $this->db->get()->result_array();
         return $users;
     }

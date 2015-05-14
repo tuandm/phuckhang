@@ -3,7 +3,6 @@
     font-size: small;
 }
 
-}
 .fileUpload {
     position: relative;
     overflow: hidden;
@@ -19,6 +18,4 @@
     cursor: pointer;
     opacity: 0;
     filter: alpha(opacity=0);
-}}
-
 }
