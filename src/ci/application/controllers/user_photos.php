@@ -56,7 +56,7 @@ Class User_Photos extends Base
             );
 
             $this->userModel->addUserPhotos($dataPhotos);
-            redirect(get_option('siteurl') . '/socical-user-photos/', 'refresh');
+            redirect(get_option('siteurl') . '/social-user-photos/', 'refresh');
         }
     }
 }

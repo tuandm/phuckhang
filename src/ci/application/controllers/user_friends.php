@@ -16,13 +16,15 @@ Class User_Friends extends Base
     public function __construct()
     {
         parent::__construct();
+        $this->load->helper('url');
         $this->load->model('User_Model', 'userModel');
     }
 
     public function index()
     {
         $search = '';
-        $userId = ($this->input->get('userId')) ? $this->input->get('userId') : get_current_user_id();
+        $uId = $this->input->get('userId');
+        $userId = ($uId) ? $uId : get_current_user_id();
         $friends = $this->userModel->getAllFriends($userId, $search);
 
         $this->renderSocialView('user/friend/view', array(
@@ -38,7 +40,8 @@ Class User_Friends extends Base
             'result'    => ''
         );
         $search = $this->input->post('search');
-        $userId = ($this->input->get('userId')) ? $this->input->get('userId') : get_current_user_id();
+        $uId = $this->input->get('userId');
+        $userId = ($uId) ? $uId : get_current_user_id();
         $friends = $this->userModel->getAllFriends($userId, $search);
 
         if (!empty($friends)) {
@@ -58,7 +61,7 @@ Class User_Friends extends Base
         $userId = (int) $this->input->get('userId');
         $friendId = (int) $this->input->get('friendId');
         $this->userModel->removeFriend($userId, $friendId);
-        $this->index();
+        redirect(get_option('siteurl') . '/social-user-friends/', 'refresh');
     }
 
 }
