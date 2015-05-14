@@ -777,6 +777,7 @@ h4.entry-title a, h1.entry-title a {
     height: 152px;*/
     margin-bottom: 20px;
     text-align: left;
+    border: 2px solid #ddd;
 }
 
 .small-avatar, .medium-avatar {
@@ -789,6 +790,10 @@ h4.entry-title a, h1.entry-title a {
 
 .social-cotent {
     margin-top: 40px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
 .group-wrap {
@@ -860,12 +865,6 @@ textarea.message {
 .social-tools {
     display: block;
     padding: 10px 0px;
-}
-
-.comment-item {
-    margin: 10px 0px 0px 0px;
-    padding-top: 15px;
-    border-top: 1px solid #ddd;
 }
 
 .pt20{
