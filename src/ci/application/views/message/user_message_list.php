@@ -13,16 +13,15 @@ $url = new Permalink_Util();
     <div class="panel-heading clearfix">
         <strong class="pull-left">Tin Nhắn</strong>
         <div class="pull-right">
-            <span class="badge" style="background-color: #0291F9;"><?php echo $data['unreadMessages']?></span> (Chưa Đọc)
+            <a href="#" class="btn btn-default btn-sm">Nhắn tin mới</a>
+            (Chưa Đọc) <span class="badge" style="background-color: #0291F9;"><?php echo $data['unreadMessages'] ?></span>
         </div>
     </div>
 
     <div class="panel-body">
         <ul class="list-group">
             <?php foreach ($data['messages'] as $message) : ?>
-                <?php
-                $time = strtotime($message['created_date']);
-                ?>
+                <?php $time = strtotime($message['created_date']); ?>
                 <?php if ($message['status'] == 0) : ?>
                     <li class="list-group-item not-read" onclick="location.href='<?php echo $url->buildMessageDetailUrl($message['message_id'], array('act' => 'messageDetail')) ?>'" style="cursor: pointer;">
                 <?php else : ?>

@@ -264,7 +264,7 @@ function bindReplyMessage()
         var receiverId = tmp[1];
         var me = $(this);
         $.ajax({
-            url: '/social-user-message/',
+            url: '/social-user-messages/',
             type: 'POST',
             data: {
                 act: 'ajax',

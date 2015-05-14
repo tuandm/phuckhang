@@ -59,7 +59,7 @@ class Permalink_Util {
             $params = array();
         }
         $params['messageId'] = $messageId;
-        return site_url('social-user-message?' . build_query($params));
+        return site_url('social-user-messages?' . build_query($params));
     }
 
 }

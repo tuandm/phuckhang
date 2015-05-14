@@ -19,9 +19,6 @@ $url = new Permalink_Util();
 
     <div class="panel-body">
         <?php foreach ($data['messages'] as $message) : ?>
-            <!--                --><?php //if (((int) $message['sender_id']) === $userId) : ?>
-            <!--                    <div class="row noti-item pull-right">-->
-            <!--                --><?php //else : ?>
             <div class="row noti-item">
                 <!--                --><?php //endif ?>
                 <div class="col-sm-2 col-xs-3 noti-avatar">
