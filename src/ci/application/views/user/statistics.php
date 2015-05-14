@@ -1,13 +1,13 @@
-<div id="user_status_action" class="bg bg-success">
+<div id="user_status_action" class="bg bg-success col-sm-10 col-md-10">
 
     <!--Desktop Size-->
     <ul id="" class="clearfix ">
 
-        <li class="col-sm-4 col-xs-12 text-left">
+        <li class="col-sm-3 col-xs-12 text-left">
             <a href="<?php echo $this->permalinkUtil->buildUserProfileUrl(); ?>" class="fa-pkn-human">Hồ sơ của tôi</a>
         </li>
 
-        <li class="col-sm-4 col-xs-12  text-center ">
+        <li class="col-sm-3 col-xs-12  text-center ">
             <a href="#" class="fa-pkn-message">
                 Nhắn tin
                 <span class="fa-stack">
@@ -18,7 +18,7 @@
 
         </li>
 
-        <li class="col-sm-4  col-xs-12  text-right">
+        <li class="col-sm-3  col-xs-12  text-right">
             <a href="<?php echo $this->permalinkUtil->userNotificationsPage(); ?>" class="fa-pkn-sound">
                 Thông báo
                 <span class="fa-stack">
