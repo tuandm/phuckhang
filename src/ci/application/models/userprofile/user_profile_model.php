@@ -64,7 +64,7 @@ class User_Profile_Model extends CI_Model
      * Get DOB of user by userId
      *
      * @param int $userId
-     * @return string|bool
+     * @return string|null
      */
     public function getDOBByUserId($userId)
     {
@@ -130,7 +130,7 @@ class User_Profile_Model extends CI_Model
      * Get user friend list
      *
      * @param int $userId
-     * @return array|bool
+     * @return array
      */
     public function getFriendsByUserId($userId)
     {
@@ -162,7 +162,7 @@ class User_Profile_Model extends CI_Model
      * Get All User Groups by UserId
      *
      * @param int $userId
-     * @return array
+     * @return array|null
      */
     public function getAllUserGroups($userId)
     {
@@ -171,6 +171,9 @@ class User_Profile_Model extends CI_Model
             ->from('pk_sc_user_groups')
             ->where('pk_sc_user_groups.user_id', $userId)
             ->get()->result();
+        if (empty($groups)) {
+            return '';
+        }
         return $groups;
     }
 

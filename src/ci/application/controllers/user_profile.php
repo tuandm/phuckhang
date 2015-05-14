@@ -22,7 +22,8 @@ class User_Profile extends Base
     public function index()
     {
         // Information for the viewed user profile
-        $viewedUserId = ($this->input->get('userId')) ? $this->input->get('userId') : get_current_user_id();
+        $userId = $this->input->get('userId');
+        $viewedUserId = $userId ? $userId : get_current_user_id();
         $viewedPhoneNumber = $this->userProfileModel->getPhoneNumberById($viewedUserId);
         $viewedTitle = $this->userProfileModel->getTitleByUserId($viewedUserId);
         $viewedName = $this->userProfileModel->getUserInfoById($viewedUserId)['user_nicename'];

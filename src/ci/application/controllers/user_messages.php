@@ -46,13 +46,12 @@ class User_Messages extends Base
         }
 
         $data['title'] = $this->userModel->getTitleByUserId($userId);
-        $data['group'] = $this->userModel->getAllUserGroups($userId)['numGroups'];
+        $data['group'] = count($this->userModel->getAllUserGroups($userId));
         $data['friend'] = $this->userModel->getFriendsByUserId($userId)['numFriend'];
         $data['name']   = get_user_by('id', $userId)->user_nicename;
         foreach ($senderIds as $senderId) {
             $messages[] = $this->messageModel->getNewMessages($userId, $senderId)[0];
         }
-
         rsort($messages);
         $data['messages'] = $messages;
         $this->renderSocialView('message/user_message_list', array(
@@ -72,7 +71,7 @@ class User_Messages extends Base
         $messages = $this->messageModel->getAllSendAndReplyMessage($message['sender_id'], $userId);
 
         $data['title'] = $this->userModel->getTitleByUserId($userId);
-        $data['group'] = $this->userModel->getAllUserGroups($userId)['numGroups'];
+        $data['group'] = count($this->userModel->getAllUserGroups($userId));
         $data['friend'] = $this->userModel->getFriendsByUserId($userId)['numFriend'];
         $data['name']   = get_user_by('id', $userId)->user_nicename;
         $data['messages'] = $messages;

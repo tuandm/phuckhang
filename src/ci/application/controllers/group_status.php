@@ -39,6 +39,7 @@ Class Group_Status extends Base
         $groupId = $this->input->get('groupId');
         $group = $this->userModel->getGroupByGroupId($groupId);
         $usersInGroup = $this->userModel->getUsersInGroupByGroupID($groupId);
+
         $feeds = $this->feedModel->getNewGroupFeeds($groupId);
 
         foreach ($feeds as $key => &$feed) {

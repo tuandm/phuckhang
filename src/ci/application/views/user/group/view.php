@@ -6,6 +6,7 @@
  * Time: 10:46 AM
  */
 $currentUserId = get_current_user_id();
+$userInGroupIds[] = array();
 $this->load->library('permalink_util');
 $url = new Permalink_Util;
 ?>

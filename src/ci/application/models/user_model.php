@@ -46,11 +46,12 @@ Class User_Model extends Land_Book_Model
 
     public function getUsersInGroupByGroupID($groupId)
     {
-        $this->db
+        $users = $this->db
             ->select('pk_sc_user_groups.user_id')
             ->from('pk_sc_user_groups')
-            ->where('pk_sc_user_groups.group_id', $this->db->escape($groupId));
-        $users = $this->db->get()->result_array();
+            ->where('group_id', $groupId)
+            ->get()
+            ->result_array();
         return $users;
     }
 
