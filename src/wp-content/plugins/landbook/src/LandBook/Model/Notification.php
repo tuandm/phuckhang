@@ -7,19 +7,10 @@
  */
 class LandBook_Model_Notification extends LandBook_Model
 {
-    const TYPE_STATUS_COMMENT = 'status_comment';
-    const TYPE_USER_PHOTO = 'user_photo';
-    const TYPE_USER_STATUS = 'user_status';
-    const TYPE_GROUP_STATUS = 'add_group_status';
-    const TYPE_LIKE_COMMENT = 'like_comment';
-    const TYPE_LIKE_PHOTO = 'like_photo';
-    const TYPE_LIKE_POST = 'like_post';
-    const TYPE_LIKE_STATUS = 'like_status';
-    const TYPE_COMMENT = 'comment';
-
-    const STATUS_UNREAD = 0;
-    const STATUS_READ = 1;
-
+    /**
+     * @var User_Model
+     */
+    public $userModel;
     /**
      * Create corresponding notifications of an activity
      *
@@ -33,24 +24,24 @@ class LandBook_Model_Notification extends LandBook_Model
         $userId = $activity->user_id;
 
         switch ($activity->type) {
-            case LandBook_Model_Activity::TYPE_ADD_STATUS_COMMENT:
+            case LandBook_Constant::TYPE_ADD_STATUS_COMMENT:
                 $result = $this->createAddStatusCommentNotifications($userId, $objectId);
                 break;
 
-            case LandBook_Model_Activity::TYPE_ADD_USER_PHOTO:
+            case LandBook_Constant::TYPE_ADD_USER_PHOTO:
                 $result = $this->createAddPhotoNotifications($userId, $objectId);
                 break;
 
-            case LandBook_Model_Activity::TYPE_ADD_USER_STATUS:
+            case LandBook_Constant::TYPE_ADD_USER_STATUS:
                 $result = $this->createAddUserStatusNotifications($userId, $objectId);
                 break;
 
-            case LandBook_Model_Activity::TYPE_ADD_GROUP_STATUS:
-                $result = $this->createAddUserStatusNotifications($userId, $objectId);
+            case LandBook_Constant::TYPE_ADD_GROUP_STATUS:
+                $result = $this->createAddGroupStatusNotifications($userId, $objectId);
                 break;
 
-            case LandBook_Model_Activity::TYPE_LIKE_COMMENT:
-                $result = $this->createAddUserStatusNotifications($userId, $objectId);
+            case LandBook_Constant::TYPE_LIKE_STATUS:
+                $result = $this->createAddUserLikeStatusNotifications($userId, $objectId);
                 break;
 
             default:
@@ -70,19 +61,19 @@ class LandBook_Model_Notification extends LandBook_Model
     protected function createAddStatusCommentNotifications($userId, $objectId)
     {
         $status = $this->getRow(
-            'SELECT scus.user_id FROM pk_sc_user_status scus INNER JOIN pk_comments WHERE comment_ID = %d', $objectId);
+            'SELECT scus.user_id FROM pk_sc_user_status scus INNER JOIN pk_comments com ON scus.status_id=com.comment_post_ID WHERE comment_ID = %d', $objectId);
         if ($status == null) {
             die('Invalid status');
         }
 
         $currentUserName = get_the_author_meta('display_name', $userId);
-        $userProfileUrl = $this->buildNotiUserProfileUrl($status->user_id, self::TYPE_STATUS_COMMENT, array('status_id' => $objectId));
+        $userProfileUrl = $this->buildNotiUserProfileUrl($userId, LandBook_Constant::TYPE_STATUS_COMMENT, array('status_id' => $objectId));
         $notiText = sprintf('<a href="%s"><span class="author">%s</span> bình luận về trạng thái của bạn</a>', $userProfileUrl, $currentUserName);
         return $this->createNotification(
             $userId,
             array(
                 'user_id'               => $status->user_id,
-                'notification_type'     => self::TYPE_STATUS_COMMENT,
+                'notification_type'     => LandBook_Constant::TYPE_STATUS_COMMENT,
                 'reference_id'          => $objectId,
                 'notification_text'     => $notiText,
             )
@@ -92,9 +83,9 @@ class LandBook_Model_Notification extends LandBook_Model
     /**
      * Create notifications of the activity that user add a photo
      *
-     * @param int $userId
      * @param int $objectId
-     * @return int|false
+     * @param int $userId
+     * @return bool
      */
     protected function createAddPhotoNotifications($userId, $objectId)
     {
@@ -102,24 +93,22 @@ class LandBook_Model_Notification extends LandBook_Model
         if ($photo == null) {
             die('Invalid photo');
         }
-        $currentUserName = get_the_author_meta('display_name', $userId);
-        $userProfileUrl = $this->buildNotiUserProfileUrl($userId, self::TYPE_USER_PHOTO, array('photo_id' => $objectId));
-        $notiText = sprintf('<a href="%s"><span class="author">%s</span> thêm một ảnh mới</a>', $userProfileUrl, $currentUserName);
 
-        $friends = $this->getResults(
-            'SELECT user_id, friend_id FROM pk_sc_user_friends WHERE user_id = %d OR friend_id = %d',
-            [$objectId, $objectId]);
+        $currentUserName = get_the_author_meta('display_name', $userId);
+        $userPhotoUrl = $this->buildNotiUserPhotoUrl($photo->user_id, LandBook_Constant::TYPE_USER_PHOTO, array('photo_id' => $objectId));
+        $notiText = sprintf('<a href="%s"><span class="author">%s</span> thêm một ảnh mới</a>', $userPhotoUrl, $currentUserName);
+
+        $friendListIds = $this->getFriendListByUserId($userId);
         if (empty($friends)) {
             return false;
         }
 
-        foreach ($friends as $friend) {
-            $friendId = ($friend->user_id == $userId) ? $friend->friend_id : $friend->user_id;
+        foreach ($friendListIds as $friendListId) {
             $this->createNotification(
-                $userId,
+                $photo->user_id,
                 array(
-                    'user_id'               => $friendId,
-                    'notification_type'     => self::TYPE_USER_PHOTO,
+                    'user_id'               => $friendListId,
+                    'notification_type'     => LandBook_Constant::TYPE_USER_PHOTO,
                     'reference_id'          => $objectId,
                     'notification_text'     => $notiText,
                 )
@@ -134,29 +123,65 @@ class LandBook_Model_Notification extends LandBook_Model
      *
      * @param int $userId
      * @param int $objectId
-     * @return int|false
+     * @return bool
      */
     protected function createAddUserStatusNotifications($userId, $objectId)
     {
         $status = $this->getRow('SELECT * FROM pk_sc_user_status WHERE status_id = %d', $objectId);
+
         if ($status == null) {
             wp_die('Invalid Status');
         }
 
-        // Skip the creation if user it not the status's author
+        // Skip the creation if user is not the status's author
         if ($status->user_id != $userId) {
             return;
         }
+        $friendListIds = $this->getFriendListByUserId($userId);
+        if (!$friendListIds) {
+            return false;
+        }
+        $currentUserName = get_the_author_meta('display_name', $userId);
+        $statusUrl = $this->buildNotiUserStatusUrl($status->status_id, LandBook_Constant::TYPE_USER_STATUS, array('status_id' => $objectId));
+        $notiText = sprintf('<a href="%s"><span class="author">%s</span> đã đăng trên dòng thời gian</a>', $statusUrl, $currentUserName);
+        foreach ($friendListIds as $friendListId) {
+            $this->createNotification(
+                $userId,
+                array(
+                    'user_id'               => $friendListId,
+                    'notification_type'     => LandBook_Constant::TYPE_USER_STATUS,
+                    'reference_id'          => $objectId,
+                    'notification_text'     => $notiText,
+                )
+            );
+        }
+        return true;
+    }
+
+    /**
+     * Create notifications of the activity that user likes status of another user
+     *
+     * @param int $userId
+     * @param int $objectId
+     * @return int|false
+     */
+    protected function createAddUserLikeStatusNotifications($userId, $objectId)
+    {
+        $like = $this->getRow('SELECT * FROM pk_sc_user_like WHERE reference_id= %d AND reference_type = %s', $objectId, 'status');
+
+        if ($like == null) {
+            wp_die('Invalid like');
+        }
 
         $currentUserName = get_the_author_meta('display_name', $userId);
-        $userProfileUrl = $this->buildNotiUserProfileUrl($userId, self::TYPE_USER_STATUS, array('photo_id' => $objectId));
+        $userLikeStatusUrl = $this->buildNotiUserLikeStatusUrl($userId, LandBook_Constant::TYPE_LIKE_STATUS, array('reference_id' => $objectId));
 
-        $notiText = sprintf('<a href="%s"><span class="author">%s</span> đã đăng trên dòng thời gian</a>', $userProfileUrl, $currentUserName);
+        $notiText = sprintf('<a href="%s"><span class="author">%s</span> thích trạng thái của bạn</a>', $userLikeStatusUrl, $currentUserName);
         return $this->createNotification(
             $userId,
             array(
-                'user_id'               => $status->reference_id,
-                'notification_type'     => self::TYPE_USER_STATUS,
+                'user_id'               => $like->refence_id,
+                'notification_type'     => LandBook_Constant::TYPE_USER_STATUS,
                 'reference_id'          => $objectId,
                 'notification_text'     => $notiText,
             )
@@ -173,23 +198,28 @@ class LandBook_Model_Notification extends LandBook_Model
     protected function createAddGroupStatusNotifications($userId, $objectId)
     {
         $status = $this->getRow('SELECT * FROM pk_sc_user_status WHERE status_id = %d', $objectId);
+        $userInGroups= $this->getResults('SELECT sug.user_id FROM pk_sc_user_groups sug WHERE group_id = %d', $status->reference_id);
         if ($status == null) {
             wp_die('Invalid Status');
         }
+        foreach ($userInGroups as $userIdInGroup) {
+            $currentUserName = get_the_author_meta('display_name', $userId);
+            $groupUrl = $this->buildNotiGroupUrl($status->reference_id, LandBook_Constant::TYPE_GROUP_STATUS, array('status_id' => $objectId));
 
-        $currentUserName = get_the_author_meta('display_name', $userId);
-        $userProfileUrl = $this->buildNotiUserProfileUrl($userId, self::TYPE_USER_STATUS, array('photo_id' => $objectId));
-
-        $notiText = sprintf('<a href="%s"><span class="author">%s</span> đã đăng trên dòng thời gian</a>', $userProfileUrl, $currentUserName);
-        return $this->createNotification(
-            $userId,
-            array(
-                'user_id'               => $status->reference_id,
-                'notification_type'     => self::TYPE_USER_STATUS,
-                'reference_id'          => $objectId,
-                'notification_text'     => $notiText,
-            )
-        );
+            $notiText = sprintf('<a href="%s"><span class="author">%s</span> đã đăng trên dòng thời gian</a>', $groupUrl, $currentUserName);
+            $notificationId = $this->createNotification(
+                $userId,
+                array(
+                    'user_id'               => $userIdInGroup->user_id,
+                    'notification_type'     => LandBook_Constant::TYPE_GROUP_STATUS,
+                    'reference_id'          => $objectId,
+                    'notification_text'     => $notiText,
+                )
+            );
+            if (!$notificationId) {
+                return;
+            }
+        }
     }
 
     /**
@@ -202,7 +232,7 @@ class LandBook_Model_Notification extends LandBook_Model
     protected function createNotification($fromUserId, $data)
     {
         $data['from_user_id'] = $fromUserId;
-        $data['notification_status'] = self::STATUS_UNREAD;
+        $data['notification_status'] = LandBook_Constant::STATUS_UNREAD;
         $data['created_date'] = LandBook_Util::now();
         return $this->insert('pk_sc_user_notification', $data);
     }
@@ -229,6 +259,70 @@ class LandBook_Model_Notification extends LandBook_Model
     }
 
     /**
+     * Build User photo URL that notification points to
+     *
+     * @param int $userId
+     * @param string $notiType
+     * @param array|null $additionalParams
+     * @return string
+     */
+    protected function buildNotiUserPhotoUrl($userId, $notiType, $additionalParams = null)
+    {
+        $params = array(
+            'ref'       => 'noti',
+            'noti_t'    => $notiType
+        );
+
+        if (!empty($additionalParams)) {
+            $params = array_merge($params, $additionalParams);
+        }
+
+        return LandBook_Util_Url::buildUserPhotoUrl($userId, $params);
+    }
+
+    /**
+     * Build the user's status URL that the notification points to
+     *
+     * @param int $statusId
+     * @param string $notiType
+     * @param array|null $additionalParams
+     * @return string
+     */
+    protected function buildNotiUserStatusUrl($statusId, $notiType, $additionalParams = null)
+    {
+        $params = array(
+            'ref'       => 'noti',
+            'noti_t'    => $notiType
+        );
+
+        if (!empty($additionalParams)) {
+            $params = array_merge($params, $additionalParams);
+        }
+
+        return LandBook_Util_Url::buildUserStatusUrl($statusId, $params);
+    }
+
+    /**
+     * Build url for user likes status notification.
+     *
+     * @param $statusId int
+     * @param $notiType string
+     * @param array|null $additionParams
+     * @return string
+     */
+    protected function buildNotiUserLikeStatusUrl($statusId, $notiType, $additionParams = null)
+    {
+        $params = array(
+            'ref'   => 'noti',
+            'noti_t'    => $notiType
+        );
+        if (!empty($additionParams)) {
+            $params = array_merge($params, $additionParams);
+        }
+        return LandBook_Util_Url::buildUserStatusUrl($statusId, $params);
+    }
+
+    /**
      * Build the user's profile URL that the notification points to
      * @param int $groupId
      * @param string $notiType
@@ -249,4 +343,28 @@ class LandBook_Model_Notification extends LandBook_Model
         return LandBook_Util_Url::buildGroupProfileUrl($groupId, $params);
     }
 
+    /**
+     * Get all user 's friend list.
+     *
+     * @param int $userId
+     * @return array|false
+     */
+    protected function getFriendListByUserId($userId)
+    {
+        $friendListIds = array();
+        $results = $this->getResults('SELECT * FROM pk_sc_user_friends WHERE user_id = %d OR friend_id = %d', [$userId, $userId]);
+        if (is_null($results)) {
+            return false;
+        }
+        foreach ($results as $result) {
+            if ($result->user_id == $userId) {
+                $friendListIds[] = $result->friend_id;
+            } else {
+                $friendListIds[] = $result->user_id;
+            }
+        }
+        $friendListIds = array_unique($friendListIds);
+        return $friendListIds;
+    }
+    
 }

@@ -91,10 +91,9 @@ Class User_Model extends Land_Book_Model
         $result = $this->db->insert('pk_sc_user_status', array(
             'status'        => $groupStatus,
             'user_id'       => $userId,
-            'created_time'  => $now,
-            'updated_time'  => $now,
             'reference_id'  => $groupId,
-            'status_type'   => Feed_Model::REFERENCE_TYPE_GROUP_STATUS
+            'status_type'   => Feed_Model::REFERENCE_TYPE_GROUP_STATUS,
+            'created_time'  => $now,
         ));
 
         if ($result) {

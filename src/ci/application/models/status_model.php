@@ -9,7 +9,7 @@
 class Status_Model extends Land_Book_Model
 {
     /**
-     * @var
+     * @var string
      */
     protected $tableName = 'pk_sc_user_status';
 
@@ -18,13 +18,14 @@ class Status_Model extends Land_Book_Model
      *
      * @param int $userId
      * @param string $status
-     * @return bool
+     * @return bool|int
      */
     public function addUserStatus($userId, $status)
     {
         $now = date('Y-m-d H:i:s');
         $this->startTransaction();
         $result = $this->db->insert($this->tableName, array(
+
             'status'            => $status,
             'user_id'           => $userId,
             'status_type'       => Feed_Model::REFERENCE_TYPE_USER_STATUS,

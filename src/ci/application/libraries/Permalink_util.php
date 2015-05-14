@@ -20,9 +20,9 @@ class Permalink_Util {
 
         if ($userId != null) {
             $params['userId'] = $userId;
-            return site_url('social-userprofilepage?' . build_query($params));
+            return site_url('social-user-profile?' . build_query($params));
         } else {
-            return site_url('social-userprofilepage');
+            return site_url('social-user-profile');
         }
     }
 

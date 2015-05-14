@@ -56,7 +56,7 @@ class Homepage extends Base
                     $isLiked = $this->likeModel->isLiked(get_current_user_id(), $status['status_id']);
                     $likeImage = $isLiked ? 'down' : 'up';
                     $state  = $isLiked ? 'Unlike' : 'Like';
-                    $comments = get_comments('type=status&number=5&order=ASC&orderBy=comment_date&status=approve&post_id=' . $status['status_id']);
+                    $comments = get_comments('type=status&number=5&order=DESC&orderBy=comment_date&status=approve&post_id=' . $status['status_id']);
                     $feed['html'] = $this->render('/homepage/feed_status', array(
                         'status'        => $status,
                         'comments'      => $comments,
@@ -179,6 +179,11 @@ class Homepage extends Base
             if ($statusId !== false) {
                 $response['success'] = true;
                 $response['result'] = $this->renderUserStatus($statusId);
+                /**
+                 * Fires once a user status has been saved.
+                 * //TODO if need further parameter
+                 */
+                do_action('save_user_status', $statusId);
             } else {
                 $response['result'] = 'Can not post status. Please try again.';
             }
@@ -200,7 +205,7 @@ class Homepage extends Base
             'success'   => false,
             'result'    => ''
         );
-        if (!in_array($type, [Feed_Model::REFERENCE_TYPE_POST, Feed_Model::REFERENCE_TYPE_STATUS])) {
+        if (!in_array($type, [Feed_Model::REFERENCE_TYPE_POST, Feed_Model::REFERENCE_TYPE_USER_STATUS])) {
             $response['result'] = 'Invalid Type';
         }
 
@@ -229,12 +234,17 @@ class Homepage extends Base
                 'comment_author_IP'     => $this->input->ip_address(),
                 'comment_agent'         => $this->input->user_agent(),
                 'comment_date'          => date('Y-m-d H:i:s'),
-                'comment_approved'      => 1,
+                'comment_approved'      => 1
             );
             $newCommentId = wp_insert_comment($commentData);
             if ($newCommentId !== false) {
                 $response['success'] = true;
                 $response['result'] = $this->render('/layout/partial/comment', array('comment' => get_comment($newCommentId)));
+            /**
+             * Fires once a comment has been saved.
+             * //TODO if need further parameter
+             */
+                do_action('save_comment', $newCommentId);
             } else {
                 $response['result'] = 'Can not post comment. Please try again.';
             }
@@ -295,6 +305,11 @@ class Homepage extends Base
                     'state'            => $state,
                     'postDate'         => $postDate
                 ));
+                /**
+                 * Fires once a user likes post/status has been saved.
+                 * //TODO if need further parameter
+                 */
+                do_action('save_user_like_' . $type, $newLikeId);
             } else {
                 $response['result'] = "Can not like $type. Please try again.";
             }

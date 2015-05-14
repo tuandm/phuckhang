@@ -8,7 +8,7 @@
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 include_once('base.php');
 
-class Userprofilepage extends Base
+class User_Profile extends Base
 {
 
     public function __construct()

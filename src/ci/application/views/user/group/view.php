@@ -10,7 +10,7 @@ $this->load->library('permalink_util');
 $url = new Permalink_Util;
 ?>
 
-<div class="newpost-wrap">
+<div class="newpost-wrap txtGroup" id="<?php echo $groupId ?>">
     <span class="user-span-control"><?php echo $group->name; ?></span></br>
     <span>member: <?php echo count($usersInGroup); ?></span>
 

@@ -18,7 +18,21 @@ class LandBook_Util_Url {
             $params = array();
         }
         $params['userId'] = $userId;
-        return site_url('social-userprofilepage?' . build_query($params));
+        return site_url('social-user-profile?' . build_query($params));
+    }
+
+    /**
+     * Helper method to build the URL that points to the home page
+     * @param int $statusId ID that the URL points to
+     * @param array|null $params Additional parameters passed to the URL's query string
+     * @return string
+     */
+    public static function buildUserStatusUrl($statusId, $params = array()) {
+        if ($params == null) {
+            $params = array();
+        }
+        $params['statusId'] = $statusId;
+        return site_url('social-homepage?' . build_query($params));
     }
 
     /**
@@ -32,8 +46,20 @@ class LandBook_Util_Url {
             $params = array();
         }
         $params['groupId'] = $groupId;
-        // TODO: pass group URL here
-        return site_url('XXX' . build_query($params));
+        return site_url('social-group-status?' . build_query($params));
+    }
+
+    /**
+     * Helper method to build the URL that points to the user photo page
+     * @param int $ ID of the user that the URL points to
+     * @param array|null $params Additional parameters passed to the URL's query string
+     * @return string
+     */
+    public static function buildUserPhotoUrl($params = array()) {
+        if ($params == null) {
+            $params = array();
+        }
+        return site_url('social-user-photos' . build_query($params));
     }
 
 }

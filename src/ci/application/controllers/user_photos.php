@@ -55,9 +55,16 @@ Class User_Photos extends Base
                 'description' => $description
             );
 
-            $this->userModel->addUserPhotos($dataPhotos);
+            $photoId = $this->userModel->addUserPhotos($dataPhotos);
             redirect(get_option('siteurl') . '/social-user-photos/', 'refresh');
+            if ($photoId) {
+                /**
+                 * Fires once a user add photo action has been saved.
+                 * //TODO if need further parameter
+                 */
+                do_action('save_user_photo', $photoId);
+            }
+            $this->index();
         }
     }
 }
-?>
