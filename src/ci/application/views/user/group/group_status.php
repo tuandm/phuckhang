@@ -13,7 +13,7 @@ $url = new Permalink_Util;
                 </div>
                 <div class="feed-content col-lg-9 col-xs-9">
                     <p>
-                        <?php echo $groupStatus['status']?>
+                        <a href="<?php echo $url->buildGroupProfileUrl($groupStatus['reference_id'])?>">    <?php echo $groupStatus['status']?></a>
                     </p>
                 </div>
             </div>
