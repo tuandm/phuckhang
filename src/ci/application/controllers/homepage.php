@@ -297,7 +297,7 @@ class Homepage extends Base
                 $response['result'] = $this->render('homepage/user_like', array(
                     'postId'           => $postId,
                     'sharedImage'      => $sharedImage,
-                    'referenceType'    => $type,
+                    'referenceType'    => Feed_Model::REFERENCE_TYPE_USER_STATUS,
                     'userId'           => $userId,
                     'numLike'          => $numLike,
                     'numUsersLike'     => $numUsersLike,

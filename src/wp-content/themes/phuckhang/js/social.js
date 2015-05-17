@@ -98,7 +98,7 @@ function bindUserLike() {
         var referenceType = 'post';
         var likeError = me.find('#likeError');
         console.log(likeError);
-        if ($(this).hasClass('like-type-status')) {
+        if ($(this).hasClass('like-type-user_status')) {
             referenceType = 'status';
         }
         $.ajax({

@@ -51,7 +51,7 @@ class Like_Model extends Land_Book_Model
      * Insert/remove data to/from pk_sc_user_like when user like/unlike a post/status
      *
      * @param array $likeData
-     * @return array|bool
+     * @return bool|int
      */
     public function like($likeData)
     {
@@ -67,7 +67,10 @@ class Like_Model extends Land_Book_Model
             ->get()
             ->result_array();
         if (empty($findLike)) {
-            return $this->db->insert($this->tableName, $where);
+            $result = $this->db->insert($this->tableName, $where);
+            if ($result) {
+                return $this->db->insert_id();
+            }
         } else {
             return $this->db->delete($this->tableName, $where);
         }

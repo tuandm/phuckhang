@@ -120,26 +120,26 @@ class LandBook_Model_Activity extends LandBook_Model
      * Create Activities when user likes for a status
      *
      * @param int $objectId
-     * @return int
+     * @return int|null
      */
     public function createAddUserLikeStatusActivity($objectId)
     {
-        $like = $this->getRow('SELECT * FROM pk_sc_user_like WHERE reference_id = %d AND reference_type = %s', $objectId, 'post');
+        $like = $this->getRow('SELECT * FROM pk_sc_user_like WHERE like_id = %d AND reference_type = %s', [$objectId, 'status']);
         if ($like == null) {
-            wp_die('Invalid like');
+            return '';
         }
 
-        $activity = $this->getRow('SELECT * FROM pk_sc_user_activities WHERE object_id = %d AND user_id = %d', $objectId, $like->user_id);
+        $activity = $this->getRow('SELECT * FROM pk_sc_user_activities WHERE object_id = %d AND user_id = %d', [$like->reference_id, $like->user_id]);
         if ($activity == null) {
-            return;
-        } else {
             return $this->createActivity(
                 array(
                     'user_id'            => $like->user_id,
-                    'object_id'          => $objectId,
+                    'object_id'          => $like->reference_id,
                     'type'               => LandBook_Constant::TYPE_LIKE_STATUS
                 )
             );
+        } else {
+            return '';
         }
     }
 

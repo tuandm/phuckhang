@@ -167,21 +167,20 @@ class LandBook_Model_Notification extends LandBook_Model
      */
     protected function createAddUserLikeStatusNotifications($userId, $objectId)
     {
-        $like = $this->getRow('SELECT * FROM pk_sc_user_like WHERE reference_id= %d AND reference_type = %s', $objectId, 'status');
+        $like = $this->getRow('SELECT * FROM pk_sc_user_status psus INNER JOIN pk_sc_user_like psul ON psus.status_id=psul.reference_id WHERE psul.reference_id= %d AND psul.reference_type = %s', [$objectId, 'status']);
 
         if ($like == null) {
-            wp_die('Invalid like');
+            wp_die('Die Invalid like');
         }
-
         $currentUserName = get_the_author_meta('display_name', $userId);
-        $userLikeStatusUrl = $this->buildNotiUserLikeStatusUrl($userId, LandBook_Constant::TYPE_LIKE_STATUS, array('reference_id' => $objectId));
+        $userLikeStatusUrl = $this->buildNotiUserLikeStatusUrl($objectId, LandBook_Constant::TYPE_LIKE_STATUS, array('reference_id' => $like->status_id));
 
         $notiText = sprintf('<a href="%s"><span class="author">%s</span> thích trạng thái của bạn</a>', $userLikeStatusUrl, $currentUserName);
         return $this->createNotification(
             $userId,
             array(
-                'user_id'               => $like->refence_id,
-                'notification_type'     => LandBook_Constant::TYPE_USER_STATUS,
+                'user_id'               => $like->user_id,
+                'notification_type'     => LandBook_Constant::TYPE_LIKE_STATUS,
                 'reference_id'          => $objectId,
                 'notification_text'     => $notiText,
             )

@@ -237,7 +237,7 @@ class LandBook_Hook
     public function processAfterSavingUserLikePost($objectId)
     {
         $activityModel = new LandBook_Model_Activity();
-        $activityModel->createAddUserLikePostActivity($objectId);
+        $activityModel->createAddUserLikeStatusActivity($objectId);
     }
 
     /**
