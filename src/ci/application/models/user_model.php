@@ -121,4 +121,5 @@ Class User_Model extends Land_Book_Model
             return $rows[0];
         }
     }
+
 }

@@ -113,7 +113,6 @@ Class Group_Status extends Base
         } else {
             return '';
         }
-
     }
 
 }

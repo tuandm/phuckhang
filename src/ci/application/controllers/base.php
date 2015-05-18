@@ -120,4 +120,37 @@ class Base extends CI_Controller
         return $data;
     }
 
+    /**
+     * Return status block
+     *
+     * @param int $statusId
+     * @param string $view
+     * @return string
+     */
+    protected function renderUserStatus($view, $statusId)
+    {
+        $status = $this->statusModel->findById($statusId);
+        $isLiked = $this->likeModel->isLiked(get_current_user_id(), $status['status_id']);
+        $numUsersLike = $this->likeModel->getNumUsersLikeByLikeId($status['status_id']);
+        $likeImage = $isLiked ? 'down' : 'up';
+        $state  = $isLiked ? 'Unlike' : 'Like';
+        $numLike = $this->likeModel->countLike($status['status_id']);
+        if ($status !== false && is_array($status)) {
+            return $this->render($view, array(
+                'isLiked'       => $isLiked,
+                'numLike'       => $numLike,
+                'likeImage'     => $likeImage,
+                'numUsersLike'  => $numUsersLike,
+                'state'         => $state,
+                'postDate'      => $status['created_time'],
+                'status'        => $status,
+                'referenceType' => Feed_Model::REFERENCE_TYPE_USER_STATUS,
+                'allowComment'  => true
+            ));
+        } else {
+            return '';
+        }
+
+    }
+
 }

@@ -50,7 +50,6 @@ class Homepage extends Base
             switch ($feed['reference_type']) {
                 case Feed_Model::REFERENCE_TYPE_USER_STATUS:
                     $status = $this->statusModel->findById($feed['reference_id']);
-                    $feed['html'] = $this->renderUserStatus($feed['reference_id']);
                     $numLike = $this->likeModel->countLike($status['status_id']);
                     $numUsersLike = $this->likeModel->getNumUsersLikeByLikeId($status['status_id']);
                     $isLiked = $this->likeModel->isLiked(get_current_user_id(), $status['status_id']);
@@ -103,38 +102,6 @@ class Homepage extends Base
     }
 
     /**
-     * Return status block
-     *
-     * @param $statusId
-     * @return string
-     */
-    private function renderUserStatus($statusId)
-    {
-        $status = $this->statusModel->findById($statusId);
-        $isLiked = $this->likeModel->isLiked(get_current_user_id(), $status['status_id']);
-        $numUsersLike = $this->likeModel->getNumUsersLikeByLikeId($status['status_id']);
-        $likeImage = $isLiked ? 'down' : 'up';
-        $state  = $isLiked ? 'Unlike' : 'Like';
-        $numLike = $this->likeModel->countLike($status['status_id']);
-        if ($status !== false && is_array($status)) {
-            return $this->render('/homepage/feed_status', array(
-                'isLiked'       => $isLiked,
-                'numLike'       => $numLike,
-                'likeImage'     => $likeImage,
-                'numUsersLike'  => $numUsersLike,
-                'state'         => $state,
-                'postDate'      => $status['created_time'],
-                'status'        => $status,
-                'referenceType' => Feed_Model::REFERENCE_TYPE_USER_STATUS,
-                'allowComment'  => true
-            ));
-        } else {
-            return '';
-        }
-
-    }
-
-    /**
      * Render A Group Status block
      *
      * @param int $groupStatusId
@@ -152,7 +119,6 @@ class Homepage extends Base
         } else {
             return '';
         }
-
     }
 
     /**
@@ -162,6 +128,7 @@ class Homepage extends Base
     {
         $status = trim($this->input->post('txtUserStatus'));
         $userId = get_current_user_id();
+        $page = $this->input->get('c');
         $response = array(
             'success'   => false,
             'result'    => ''
@@ -178,7 +145,12 @@ class Homepage extends Base
             $statusId = $this->statusModel->addUserStatus($userId, $status);
             if ($statusId !== false) {
                 $response['success'] = true;
-                $response['result'] = $this->renderUserStatus($statusId);
+                if ($page == 'user_wall') {
+                    $response['result'] = $this->renderUserStatus('/user/wall/status', $statusId);
+                } else {
+                    $response['result'] = $this->renderUserStatus('/homepage/feed_status', $statusId);
+                }
+
                 /**
                  * Fires once a user status has been saved.
                  * //TODO if need further parameter
@@ -251,6 +223,7 @@ class Homepage extends Base
         }
         return $response;
     }
+
     /**
      * Handle like
      * @return array

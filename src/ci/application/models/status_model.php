@@ -2,9 +2,12 @@
 /**
  * Created by PhpStorm.
  * @author Tuan Duong <duongthaso@gmail.com>
+ * @updateBy Phat Nguyen
  * @package
  */
- 
+
+require_once('land_book_model.php');
+require_once('feed_model.php');
 
 class Status_Model extends Land_Book_Model
 {
@@ -66,4 +69,29 @@ class Status_Model extends Land_Book_Model
             return $rows[0];
         }
     }
+
+    /**
+     * Get all status of a user by User ID
+     *
+     * @param int $userId
+     * @return array|null
+     */
+    public function getAllStatusByUserId($userId)
+    {
+        $where = array(
+          'status_type' => Feed_Model::REFERENCE_TYPE_USER_STATUS,
+          'user_id'     => $userId
+        );
+        $results = $this->db->select()
+            ->from($this->tableName)
+            ->where($where)
+            ->get()
+            ->result_array();
+        if(!empty($results)) {
+            return $results;
+        } else {
+            return '';
+        }
+    }
+
 }

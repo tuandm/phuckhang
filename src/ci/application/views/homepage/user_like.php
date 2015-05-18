@@ -25,7 +25,7 @@
 			<?php endif ?>
 		<div id="likeError" style="display: none;"></div>
 		</div>
-
+</div>
 <?php else : ?>
 //TODO
 <?php endif ?>

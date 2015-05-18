@@ -2,7 +2,7 @@
 $url = new Permalink_Util;
 ?>
 <div class="feed feed-lv0 feed-status-lv0">
-	<?php if (is_page_template('page-landbook.php')) { ?>
+	<?php if (is_page_template('page-landbook.php')) : ?>
 		<div class="media user-feed-media">
 			<div class="media-left">
 				<a href="<?php echo $url->buildUserProfileUrl($status['user_id']) ?>"><?php echo get_simple_local_avatar($status['user_id'], 100) ?></a>
@@ -25,7 +25,7 @@ $url = new Permalink_Util;
 			</div>
 		</div>
 		<?php echo $this->view('/layout/partial/comments', array('postId' => $status['status_id'])) ?>
-	<?php } else { ?>
+	<?php else : ?>
 		<div class="row">
 			<div class="person col-lg-3 col-xs-3">
 				<a href="<?php echo $url->buildUserProfileUrl($status['user_id']) ?>"><?php echo get_simple_local_avatar($status['user_id'], 100) ?></a>
@@ -49,5 +49,5 @@ $url = new Permalink_Util;
 			</div>
 		</div>
 		<?php echo $this->view('/layout/partial/comments', array('postId' => $status['status_id'])) ?>
-	<?php } ?>
+	<?php endif ?>
 </div>
