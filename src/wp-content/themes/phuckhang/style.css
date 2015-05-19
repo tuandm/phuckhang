@@ -366,6 +366,18 @@ img.desaturate:hover {
     background: none;
 }
 
+    .project-description  .project-mobile-link{
+        display: none;
+        text-align: right;
+    }
+
+    .project-description  .project-mobile-link a{
+        color: #FFF;
+        font-weight: bold;
+    }
+
+
+
 .detail-link {
     display: none;
     text-align: center;
@@ -1109,6 +1121,11 @@ textarea.message {
     .user-info-header{
         padding-left: 20px;
     }
+
+    .project-description  .project-mobile-link{
+        display: block;
+    }
+
 }
 
 /* xs */
@@ -1192,6 +1209,10 @@ textarea.message {
         padding-left: 20px;
     }
 
+    .project-description  .project-mobile-link{
+        display: block;
+    }
+
 }
 
 /* XS Portrait for iPhone retina */
@@ -1203,7 +1224,7 @@ textarea.message {
         display: block;
         background-color: #333333;
         background-size: 100%;
- float : left;
+        float : left;
         border-top: 1px solid #FFF;
     }
 
@@ -1291,6 +1312,10 @@ textarea.message {
 
     .user-info-header{
         padding-left: 20px;
+    }
+
+    .project-description  .project-mobile-link{
+        display: block;
     }
 
 }

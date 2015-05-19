@@ -40,7 +40,8 @@
                               Xem chi tiết
                             </a>
                           </div>
-                        <p>Thiết kế của Làng Sen Việt Nam là sự giao thoa của các tinh hoa văn hoá dân tộc. Ý tưởng thiết kế được lấy từ sự kết hợp giữa mặt trống đồng Đông Sơn với những nét hoa văn tinh xảo cùng một lá sen đang căng tràn sức sống để làm nên một khu đô thị văn hóa – thương mại đậm nét truyển thống, nơi con cháu đất Việt nhớ về nguồn cội 4000 năm văn hiến.</p>
+                          <p>Thiết kế của Làng Sen Việt Nam là sự giao thoa của các tinh hoa văn hoá dân tộc. Ý tưởng thiết kế được lấy từ sự kết hợp giữa mặt trống đồng Đông Sơn với những nét hoa văn tinh xảo cùng một lá sen đang căng tràn sức sống để làm nên một khu đô thị văn hóa – thương mại đậm nét truyển thống, nơi con cháu đất Việt nhớ về nguồn cội 4000 năm văn hiến.</p>
+                          <span class="project-mobile-link"><a href="#">Xem chi tiết</a></span>
                       </div>
                   </div>
                 </div> <!-- end project-wrap -->
@@ -69,6 +70,7 @@
                       </a>
                     </div>
                     <p>Một thành phố trẻ đã và đang hình thành tại Phía Đông Sài Gòn. Nơi lý tưởng cho những cư dân năng động an cư. Các dịch vụ tiện ích xung quanh đảm bảo cho cuộc sống tiện nghi hòa trong thiên nhiên trong lành. Một cuộc sống tươi đẹp, một vận hội đầu tư lớn đang chờ bạn quyết định ngay hôm nay.</p>
+                    <span class="project-mobile-link"><a href="#">Xem chi tiết</a></span>
                     </div>
                   </div>
                 </div> <!-- end project-wrap -->
@@ -99,6 +101,7 @@
                             </a>
                           </div>
                         <p>Thiết kế của Làng Sen Việt Nam là sự giao thoa của các tinh hoa văn hoá dân tộc. Ý tưởng thiết kế được lấy từ sự kết hợp giữa mặt trống đồng Đông Sơn với những nét hoa văn tinh xảo cùng một lá sen đang căng tràn sức sống để làm nên một khu đô thị văn hóa – thương mại đậm nét truyển thống, nơi con cháu đất Việt nhớ về nguồn cội 4000 năm văn hiến.</p>
+                        <span class="project-mobile-link"><a href="#">Xem chi tiết</a></span>
                       </div>
                   </div>
                 </div> <!-- end project-wrap -->
@@ -127,6 +130,7 @@
                       </a>
                     </div>
                     <p>Một thành phố trẻ đã và đang hình thành tại Phía Đông Sài Gòn. Nơi lý tưởng cho những cư dân năng động an cư. Các dịch vụ tiện ích xung quanh đảm bảo cho cuộc sống tiện nghi hòa trong thiên nhiên trong lành. Một cuộc sống tươi đẹp, một vận hội đầu tư lớn đang chờ bạn quyết định ngay hôm nay.</p>
+                    <span class="project-mobile-link"><a href="#">Xem chi tiết</a></span>
                     </div>
                   </div>
                 </div> <!-- end project-wrap -->
