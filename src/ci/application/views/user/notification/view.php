@@ -12,20 +12,24 @@
             </div>
 
             <?php foreach ($notifications as $notification): ?>
-            <div class="row noti-item">
-                <div class="col-sm-2 col-xs-3 noti-avatar">
-                    <a href="<?php echo $notification->fromUserProfileUrl; ?>"><?php echo $notification->fromUserAvatarHtml; ?></a>
+                <?php if ($notification->notification_status == 0) : ?>
+                    <div class="row noti-item not-read">
+                <?php else : ?>
+                    <div class="row noti-item ">
+                <?php endif ?>
+                    <div class="col-sm-2 col-xs-3 noti-avatar">
+                        <a href="<?php echo $notification->fromUserProfileUrl; ?>"><?php echo $notification->fromUserAvatarHtml; ?></a>
+                    </div>
+                    <div class="col-sm-10 col-xs-9 notification_link" id="<?php echo $notification->notification_id ?>">
+                        <?php echo $notification->notification_text; ?>
+                        <span class="noti-datetime"><?php echo $notification->timeLabel; ?></span>
+                    </div>
                 </div>
-                <div class="col-sm-10 col-xs-9">
-                    <?php echo $notification->notification_text; ?>
-                    <span class="noti-datetime"><?php echo $notification->timeLabel; ?></span>
-                </div>
+                <?php endforeach; ?><!-- End foreach of $notifications -->
+
+                <div class="clearfix"></div>
+                <?php endforeach; ?><!-- End foreach of $timeToNotificationMap -->
+
             </div>
-            <?php endforeach; ?><!-- End foreach of $notifications -->
-
-            <div class="clearfix"></div>
-            <?php endforeach; ?><!-- End foreach of $timeToNotificationMap -->
-
         </div>
     </div>
-</div>

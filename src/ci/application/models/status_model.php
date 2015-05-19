@@ -85,6 +85,7 @@ class Status_Model extends Land_Book_Model
         $results = $this->db->select()
             ->from($this->tableName)
             ->where($where)
+            ->order_by('created_time', 'DESC')
             ->get()
             ->result_array();
         if(!empty($results)) {

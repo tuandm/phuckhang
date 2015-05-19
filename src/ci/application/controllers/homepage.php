@@ -55,7 +55,7 @@ class Homepage extends Base
                     $isLiked = $this->likeModel->isLiked(get_current_user_id(), $status['status_id']);
                     $likeImage = $isLiked ? 'down' : 'up';
                     $state  = $isLiked ? 'Unlike' : 'Like';
-                    $comments = get_comments('type=status&number=5&order=DESC&orderBy=comment_date&status=approve&post_id=' . $status['status_id']);
+                    $comments = get_comments('type=user_status&number=5&order=DESC&orderBy=comment_date&status=approve&post_id=' . $status['status_id']);
                     $feed['html'] = $this->render('/homepage/feed_status', array(
                         'status'        => $status,
                         'comments'      => $comments,

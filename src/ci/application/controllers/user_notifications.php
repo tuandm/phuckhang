@@ -61,4 +61,24 @@ class User_Notifications extends Base
         ), true);
     }
 
+    /**
+     *  Update status of a notification.
+     */
+    public function handleNotificationStatus()
+    {
+        $result=true;
+        $notificationId = (int) $this->input->post('notificationId');
+        $notification = $this->userNotificationModel->findNotificationById($notificationId);
+        if($notification['notification_status'] == 0) {
+            $result = $this->userNotificationModel->updateNotificationStatus($notificationId, 1);
+        }
+        if ($result !== false) {
+            $response['success'] = true;
+            $response['result'] = $notification['notification_text'];
+        } else {
+            $response['result'] = 'Can not update the notification status. Please try again.';
+        }
+    return $response;
+    }
+
 }

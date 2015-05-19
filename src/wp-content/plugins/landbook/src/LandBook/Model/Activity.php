@@ -129,7 +129,7 @@ class LandBook_Model_Activity extends LandBook_Model
             return '';
         }
 
-        $activity = $this->getRow('SELECT * FROM pk_sc_user_activities WHERE object_id = %d AND user_id = %d', [$like->reference_id, $like->user_id]);
+        $activity = $this->getRow('SELECT * FROM pk_sc_user_activities WHERE object_id = %d AND user_id = %d AND type = %s', [$like->reference_id, $like->user_id, LandBook_Constant::TYPE_LIKE_STATUS]);
         if ($activity == null) {
             return $this->createActivity(
                 array(

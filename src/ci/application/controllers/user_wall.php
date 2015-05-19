@@ -57,7 +57,7 @@ class User_Wall extends Base
                 $isLiked = $this->likeModel->isLiked(get_current_user_id(), $userStatus['status_id']);
                 $likeImage = $isLiked ? 'down' : 'up';
                 $state  = $isLiked ? 'Unlike' : 'Like';
-                $comments = get_comments('type=status&number=5&order=DESC&orderBy=comment_date&status=approve&post_id=' . $userStatus['status_id']);
+                $comments = get_comments('type=user_status&number=5&order=DESC&orderBy=comment_date&status=approve&post_id=' . $userStatus['status_id']);
                 $userStatus['html'] = $this->render('/user/wall/status', array(
                     'statusContent' => $userStatus['status'],
                     'userId'        => $userStatus['user_id'],

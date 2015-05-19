@@ -52,4 +52,36 @@ class User_Notification_Model extends Land_Book_Model
             ->count_all_results();
     }
 
+    /**
+     * Get notification by notification ID
+     *
+     * @param int $notificationId
+     * @return null|array
+     */
+    public function findNotificationById($notificationId)
+    {
+        $result = $this->db
+            ->select('*')
+            ->from($this->tableName)
+            ->where(array('notification_id' => $notificationId))
+            ->get()
+            ->result_array();
+        return $result[0];
+    }
+
+    /**
+     * Update Message Status
+     *
+     * @param int $notificationId
+     * @param int $status
+     * @return bool
+     */
+    public function updateNotificationStatus($notificationId, $status)
+    {
+        $data = array('notification_status' => $status);
+        $this->db->where('notification_id', $notificationId);
+        $notification = $this->db->update($this->tableName, $data);
+       return $notification;
+    }
+
 }

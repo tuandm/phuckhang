@@ -22,17 +22,17 @@ class LandBook_Util_Url {
     }
 
     /**
-     * Helper method to build the URL that points to the home page
-     * @param int $statusId ID that the URL points to
+     * Helper method to build the URL that points to the user wall page
+     * @param int $userId ID of the user that the URL points to
      * @param array|null $params Additional parameters passed to the URL's query string
      * @return string
      */
-    public static function buildUserStatusUrl($statusId, $params = array()) {
+    public static function buildUserWallUrl($userId, $params = array()) {
         if ($params == null) {
             $params = array();
         }
-        $params['statusId'] = $statusId;
-        return site_url('social-homepage?' . build_query($params));
+        $params['userId'] = $userId;
+        return site_url('social-user-wall?' . build_query($params));
     }
 
     /**
@@ -51,15 +51,16 @@ class LandBook_Util_Url {
 
     /**
      * Helper method to build the URL that points to the user photo page
-     * @param int $ ID of the user that the URL points to
+     * @param int $userId ID of the user that the URL points to
      * @param array|null $params Additional parameters passed to the URL's query string
      * @return string
      */
-    public static function buildUserPhotoUrl($params = array()) {
+    public static function buildUserPhotoUrl($userId, $params = array()) {
         if ($params == null) {
             $params = array();
         }
-        return site_url('social-user-photos' . build_query($params));
+        $params['userId'] = $userId;
+        return site_url('social-user-photos?' . build_query($params));
     }
 
 }

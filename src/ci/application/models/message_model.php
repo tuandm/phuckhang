@@ -97,9 +97,11 @@ class Message_Model extends Land_Book_Model
     }
 
     /**
-     * @param $messageId
-     * @param $status
-     * @return mixed
+     * Update Message Status
+     *
+     * @param int $messageId
+     * @param int $status
+     * @return array|null
      */
     public function updateMessageStatus($messageId, $status)
     {
@@ -111,6 +113,7 @@ class Message_Model extends Land_Book_Model
 
     /**
      * Get unread messages for displaying to the count number
+     *
      * @param int $userId
      * @return array|bool
      */
@@ -153,6 +156,8 @@ class Message_Model extends Land_Book_Model
     }
 
     /**
+     * Get all send and Reply message by sender ID and receiver ID
+     *
      * @param $senderId
      * @param $receiverId
      * @return mixed

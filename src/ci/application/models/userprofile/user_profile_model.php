@@ -134,7 +134,7 @@ class User_Profile_Model extends CI_Model
      */
     public function getFriendsByUserId($userId)
     {
-        $where = "((`user_id` = $userId) || (`friend_id` = $userId))";
+        $where = "((`user_id` = $userId) OR (`friend_id` = $userId))";
         $friendRelations = $this->db
             ->select('*')
             ->from('pk_sc_user_friends')

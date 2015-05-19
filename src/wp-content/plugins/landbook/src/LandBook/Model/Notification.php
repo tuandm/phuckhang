@@ -61,23 +61,47 @@ class LandBook_Model_Notification extends LandBook_Model
     protected function createAddStatusCommentNotifications($userId, $objectId)
     {
         $status = $this->getRow(
-            'SELECT scus.user_id FROM pk_sc_user_status scus INNER JOIN pk_comments com ON scus.status_id=com.comment_post_ID WHERE comment_ID = %d', $objectId);
+            'SELECT scus.user_id, scus.status_id FROM pk_sc_user_status scus INNER JOIN pk_comments com ON scus.status_id = com.comment_post_ID WHERE comment_ID = %d', $objectId);
         if ($status == null) {
             die('Invalid status');
         }
+        $listUserIds = array();
+        $commentedUserIds = $this->getResults('SELECT DISTINCT user_id FROM pk_comments WHERE comment_post_ID = %d AND comment_type = %s', [$status->status_id, 'user_status']);
+        if ($commentedUserIds == null) {
+            $listUserIds[] = $status->user_id;
+        }
+
+        foreach ($commentedUserIds as $commentedUserId) {
+            if ($commentedUserId->user_id == get_current_user_id()) {
+                continue;
+            }
+            $listUserIds[] = $commentedUserId->user_id;
+        }
+
+        if (!in_array($status->user_id, $listUserIds)) {
+            $listUserIds = array_merge($listUserIds, array($status->user_id));
+        }
 
         $currentUserName = get_the_author_meta('display_name', $userId);
-        $userProfileUrl = $this->buildNotiUserProfileUrl($userId, LandBook_Constant::TYPE_STATUS_COMMENT, array('status_id' => $objectId));
-        $notiText = sprintf('<a href="%s"><span class="author">%s</span> bình luận về trạng thái của bạn</a>', $userProfileUrl, $currentUserName);
-        return $this->createNotification(
+        $userProfileUrl = $this->buildNotiUserProfileUrl($status->user_id, LandBook_Constant::TYPE_STATUS_COMMENT, array('comment_id' => $objectId));
+        foreach ($listUserIds as $listUserId) {
+            if ($listUserId == $status->user_id) {
+                $notiText = sprintf('<a href="%s"><span class="author">%s</span> bình luận về trạng thái của bạn.</a>', $userProfileUrl, $currentUserName);
+            } else {
+                $notiText = sprintf('<a href="%s"><span class="author">%s</span> bình luận về trạng thái mà bạn được đánh dấu.</a>', $userProfileUrl, $currentUserName);
+            }
+            $this->createNotification(
             $userId,
-            array(
-                'user_id'               => $status->user_id,
-                'notification_type'     => LandBook_Constant::TYPE_STATUS_COMMENT,
-                'reference_id'          => $objectId,
-                'notification_text'     => $notiText,
-            )
-        );
+                array(
+                    'user_id'               => $listUserId,
+                    'notification_type'     => LandBook_Constant::TYPE_USER_PHOTO,
+                    'reference_id'          => $objectId,
+                    'notification_text'     => $notiText,
+                )
+            );
+        }
+
+        return true;
     }
 
     /**
@@ -142,16 +166,16 @@ class LandBook_Model_Notification extends LandBook_Model
             return false;
         }
         $currentUserName = get_the_author_meta('display_name', $userId);
-        $statusUrl = $this->buildNotiUserStatusUrl($status->status_id, LandBook_Constant::TYPE_USER_STATUS, array('status_id' => $objectId));
+        $statusUrl = $this->buildNotiUserWallUrl($status->status_id, LandBook_Constant::TYPE_USER_STATUS, array('status_id' => $objectId));
         $notiText = sprintf('<a href="%s"><span class="author">%s</span> đã đăng trên dòng thời gian</a>', $statusUrl, $currentUserName);
         foreach ($friendListIds as $friendListId) {
             $this->createNotification(
                 $userId,
                 array(
-                    'user_id'               => $friendListId,
-                    'notification_type'     => LandBook_Constant::TYPE_USER_STATUS,
-                    'reference_id'          => $objectId,
-                    'notification_text'     => $notiText,
+                    'user_id' => $friendListId,
+                    'notification_type' => LandBook_Constant::TYPE_USER_STATUS,
+                    'reference_id' => $objectId,
+                    'notification_text' => $notiText,
                 )
             );
         }
@@ -167,13 +191,13 @@ class LandBook_Model_Notification extends LandBook_Model
      */
     protected function createAddUserLikeStatusNotifications($userId, $objectId)
     {
-        $like = $this->getRow('SELECT * FROM pk_sc_user_status psus INNER JOIN pk_sc_user_like psul ON psus.status_id=psul.reference_id WHERE psul.reference_id= %d AND psul.reference_type = %s', [$objectId, 'status']);
+        $like = $this->getRow('SELECT * FROM pk_sc_user_status psus INNER JOIN pk_sc_user_like psul ON psus.status_id=psul.reference_id WHERE psul.reference_id = %d AND psul.reference_type = %s', [$objectId, 'status']);
 
         if ($like == null) {
             wp_die('Die Invalid like');
         }
         $currentUserName = get_the_author_meta('display_name', $userId);
-        $userLikeStatusUrl = $this->buildNotiUserLikeStatusUrl($objectId, LandBook_Constant::TYPE_LIKE_STATUS, array('reference_id' => $like->status_id));
+        $userLikeStatusUrl = $this->buildNotiUserLikeStatusUrl($like->user_id, LandBook_Constant::TYPE_LIKE_STATUS, array('reference_id' => $like->status_id));
 
         $notiText = sprintf('<a href="%s"><span class="author">%s</span> thích trạng thái của bạn</a>', $userLikeStatusUrl, $currentUserName);
         return $this->createNotification(
@@ -258,6 +282,27 @@ class LandBook_Model_Notification extends LandBook_Model
     }
 
     /**
+     * Build the user's wall URL that the notification points to
+     * @param int $userId
+     * @param string $notiType
+     * @param array|null $additionalParams
+     * @return string
+     */
+    protected function buildNotiUserWallUrl($userId, $notiType, $additionalParams = null)
+    {
+        $params = array(
+            'ref'       => 'noti',
+            'noti_t'    => $notiType
+        );
+
+        if (!empty($additionalParams)) {
+            $params = array_merge($params, $additionalParams);
+        }
+
+        return LandBook_Util_Url::buildUserWallUrl($userId, $params);
+    }
+
+    /**
      * Build User photo URL that notification points to
      *
      * @param int $userId
@@ -318,7 +363,7 @@ class LandBook_Model_Notification extends LandBook_Model
         if (!empty($additionParams)) {
             $params = array_merge($params, $additionParams);
         }
-        return LandBook_Util_Url::buildUserStatusUrl($statusId, $params);
+        return LandBook_Util_Url::buildUserWallUrl($statusId, $params);
     }
 
     /**

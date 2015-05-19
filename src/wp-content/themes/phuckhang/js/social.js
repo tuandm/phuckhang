@@ -1,5 +1,6 @@
 var allowSearch = true;
 $(function() {
+    notificationLink()
     bindUserMessage();
     bindReplyMessage();
     bindHighLightCommentBox();
@@ -138,8 +139,8 @@ function bindUserCommentTextArea()
             var tmp = textareaId.split('_');
             var postId = tmp[1];
             var referenceType = 'post';
-            if ($(this).hasClass('type-status')) {
-                referenceType = 'status';
+            if ($(this).hasClass('type-user_status')) {
+                referenceType = 'user_status';
             }
             var commentError = $(this).parent().find('.userCommentError');
             var me = $(this);
@@ -294,6 +295,34 @@ function bindReplyMessage()
     });
 }
 
+function notificationLink()
+{
+    $('.notification_link').click(function() {
+        var notificationId = $(this).attr('id');
+        console.log(notificationId);
+        $.ajax({
+            url: '/social-user-notifications/',
+            type: 'POST',
+            data: {
+                act: 'ajax',
+                callback: 'notificationStatus',
+                notificationId: notificationId
+            },
+            success: function (response) {
+                var result = JSON.parse(response);
+                if (result.success) {
+                    console.log('aaaaaaaa');
+                    var link = result.result.split('"');
+                    console.log(link[1]);
+                    window.location = link[1];
+                } else {
+
+                }
+            }
+        });
+        return false;
+    });
+}
 $(document).ready(function() {
     $('#products').dataTable({
         initComplete: function () {
