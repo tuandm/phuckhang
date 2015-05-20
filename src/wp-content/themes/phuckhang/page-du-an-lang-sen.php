@@ -19,14 +19,13 @@
 
 <div class="content">
 
-  <div class="sub-nav-wrap col-lg-2 col-lg-offset-1">
+  <div class="sub-nav-wrap col-lg-2">
     <ul class="sub-nav sub-nav-project-detail">
       <li class="active"><a href="javascript:;">Giới Thiệu</a></li>
       <li><a href="javascript:;">Quy Mô</a></li>
       <li><a href="javascript:;">Hình Ảnh Thực Tế</a></li>
       <li><a href="javascript:;">Vị Trí</a></li>
       <li><a href="javascript:;">Mở Bán</a></li>
-      <li><a href="javascript:;">Dự án khác</a></li>
     </ul>
 
     <div class="hotline">
@@ -36,10 +35,15 @@
       </span>
     </div>
 
+    <div class="map-link">
+      <a href="#">
+        <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/btn-xem-ban-do.png" height="81" width="198" alt="Xem bản  đồ">
+      </a>
+    </div>
 
   </div>
 
-  <div class="project-detail-content col-lg-7">
+  <div class="project-detail-content col-lg-10">
 
     <div class="project-detail-slider cycle-slideshow col-lg-12"
          data-cycle-fx="scrollVert"
@@ -51,17 +55,45 @@
     >
         <div id="intro" class="project-detail">
 
-          <h2 class="sub-header">Giới Thiệu</h2>
+          <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <div class="intro-header">
+              <div class="intro-content col-lg-6 col-xs-12">
+                <h2>MỘT Ý TƯỞNG TỪ</h2>
+                <p>
+                    Nhớ về nguồn cội hơn bốn nghìn năm văn hiến <br />
+                    Nhớ về một loài hoa mộc mạc, thanh bần.<br />
+                    Nhưng rất đỗi cao quí, mang quốc hồn quốc túy<br />
+                    Niềm tự hào dân tộc Việt.<br />
+                </p>
+              </div>
+            </div>
+          </div>
 
-          <strong>Nơi hàng triệu người muốn đến, hàng ngàn người mong về!</strong>
-          <p>Thiết kế của Làng Sen Việt Nam là sự giao thoa của các tinh hoa văn hoá dân tộc. Ý tưởng thiết kế được lấy từ sự kết hợp giữa mặt trống đồng Đông Sơn với những nét hoa văn tinh xảo cùng một lá sen đang căng tràn sức sống để làm nên một khu đô thị văn hóa – thương mại đậm nét truyển thống, nơi con cháu đất Việt nhớ về nguồn cội 4000 năm văn hiến.</p>
+          <div class="clearfix"></div>
 
-          <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/project/langsen/langsen1.jpg" height="243" width="588" class="project-img img-responsive">
+          <div class="project-info-wrap">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
 
-          <strong>Khoản đầu tư thông minh từ trái tim!</strong>
-          <p>Nằm liền kề trung tâm TP.HCM, Làng Sen Việt Nam sở hữu một vị trí thuận lợi cho mọi nhu cầu Đầu Tư - An cư - Nghỉ dưỡng nhưng lại thật dễ dàng để sở hữu chỉ với 20 phút di chuyển theo hướng từ vòng xoay Phú Lâm hoặc Đại lộ Võ Văn Kiệt theo đường Trần Văn Giàu, Trần Đại Nghĩa. Từ Làng Sen Việt Nam, chúng ta dễ dàng di chuyển vào Chợ Lớn, Quận 1 hay Sân bay Tân Sơn Nhất, đặc biệt để đến các tiện ích xung quanh như Bến xe Miền Tây - Siêu thị Co.op Mart, bệnh viện, trung tâm hành chính, trường học các cấp chỉ mất 10 phút.</p>
+                <img class="author-img" src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/project/langsen/vo-trong-nghia.png" height="152" width="152" alt="KTS. Võ Trọng Nghĩa">
+              </div>
 
-          <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/project/langsen/langsen2.jpg" height="328" width="587" class="project-img img-responsive">
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                <p>
+                  <span class="author-name">KTS. VÕ TRỌNG NGHĨA</span>
+                  <br />
+                  <span class="author-bio">
+                    Niềm tự hào của kiến trúc Việt Nam. <br />
+                    Với các dự án xanh tầm cỡ thế giới.<br />
+                  </span>
+                </p>
+              </div>
+
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <p class="project-intro">Thiết kế của Làng Sen Việt Nam là sự giao thoa của các tinh hoa văn hoá dân tộc. Ý tưởng thiết kế được lấy từ sự kết hợp giữa mặt trống đồng Đông Sơn với những nét hoa văn tinh xảo cùng một lá sen đang căng tràn sức sống để làm nên một khu đô thị văn hóa – thương mại đậm nét truyển thống, nơi con cháu đất Việt nhớ về nguồn cội 4000 năm văn hiến.</p>
+              </div>
+            </div>
+          </div>
 
         </div>
 
@@ -99,15 +131,28 @@
         </div>
 
         <div id="location" class="project-detail">
-            <h2 class="sub-header">Vị Trí</h2>
+          <div class="location-info-wrap">
 
-             <p>Làng Sen Việt Nam là một sản phẩm của Phúc Khang Corporation, tọa lạc tại huyện Đức Hòa, tỉnh Long An, nằm gần khu trung tâm hành chính cận kề, hệ thống trường học các cấp, bệnh viện, siêu thị, chợ An Hạ…, chỉ cách trung tâm TP HCM khoảng 30 phút di chuyển.</p>
+              <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                <p class="location-em">Toạ lạc tại huyện Đức Hoà, Long An, dự án Làng Sen Việt Nam chỉ cách trung tâm TPHCM 30 phút đi xe. Chính vì vậy, dự án Làng Sen Việt Nam được dự đoán sẽ trở thành điểm đến mới của người Sài Gòn bởi những giá trị văn hoá, cộng đồng mà nó mang lại.</p>
 
-            <p>Dự án rộng hơn 50ha, được thiết kế với những điểm nhấn kiến trúc gợi nhớ nét văn hóa vùng miền từ đồng bằng sông Hồng, dải đất miền Trung cho đến đồng bằng sông Cửu Long.</p>
+                <p>Nằm liền kề trung tâm TP.HCM, Làng Sen Việt Nam sở hữu một vị trí thuận lợi cho mọi nhu cầu Đầu Tư – An cư – Nghỉ dưỡng nhưng lại thật dễ dàng để sở hữu chỉ với 20 phút di chuyển theo hướng từ vòng xoay Phú Lâm hoặc Đại lộ Võ Văn Kiệt theo đường Trần Văn Giàu, Trần Đại Nghĩa. </p>
 
-            <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/project/langsen/location.jpg" height="328" width="587" class="project-img img-responsive">
+                <p>Từ Làng Sen Việt Nam, chúng ta dễ dàng di chuyển vào Chợ Lớn, Quận 1 hay Sân bay Tân Sơn Nhất, đặc biệt để đến các tiện ích xung quanh như Bến xe Miền Tây – Siêu thị Co.op Mart, bệnh viện, trung tâm hành chính, trường học các cấp chỉ mất 10 phút.</p>
 
-            <p>Nếu như khu thương mại Nam Bộ nổi bật với không gian mở hình con thuyền, làng nổi và hàng dừa rợp bóng đan xen thì khu miền Trung duyên dáng với mái hiên đầy hoa giấy trên dãy tường phố mang màu vàng đặc trưng của kiến trúc Hội An. Còn khu thương mại Bắc Bộ mang nét riêng với sân trong, cây đa, giếng nước.</p>
+                <p>
+                  <a href="#">
+                    <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/btn-xem.png" height="42" width="176">
+                  </a>
+                </p>
+              </div>
+
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+               <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/project/langsen/location.jpg" height="420" width="449">
+            </div>
+
+          </div>
+
 
         </div>
 
