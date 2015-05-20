@@ -17,7 +17,8 @@ echo $this->view('/userprofilepage/user_viewed_info',
         'email'         => $viewedUser['email'],
         'dob'           => $viewedUser['dob'],
         'friendIds'     => $viewedUser['friendIds'],
-        'numFriends'    => $viewedUser['numFriends']
+        'numFriends'    => $viewedUser['numFriends'],
+        'submitValue'   => $viewedUser['submitValue']
     ]);
 
 

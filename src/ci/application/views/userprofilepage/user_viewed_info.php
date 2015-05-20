@@ -5,11 +5,21 @@
  * Date: 3/28/2015
  * Time: 12:44 AM
  */
+$this->load->helper('url');
 $this->load->library('permalink_util');
 $url = new Permalink_Util();
+$frienId = $this->input->get('userId');
 ?>
 <div class="panel panel-default">
-    <div class="panel-heading"><strong>Thông Tin <?php echo $name ?></strong></div>
+    <div class="panel-heading">
+        <strong>Thông Tin <?php echo $name ?></strong>
+        <input type="text" id="friendId" value="<?php echo $frienId; ?>" hidden="hidden">
+        <?php if($submitValue=='Pending'): ?>
+            <?php echo $submitValue; ?>
+        <?php else: ?>
+            <a href="#" class="friend_<?php echo $submitValue; ?>" ><?php echo $submitValue; ?></a>
+        <?php endif; ?>
+    </div>
     <div class="panel-body">
         <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
             <li class="active">Thông tin chung </li>
