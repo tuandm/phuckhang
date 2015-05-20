@@ -25,6 +25,7 @@ Class User_Photos extends Base
         $uId = $this->input->get('userId');
         $userId = ($uId) ? $uId : get_current_user_id();
         $photos = $this->userModel->getAllPhotos($userId);
+        var_dump($photos);
         $this->renderSocialView('user/photo/view', array(
             'photos' => $photos,
             'user'   => $userId
@@ -56,7 +57,6 @@ Class User_Photos extends Base
             );
 
             $photoId = $this->userModel->addUserPhotos($dataPhotos);
-            redirect(get_option('siteurl') . '/social-user-photos/', 'refresh');
             if ($photoId) {
                 /**
                  * Fires once a user add photo action has been saved.
@@ -64,7 +64,7 @@ Class User_Photos extends Base
                  */
                 do_action('save_user_photo', $photoId);
             }
-            $this->index();
+            redirect(get_option('siteurl') . '/social-user-photos/', 'refresh');
         }
     }
 }

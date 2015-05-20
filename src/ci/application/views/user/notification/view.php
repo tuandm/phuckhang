@@ -25,6 +25,7 @@
                         <span class="noti-datetime"><?php echo $notification->timeLabel; ?></span>
                     </div>
                 </div>
+                        <div class="updateStatusError" style="display: none;"></div>
                 <?php endforeach; ?><!-- End foreach of $notifications -->
 
                 <div class="clearfix"></div>

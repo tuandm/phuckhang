@@ -311,12 +311,13 @@ function notificationLink()
             success: function (response) {
                 var result = JSON.parse(response);
                 if (result.success) {
-                    console.log('aaaaaaaa');
+                    $('.updateStatusError').hide();
                     var link = result.result.split('"');
-                    console.log(link[1]);
                     window.location = link[1];
                 } else {
-
+                    //TODO will be updated later.
+                    $('.updateStatusError').html(result.result);
+                    $('.updateStatusError').show();
                 }
             }
         });

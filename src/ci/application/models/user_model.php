@@ -20,7 +20,7 @@ Class User_Model extends Land_Book_Model
             ->select('pk_sc_user_photos.user_id, pk_sc_user_photos.name, pk_sc_user_photos.path, pk_sc_user_photos.description, pk_users.user_login')
             ->from('pk_sc_user_photos')
             ->join('pk_users', 'pk_sc_user_photos.user_id = pk_users.ID', 'left')
-            ->where('pk_sc_user_photos.user_id', $this->db->escape($userId))
+            ->where('pk_sc_user_photos.user_id', $userId)
             ->order_by('pk_sc_user_photos.sc_user_photo_id', 'ASC');
         $photos = $this->db->get()->result_array();
         return $photos;

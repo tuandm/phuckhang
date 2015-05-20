@@ -123,10 +123,9 @@ class LandBook_Model_Notification extends LandBook_Model
         $notiText = sprintf('<a href="%s"><span class="author">%s</span> thêm một ảnh mới</a>', $userPhotoUrl, $currentUserName);
 
         $friendListIds = $this->getFriendListByUserId($userId);
-        if (empty($friends)) {
+        if (empty($friendListIds)) {
             return false;
         }
-
         foreach ($friendListIds as $friendListId) {
             $this->createNotification(
                 $photo->user_id,
@@ -194,7 +193,7 @@ class LandBook_Model_Notification extends LandBook_Model
         $like = $this->getRow('SELECT * FROM pk_sc_user_status psus INNER JOIN pk_sc_user_like psul ON psus.status_id=psul.reference_id WHERE psul.reference_id = %d AND psul.reference_type = %s', [$objectId, 'status']);
 
         if ($like == null) {
-            wp_die('Die Invalid like');
+            wp_die('Invalid like');
         }
         $currentUserName = get_the_author_meta('display_name', $userId);
         $userLikeStatusUrl = $this->buildNotiUserLikeStatusUrl($like->user_id, LandBook_Constant::TYPE_LIKE_STATUS, array('reference_id' => $like->status_id));

@@ -13,11 +13,17 @@ Class User_Friends extends Base
      */
     public $userModel;
 
+    /**
+     * @var User_Profile_Model
+     */
+    public $userProfileModel;
+
     public function __construct()
     {
         parent::__construct();
         $this->load->helper('url');
         $this->load->model('User_Model', 'userModel');
+        $this->load->model('userprofile/User_Profile_Model', 'userProfileModel');
     }
 
     public function index()
@@ -26,9 +32,15 @@ Class User_Friends extends Base
         $uId = $this->input->get('userId');
         $userId = ($uId) ? $uId : get_current_user_id();
         $friends = $this->userModel->getAllFriends($userId, $search);
+        $data['userId'] = $userId;
+        $data['title'] = $this->userProfileModel->getTitleByUserId($userId);
+        $data['group'] = count($this->userProfileModel->getAllUserGroups($userId));
+        $data['friend'] = $this->userProfileModel->getFriendsByUserId($userId)['numFriend'];
+        $data['name']   = get_user_by('id', $userId)->user_nicename;
 
         $this->renderSocialView('user/friend/view', array(
-                'friends' => $friends,
+                'data'      => $data,
+                'friends'   => $friends,
                 'userId'    => $userId
         ), true);
     }
