@@ -104,30 +104,49 @@
         </div>
 
         <div id="picture" class="project-detail">
-            <h2 class="sub-header">Hình ảnh thực tế</h2>
-            <div id="picture-slide"
-                class="cycle-slideshow"
-                data-cycle-fx="scrollHorz"
-                data-cycle-timeout="4000"
-                data-cycle-pager="#slide-pager"
-                data-cycle-pager-template="<li class='slide-nav'><a href=#></a></li>"
-                >
 
-              <div class="cycle-prev"></div>
-              <div class="cycle-next"></div>
 
-              <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/project/langsen/picture1.jpg" height="449" width="631" class="img-responsive">
-              <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/project/langsen/picture2.jpg" height="449" width="629" class="img-responsive">
-              <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/project/langsen/picture3.jpg" height="449" width="631" class="img-responsive">
-              <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/project/langsen/picture4.jpg" height="449" width="629" class="img-responsive">
+            <div class="picture-wrap">
+              <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+
+                <div id="picture-slide"
+                    class="cycle-slideshow"
+                    data-cycle-fx="scrollHorz"
+                    data-cycle-caption="#alt-caption"
+                    data-cycle-caption-template="{{alt}}"
+                    data-cycle-timeout="4000"
+                    data-cycle-pager="#slide-pager"
+                    data-cycle-pager-template="<li class='slide-nav'><a href=#></a></li>"
+                    >
+
+                  <div class="cycle-prev"></div>
+                  <div class="cycle-next"></div>
+
+
+
+                  <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/slider/bg1.jpg" height="433" width="1261" class="img-responsive" alt="Mặt bằng phân lô Làng Sen Việt Nam">
+
+                  <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/slider/bg2.jpg" height="433" width="1261" class="img-responsive" alt="Lorem ipsum dolor sit amet, consectetur adipisicing eli">
+
+                  <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/slider/bg3.jpg" height="433" width="1261" class="img-responsive" alt="Lorem ipsum dolor sit amet, consectetur adipisicing eli">
+
+                  <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/slider/bg2.jpg" height="433" width="1261" class="img-responsive" alt="Mặt Lorem ipsum dolor sit amet, consectetur adipisicing eli">
+
+                  <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/slider/bg1.jpg" height="433" width="1261" class="img-responsive" alt="Mặt bằng Lorem ipsum dolor sit amet, consectetur adipisicing eli">
+
+
+                </div>
+
+                <div id="alt-caption" class="text-center"></div>
+
+                <div class="slide-pager-wrap">
+                  <ol id="slide-pager" class="project-indicators">
+                  </ol>
+                </div>
+
+              </div>
             </div>
 
-            <div class="slide-pager-wrap">
-              <ol id="slide-pager" class="project-indicators">
-              </ol>
-            </div>
-
-            <p class="quote">Các dãy phố được quy hoạch hiện đại. Được thổi hồn từ một ý tưởng giàu nhân văn, truyền thống, mỗi ngôi nhà được thiết kế thật mộc mạc, thân thiện với môi trường và tiết kiệm chi phí xây dựng.</p>
         </div>
 
         <div id="location" class="project-detail">

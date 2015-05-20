@@ -642,6 +642,14 @@ ol.project-indicators li.active, ol.project-indicators li.cycle-pager-active {
     color: #565656;
 }
 
+.picture-wrap{
+    display: block;
+    padding-top: 24px;
+}
+
+    #alt-caption{
+        padding:20px;
+    }
 
 
 /* Sub navigation */
@@ -1093,7 +1101,7 @@ textarea.message {
     }
 
     #picture-slide {
-        max-width: 630px;
+        /*max-width: 630px;*/
     }
 
     #others-slide .slide {
@@ -1102,29 +1110,21 @@ textarea.message {
     }
 
     .onsale-table {
-        max-width: 630px;
+        /*max-width: 630px;*/
     }
 
     .project-detail-content p {
-        max-width: 630px;
     }
 
     .detail-seperator {
-        max-width: 630px;
-    }
 
-    #picture {
-        max-width: 630px;
     }
 
     .slide-pager-wrap {
-        width: 630px;
-        max-width: 630px !important;
-        overflow: hidden;
+        text-align: center;
     }
 
     .other-projects {
-        max-width: 630px;
         overflow: hidden;
     }
 
