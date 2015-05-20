@@ -171,10 +171,22 @@ class Product extends CI_Controller {
 
     public function addProduct()
     {
-        if ($this->upload->do_upload('myFile'))
-        {
+        $config['upload_path'] = UPLOAD_PRODUCTS_DIR;
+        $config['allowed_types'] = 'xls|xlsx';
+        $this->load->library('upload', $config);
+
+        if ( ! $this->upload->do_upload('myFile')) {
+            $error = $this->upload->display_errors();
+            echo $error;
+        }
+        else {
+            $project = $this->input->post('txtProject');
+            $projectName = array(
+                'name' => $project
+            );
+            $projectId = $this->productModel->addProject($projectName);
+
             $data = $this->upload->data();
-            //$inputFileName = APPPATH. "./upload/Bang_gia_30_lÃ´.xls";
             $inputFileName = $data['full_path'];
 
             try {
@@ -195,19 +207,21 @@ class Product extends CI_Controller {
                     TRUE,
                     FALSE);
                 $rowProduct = $rowData[0];
-                $product = array (
+
+                $products = array (
                     'code' => $rowProduct[1],
                     'price' => $rowProduct[7],
                     'length' => $rowProduct[4],
                     'width' => $rowProduct[3],
                     'area' => $rowProduct[5],
-                    'status' => $this->getProductStatus($rowProduct[8])
+                    'status' => $this->getProductStatus($rowProduct[8]),
+                    'lb_project_id' => $projectId
                 );
-                $this->productModel->addProduct($product);
+
+                $this->productModel->addProduct($products);
             }
-        } else {
-            $errors = $this->upload->display_errors();
         }
+
     }
 
     protected function getProductStatus($value)
