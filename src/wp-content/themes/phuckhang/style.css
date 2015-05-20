@@ -473,6 +473,15 @@ ol.project-indicators li.active, ol.project-indicators li.cycle-pager-active {
 /**
  * Project detail
  */
+
+ .project-detail{
+    min-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-bottom: 60px;
+ }
+
+
 .project-detail-content {
     color: #5d5d5d;
     font-size: 16px;
@@ -510,13 +519,60 @@ ol.project-indicators li.active, ol.project-indicators li.cycle-pager-active {
 }
 
 .project-banner {
-    height: 280px;
+    height: 160px;
     width: 100%;
 }
 
 .project-banner.langsen {
-    background: url('images/project-banner/langsen.jpg') top center no-repeat;
+    background: url('images/project-banner/langsen.jpg') -40px -20px no-repeat;
     background-size: cover;
+}
+
+.intro-header{
+    background: #052c00 url('images/project/langsen/intro-header-bg.jpg') bottom right no-repeat;
+    height: 275px;
+    margin-top: 24px;
+}
+
+.intro-content{
+    color: #FFF;
+    padding-top: 40px;
+}
+
+    .intro-content h2{
+        font-size: 24px;
+        color: #FFF;
+        font-weight: 300;
+        text-align: center;
+    }
+
+    .intro-content p{
+        font-size: 16px;
+        font-weight: 500;
+        color: #FFF;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+.project-info-wrap{
+    padding-top: 40px;
+}
+
+.author-img{
+    display: block;
+    margin: 0 auto;
+}
+
+.author-name{
+    font-weight: 600;
+    color: #1d8740;
+    text-transform: uppercase;
+    outline: none;
+}
+
+.project-intro{
+    padding-left: 30px;
+    border-left: 1px solid #5d5d5d;
 }
 
 .banner-info {
@@ -572,7 +628,27 @@ ol.project-indicators li.active, ol.project-indicators li.cycle-pager-active {
     /*max-width: 630px;*/
 }
 
+.location-info-wrap{
+    display: block;
+    padding-top: 10px;
+}
+
+.location-em{
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 40px;
+    border-left: #1d8740 9px solid;
+    text-transform: uppercase;
+    color: #565656;
+}
+
+
+
 /* Sub navigation */
+.sub-nav-wrap{
+    padding-top: 24px;
+}
+
 
 .sub-nav-project-detail {
     margin-right: 20px;
@@ -594,7 +670,7 @@ ul.sub-nav li {
 }
 
 ul.sub-nav li a {
-    color: #c9c9c9;
+    color: #FFF;
     font-size: 18px;
     line-height: 24px;
     font-weight: bold;
@@ -603,7 +679,7 @@ ul.sub-nav li a {
 }
 
 ul.sub-nav li a:hover, ul.sub-nav li.active a {
-    color: #FFF;
+    color: #c4fbd6;
 }
 
 .hotline {
@@ -623,6 +699,11 @@ ul.sub-nav li a:hover, ul.sub-nav li.active a {
     text-decoration: none;
     color: #FFF;
 }
+
+.map-link{
+    padding: 10px 0px;
+}
+
 
 /* ONSALE table */
 

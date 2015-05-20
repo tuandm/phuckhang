@@ -34,6 +34,7 @@ Class User_Model extends Land_Book_Model
             ->join('pk_users', 'pk_sc_user_friends.friend_id = pk_users.ID', 'left')
             ->like('display_name', $search)
             ->where('pk_sc_user_friends.user_id', $this->db->escape($userId))
+            ->where('status', 0)
             ->order_by('pk_sc_user_friends.created_date', 'DES');
         $friends = $this->db->get()->result_array();
         return $friends;
@@ -122,4 +123,35 @@ Class User_Model extends Land_Book_Model
         }
     }
 
+    public function isFriend($currentUserId, $userId)
+    {
+        $where = array(
+            'user_id'    => $currentUserId,
+            'friend_id'  => $userId
+        );
+        $isFriend = $this->db
+            ->select()
+            ->from('pk_sc_user_friends')
+            ->where($where)
+            ->get()
+            ->result_array();
+        return $isFriend;
+    }
+
+    public function addFriend($currentUserId, $friendId)
+    {
+        $now = date('Y-m-d H:i:s');
+        $result = $this->db->insert('pk_sc_user_friends', array(
+            'user_id'           => $currentUserId,
+            'friend_id'         => $friendId,
+            'request_user_id'   => $currentUserId,
+            'request_date'      => $now,
+            'status'            => 1
+        ));
+
+        if ($result) {
+            $userFriendId = $this->db->insert_id();
+        }
+        return $userFriendId;
+    }
 }

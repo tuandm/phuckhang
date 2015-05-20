@@ -347,3 +347,48 @@ $(document).ready(function() {
         }
     });
 });
+
+$('.friend_Add').on("click",function(){
+        $.ajax({
+            type: "post",
+            url: "/social-user-profile/",
+            cache: false,
+            data:
+            {
+                act: 'ajax',
+                callback: 'addFriend',
+                friendId: $("#friendId").val()
+            },
+            success: function(response) {
+                var results = JSON.parse(response);
+                if (results.success) {
+                    $('.friend_Add').hide();
+                } else {
+                    $('#panel-heading').html($('<li/>').text("Thêm bạn không được."));
+                }
+            },
+            error: function() {
+                alert('Error while request..');
+            }
+        });
+});
+
+$('.friend_Remove').on("click",function(){
+    $.ajax({
+        type: "post",
+        url: "/social-user-profile/",
+        cache: false,
+        data:
+        {
+            act: 'ajax',
+            callback: 'removeFriend',
+            friendId: $("#friendId").val()
+        },
+        success: function(response) {
+                $('.friend_Remove').hide();
+        },
+        error: function() {
+            alert('Error while request..');
+        }
+    });
+});
