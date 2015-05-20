@@ -8,12 +8,12 @@
 $this->load->helper('url');
 $this->load->library('permalink_util');
 $url = new Permalink_Util();
-$frienId = $this->input->get('userId');
+$friendId = $this->input->get('userId');
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
         <strong>Thông Tin <?php echo $name ?></strong>
-        <input type="text" id="friendId" value="<?php echo $frienId; ?>" hidden="hidden">
+        <input type="text" id="friendId" value="<?php echo $friendId; ?>" hidden="hidden">
         <?php if($submitValue=='Pending'): ?>
             <?php echo $submitValue; ?>
         <?php else: ?>

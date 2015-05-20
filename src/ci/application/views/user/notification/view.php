@@ -23,6 +23,11 @@
                     <div class="col-sm-10 col-xs-9 notification_link" id="<?php echo $notification->notification_id ?>">
                         <?php echo $notification->notification_text; ?>
                         <span class="noti-datetime"><?php echo $notification->timeLabel; ?></span>
+                        <?php if ($notification->notification_type === LandBook_Constant::TYPE_ADD_FRIEND) : ?>
+                        <a href="#" class="acceptRequestFriend_<?php echo $notification->notification_id ?>" ><?php echo 'Accept' ?></a>
+                            |
+                        <a href="#" class="rejectRequestFriend_<?php echo $notification->notification_id ?>" ><?php echo 'Reject' ?></a>
+                        <?php endif ?>
                     </div>
                 </div>
                         <div class="updateStatusError" style="display: none;"></div>

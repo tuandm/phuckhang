@@ -44,6 +44,10 @@ class LandBook_Model_Notification extends LandBook_Model
                 $result = $this->createAddUserLikeStatusNotifications($userId, $objectId);
                 break;
 
+            case LandBook_Constant::TYPE_ADD_FRIEND:
+                $result = $this->createReqAddUserFriendNotifications($userId, $objectId);
+                break;
+
             default:
                 $result = false;
         }
@@ -245,6 +249,35 @@ class LandBook_Model_Notification extends LandBook_Model
     }
 
     /**
+     * Create notifications of the activity that user add status to a group
+     *
+     * @param int $userId
+     * @param int $objectId
+     * @return int|false
+     */
+
+    protected function createReqAddUserFriendNotifications($userId, $objectId)
+    {
+        $userFriend = $this->getRow('SELECT * FROM pk_sc_user_friends WHERE sc_user_friend_id = %d', $objectId);
+        if ($userFriend == null) {
+            wp_die('Invalid Status');
+        }
+        $requestUserName = get_the_author_meta('display_name', $userFriend->request_user_id);
+        $userFriendUrl = $this->buildNotiUserFriendUrl($userFriend->user_id, LandBook_Constant::TYPE_ADD_FRIEND, array('reference_id' => $userFriend->sc_user_friend_id));
+
+        $notiText = sprintf('<a href="%s"><span class="author">%s</span> đã gửi yêu cầu kết bạn.</a>', $userFriendUrl, $requestUserName);
+        return $this->createNotification(
+            $userId,
+            array(
+                'user_id'               => $userFriend->friend_id,
+                'notification_type'     => LandBook_Constant::TYPE_ADD_FRIEND,
+                'reference_id'          => $objectId,
+                'notification_text'     => $notiText,
+            )
+        );
+    }
+
+    /**
      * Create the notification in the DB
      *
      * @param int $fromUserId ID of the notification's producer
@@ -387,6 +420,27 @@ class LandBook_Model_Notification extends LandBook_Model
     }
 
     /**
+     * Build the user's friend URL that the notification points to
+     * @param int $userId
+     * @param string $notiType
+     * @param array|null $additionalParams
+     * @return string
+     */
+    protected function buildNotiUserFriendUrl($userId, $notiType, $additionalParams = null)
+    {
+        $params = array(
+            'ref'       => 'noti',
+            'noti_t'    => $notiType
+        );
+
+        if (!empty($additionalParams)) {
+            $params = array_merge($additionalParams);
+        }
+
+        return LandBook_Util_Url::buildUserFriendUrl($userId, $params);
+    }
+
+    /**
      * Get all user 's friend list.
      *
      * @param int $userId
@@ -409,5 +463,5 @@ class LandBook_Model_Notification extends LandBook_Model
         $friendListIds = array_unique($friendListIds);
         return $friendListIds;
     }
-    
+
 }

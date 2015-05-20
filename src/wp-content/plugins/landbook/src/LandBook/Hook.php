@@ -251,4 +251,15 @@ class LandBook_Hook
         $activityModel->createAddUserPhotoActivity($objectId);
     }
 
+    /**
+     * Handle user add a friend action that needs to be hooked after that request is sent
+     *
+     * @param int $objectId
+     */
+    public function processReqAddUserFriend($objectId)
+    {
+        $activityModel = new LandBook_Model_Activity();
+        $activityModel->createReqAddUserFriendActivity($objectId);
+    }
+
 }

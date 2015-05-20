@@ -25,7 +25,6 @@ Class User_Photos extends Base
         $uId = $this->input->get('userId');
         $userId = ($uId) ? $uId : get_current_user_id();
         $photos = $this->userModel->getAllPhotos($userId);
-        var_dump($photos);
         $this->renderSocialView('user/photo/view', array(
             'photos' => $photos,
             'user'   => $userId

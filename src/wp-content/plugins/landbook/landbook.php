@@ -107,6 +107,7 @@ class LandBook
         $this->loader->addAction('save_activity', $this->hook, 'processAfterSavingActivity', 10, 1);
         $this->loader->addAction('save_comment', $this->hook, 'processAfterSavingUserStatusComment', 10, 1);
         $this->loader->addAction('save_user_status', $this->hook, 'processAfterSavingUserStatus', 10, 1);
+        $this->loader->addAction('request_add_user_friend', $this->hook, 'processReqAddUserFriend', 10, 1);
         $this->loader->addAction('save_group_status', $this->hook, 'processAfterSavingGroupStatus', 10, 1);
         $this->loader->addAction('save_user_like_status', $this->hook, 'processAfterSavingUserLikeStatus', 10, 1);
         $this->loader->addAction('save_user_photo', $this->hook, 'processAfterSavingUserPhoto', 10, 1);

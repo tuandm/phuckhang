@@ -27,7 +27,8 @@ class User_Profile extends Base
     public function index()
     {
         // Information for the viewed user profile
-        $userId = $this->input->get('userId');
+        $userId = (int) $this->input->get('userId');
+        $btnSubmit = "";
         $viewedUserId = $userId ? $userId : get_current_user_id();
         $viewedPhoneNumber = $this->userProfileModel->getPhoneNumberById($viewedUserId);
         $viewedTitle = $this->userProfileModel->getTitleByUserId($viewedUserId);
@@ -40,13 +41,12 @@ class User_Profile extends Base
 
         //Handle add friend
         $currentUserId = get_current_user_id();
-        $isFriend = $this->userModel->isFriend($currentUserId, $userId);
-        if($isFriend) {
-            $btnSubmit = ((int)$isFriend[0]['status'] === 0 ) ? "Remove" : "Pending";
-        } else {
+        $isFriend = (int) $this->userModel->isFriend($currentUserId, $userId);
+        if ($isFriend) {
+            $btnSubmit = ($isFriend[0]['status'] === 0 ) ? "Remove" : "Pending";
+        } elseif ($viewedUserId != $currentUserId) {
             $btnSubmit = "Add";
         }
-
         $viewedUser = array(
             'userId'        => $viewedUserId,
             'title'         => $viewedTitle,
@@ -91,11 +91,11 @@ class User_Profile extends Base
         );
 
         if (empty($response['result'])) {
-            $userFriendId = $this->userModel->addFriend($userId, $friendId);
-            if ($userFriendId!== false) {
-                do_action('save_user_friend', $userFriendId);
+            $scUserFriendId = $this->userModel->addFriend($userId, $friendId);
+            if ($scUserFriendId !== false) {
                 $response['success'] = true;
-                $response['result'] = $userFriendId;
+                $response['result'] = $scUserFriendId;
+                do_action('request_add_user_friend', $scUserFriendId);
             } else {
                 $response['result'] = 'Can not add friend. Please try again.';
             }

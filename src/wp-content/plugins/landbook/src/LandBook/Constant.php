@@ -13,6 +13,7 @@ class LandBook_Constant
      */
     const TYPE_ADD_STATUS_COMMENT = 'add_status_comment';
     const TYPE_ADD_USER_PHOTO = 'add_user_photo';
+    const TYPE_ADD_FRIEND = 'request_add_friend';
     const TYPE_ADD_USER_STATUS = 'add_user_status';
     const TYPE_ADD_GROUP_STATUS = 'add_group_status';
     const TYPE_LIKE_COMMENT = 'like_comment';

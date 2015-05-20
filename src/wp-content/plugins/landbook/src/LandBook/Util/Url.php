@@ -63,4 +63,18 @@ class LandBook_Util_Url {
         return site_url('social-user-photos?' . build_query($params));
     }
 
+    /**
+     * Helper method to build the URL that points to the user friend page
+     * @param int $userId ID of the user that the URL points to
+     * @param array|null $params Additional parameters passed to the URL's query string
+     * @return string
+     */
+    public static function buildUserFriendUrl($userId, $params = array()) {
+        if ($params == null) {
+            $params = array();
+        }
+        $params['userId'] = $userId;
+        return site_url('social-user-friends?' . build_query($params));
+    }
+
 }

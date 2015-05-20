@@ -143,4 +143,31 @@ class LandBook_Model_Activity extends LandBook_Model
         }
     }
 
+    /**
+     * Create Activities when user request add friend invitation
+     *
+     * @param int $objectId
+     * @return int|null
+     */
+    public function createReqAddUserFriendActivity($objectId)
+    {
+        $userFriend = $this->getRow('SELECT * FROM pk_sc_user_friends WHERE sc_user_friend_id = %d AND status = %d', [$objectId, 1]);
+        if ($userFriend == null) {
+            return '';
+        }
+        $activity = $this->getRow('SELECT * FROM pk_sc_user_activities psua INNER JOIN pk_sc_user_friends psuf ON psua.object_id = psuf.sc_user_friend_id
+                WHERE psua.user_id = %d AND psua.type = %s', [$userFriend->request_user_id, LandBook_Constant::TYPE_ADD_FRIEND]);
+        if ($activity == null) {
+            return $this->createActivity(
+                array(
+                    'user_id'            => $userFriend->request_user_id,
+                    'object_id'          => $objectId,
+                    'type'               => LandBook_Constant::TYPE_ADD_FRIEND
+                )
+            );
+        } else {
+            return '';
+        }
+    }
+
 }

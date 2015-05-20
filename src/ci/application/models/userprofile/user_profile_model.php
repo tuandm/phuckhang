@@ -139,6 +139,7 @@ class User_Profile_Model extends CI_Model
             ->select('*')
             ->from('pk_sc_user_friends')
             ->where($where)
+            ->where('status', 0)
             ->get()
             ->result_array();
         $friends = array();

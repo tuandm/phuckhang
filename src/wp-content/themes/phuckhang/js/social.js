@@ -392,3 +392,6 @@ $('.friend_Remove').on("click",function(){
         }
     });
 });
+//TODO Handle event Accept or Reject when receive the request notification.
+$()
+
