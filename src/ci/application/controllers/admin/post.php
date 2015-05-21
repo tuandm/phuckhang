@@ -7,12 +7,24 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Post extends CI_Controller
 {
+
+    /**
+     * @var Input_Util
+     */
+    public $inputUtil;
+
+    /**
+     * @var Posts
+     */
+    public $postModel;
+
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('sc_post_management');
         $this->load->model('admin/Posts', 'postModel');
+        $this->load->library('sc_post_management');
         $this->load->library('form_validation');
+        $this->load->library('input_util', '', 'inputUtil');
     }
 
     /**
@@ -20,7 +32,12 @@ class Post extends CI_Controller
      */
     public function index()
     {
-        $posts = $this->postModel->getAllPosts();
+        $orderBy = $this->inputUtil->getInputValue($this->input, 'orderby', 'col_post_id');
+        $order = $this->inputUtil->getInputValue($this->input, 'order', 'ASC');
+        $cat = $this->inputUtil->getInputValue($this->input, 'cat', 0);
+        $postTitle = $this->inputUtil->getInputValue($this->input, 's', false);
+
+        $posts = $this->postModel->getAllPosts($orderBy, $order, $cat, $postTitle);
         $this->load->view('admin/post/view_all', array('posts' => $posts));
     }
 

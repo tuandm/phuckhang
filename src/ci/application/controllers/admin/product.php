@@ -16,9 +16,15 @@ class Product extends CI_Controller {
     private $orderBy;
     private $checkHeader;
 
+    /**
+     * @var Input_Util
+     */
+    public $inputUtil;
+
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('input_util', '', 'inputUtil');
         $this->load->library('lb_product_management');
         $this->load->model('admin/Products_Model', 'productModel');
         $this->load->library('form_validation');
@@ -26,15 +32,18 @@ class Product extends CI_Controller {
         $this->load->helper('url');
         $this->productTable = new Lb_Product_Management();
         $this->load->library('upload');
+
         foreach ($this->statusValues as $value) {
             $this->statusNames[$value] = $this->productModel->getNameStatusByNumber($value);
         }
+
         $this->checkHeader = $this->input->get('noheader');
         if (isset($this->checkHeader)) {
             require_once(ABSPATH . 'wp-admin/admin-header.php');
         }
-        $this->orderBy = !empty($this->input->get('orderby')) ? $this->input->get('orderby') : 'code';
-        $this->order = !empty($this->input->get('order')) ? $this->input->get('order') : 'ASC';
+
+        $this->orderBy = $this->inputUtil->getInputValue($this->input, 'orderby', 'code');
+        $this->order = $this->inputUtil->getInputValue($this->input, 'order', 'ASC');
     }
     
     /**

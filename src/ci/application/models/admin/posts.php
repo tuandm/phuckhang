@@ -29,14 +29,17 @@ class Posts extends CI_Model
     }
 
     /**
-     * Get All Posts
-     * 
-     * @return post object
+     * Search for Posts
+     * @param $orderBy
+     * @param $order
+     * @param $cat
+     * @param $postTitle
+     * @return Array of post objects
      */
-    public function getAllPosts()
+    public function getAllPosts($orderBy, $order, $cat, $postTitle)
     {
         $posts = new Sc_Post_Management();
-        $posts->prepare_items();
+        $posts->prepare_items($orderBy, $order, $cat, $postTitle);
         return $posts;
     }
 

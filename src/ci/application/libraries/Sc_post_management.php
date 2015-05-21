@@ -103,13 +103,8 @@ class Sc_Post_Management extends WP_List_Table
      *
      * @see WP_List_Table::prepare_items()
      */
-    function prepare_items()
+    function prepare_items($orderBy, $order, $cat, $postTitle)
     {
-        global $wpdb, $_column_headers, $cat;
-        $orderBy = !empty(filter_input(INPUT_GET, 'orderby')) ? filter_input(INPUT_GET, 'orderby') : 'col_post_id';
-        $order = !empty(filter_input(INPUT_GET, 'order')) ? filter_input(INPUT_GET, 'order') : 'ASC';
-        $cat = !empty(filter_input(INPUT_POST, 'cat')) ? filter_input(INPUT_POST, 'cat') : 0;
-        $postTitle = !empty(filter_input(INPUT_POST, 's')) ? filter_input(INPUT_POST, 's') : false;
         $groupId = ($cat == 0) ? wp_list_pluck(get_terms('sc_group'), 'term_id') : $cat;
         $args = array(
             'searchTitle'   => $postTitle,

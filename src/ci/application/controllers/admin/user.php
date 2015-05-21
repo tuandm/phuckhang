@@ -14,6 +14,11 @@ class User extends CI_Controller
     private $checkHeader;
 
     /**
+     * @var Input_Util
+     */
+    public $inputUtil;
+
+    /**
      * @var Users_Model
      */
     public $userModel;
@@ -26,20 +31,22 @@ class User extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('sc_user_management');
         $this->load->model('admin/Users_Model', 'userModel');
+        $this->load->library('sc_user_management');
+        $this->load->library('input_util', '', 'inputUtil');
         $this->load->library('form_validation');
         $this->load->database();
         $this->load->helper('url');
 
         $this->userTable = new Sc_User_Management();
 
-        $this->orderBy = !empty($this->input->get('orderby')) ? $this->input->get('orderby') : 'ID';
-        $this->order = !empty($this->input->get('order')) ? $this->input->get('order') : 'ASC';
         $this->checkHeader = $this->input->get('noheader');
         if (isset($this->checkHeader)) {
             require_once(ABSPATH . 'wp-admin/admin-header.php');
         }
+
+        $this->orderBy = $this->inputUtil->getInputValue($this->input, 'orderby', 'ID');
+        $this->order = $this->inputUtil->getInputValue($this->input, 'order', 'ASC');
     }
 
     /**
