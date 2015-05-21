@@ -117,7 +117,7 @@
                 </div>
 
                 <div class="scale-detail-slider cycle-slideshow col-lg-12"
-                     data-cycle-fx="scrollHorz"
+                     data-cycle-fx="scrollVert"
                      data-cycle-timeout="0"
                      data-cycle-speed="600"
                      data-cycle-pager="#scale-slide-pager"
@@ -125,10 +125,10 @@
                      data-cycle-slides="> div.scale-item"
                 >
 
-
-                    <div class="cycle-prev">
+                    <div class="cycle-prev" id="scale-prev">
                     </div>
-                    <div class="cycle-next">
+
+                    <div class="cycle-next" id="scale-next">
                     </div>
 
 

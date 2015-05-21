@@ -475,7 +475,6 @@ ol.project-indicators li.active, ol.project-indicators li.cycle-pager-active {
         display: inline;
     }
 
-
 /* End Project */
 
 /**
@@ -675,7 +674,6 @@ ol.project-indicators li.active, ol.project-indicators li.cycle-pager-active {
 
 .scale-item{
     display: block;
-    min-height: 400px;
 }
 
 .cycle-prev, .cycle-next {
@@ -687,8 +685,23 @@ ol.project-indicators li.active, ol.project-indicators li.cycle-pager-active {
   cursor: pointer;
 }
 
-.cycle-prev { left: 0;  background: url('images/btn-prev.png') 50% 50% no-repeat;}
-.cycle-next { right: 0; background: url('images/btn-next.png') 50% 50% no-repeat;}
+.cycle-prev { left: 0;  background: url('images/btn-prev.png') 50% 50% no-repeat;cursor: pointer;}
+.cycle-next { right: 0; background: url('images/btn-next.png') 50% 50% no-repeat;cursor: pointer;}
+
+.cycle-prev#scale-prev{
+    width: 40px;
+    height: 40px;
+    top: 50%;
+}
+
+.cycle-next#scale-next{
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    right: 50%;
+}
+
+
 
 
 /* Sub navigation */
