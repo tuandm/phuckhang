@@ -70,6 +70,9 @@ class Homepage extends Base
                     break;
                 case Feed_Model::REFERENCE_TYPE_POST:
                     $post = get_post($feed['reference_id']);
+                    if ($post == null) {
+                        break;
+                    }
                     $sharedImage = $this->getSharedImage($post->ID);
                     $numLike = $this->likeModel->countLike($post->ID);
                     $numUsersLike = $this->likeModel->getNumUsersLikeByLikeId($post->ID);
