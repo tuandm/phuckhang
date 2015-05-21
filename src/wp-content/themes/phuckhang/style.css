@@ -1259,6 +1259,9 @@ textarea.message {
         display: block;
     }
 
+    .cycle-next#scale-next{
+        right: 0;
+    }
 }
 
 /* xs */
@@ -1344,6 +1347,10 @@ textarea.message {
 
     .project-description  .project-mobile-link{
         display: block;
+    }
+
+    .cycle-next#scale-next{
+        right: 0;
     }
 
 }
@@ -1449,6 +1456,10 @@ textarea.message {
 
     .project-description  .project-mobile-link{
         display: block;
+    }
+
+    .cycle-next#scale-next{
+        right: 10px;
     }
 
 }
