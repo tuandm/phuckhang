@@ -171,9 +171,6 @@ class User_Profile_Model extends CI_Model
             ->from('pk_sc_user_groups')
             ->where('pk_sc_user_groups.user_id', $userId)
             ->get()->result();
-        if (empty($groups)) {
-            return '';
-        }
         return $groups;
     }
 
