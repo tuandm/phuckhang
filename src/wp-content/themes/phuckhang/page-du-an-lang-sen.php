@@ -48,6 +48,7 @@
     <div class="project-detail-slider cycle-slideshow col-lg-12"
          data-cycle-fx="scrollVert"
          data-cycle-timeout="0"
+         data-cycle-auto-height="1"
          data-cycle-speed="600"
          data-cycle-pager=".sub-nav-project-detail"
          data-cycle-pager-template=""
