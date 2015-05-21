@@ -1,5 +1,7 @@
 <?php foreach ($feeds as $feed) : ?>
-	<?php echo $feed['html']; ?>
+    <?php if (isset($feed['html']): ?>
+	    <?php echo $feed['html']; ?>
+    <?php endif; ?>
 <?php endforeach; ?>
 
 <div class="feed-pagination">
