@@ -98,13 +98,93 @@
         </div>
 
         <div id="scale" class="project-detail">
-            <h2 class="sub-header">Quy Mô</h2>
-            <p>Với quy mô rộng hơn 50ha, tổng mức đầu tư dự kiến 1.000 tỷ đồng, dự án khu đô thị văn hóa - thương mại - du lịch Làng Sen Việt Nam sẽ mang nét kiến trúc mô phỏng văn hóa đặc trưng cả ba miền Bắc, Trung, Nam.</p>
-            <p>Làng Sen Việt Nam là một sản phẩm của Phuc Khang Corporation, tọa lạc tại huyện Đức Hòa, tỉnh Long An, nằm gần khu trung tâm hành chính cận kề, hệ thống trường học các cấp, bệnh viện, siêu thị, chợ An Hạ..., chỉ cách trung tâm TP HCM khoảng 30 phút di chuyển. Để tìm hiểu thêm thông tin, vui lòng truy cập vào website chính của dự án theo địa chỉ sau: www.langsenvietnam.vn</p>
+
+        <div class="scale-wrap">
+
+          <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+
+            <div class="scale-top">
+                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/project/langsen/scale.jpg" height="275" width="965"  class="img-responsive">
+            </div>
+
+            <div class="scale-bottom">
+
+                <div class="scale-pager">
+                  <span class="text-utility">TIỆN ÍCH</span>
+                  <ol id="scale-slide-pager" class="project-indicators">
+                  </ol>
+                </div>
+
+                <div class="scale-detail-slider cycle-slideshow col-lg-12"
+                     data-cycle-fx="scrollHorz"
+                     data-cycle-timeout="0"
+                     data-cycle-speed="600"
+                     data-cycle-pager="#scale-slide-pager"
+                     data-cycle-pager-template="<li class='slide-nav'><a href=#></a></li>"
+                     data-cycle-slides="> div.scale-item"
+                >
+
+
+                    <div class="cycle-prev">
+                    </div>
+                    <div class="cycle-next">
+                    </div>
+
+
+                    <div class="scale-item">
+                        <div class="row">
+                          <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                              <p>
+                                <strong>CÔNG VIÊN BÁCH VIỆT</strong> <br />
+                                Nơi hội tụ tinh hoa văn hóa Việt, lưu giữ những nét văn hóa truyền thống dân tộc trong nhịp sống văn minh hiện đại với những tượng đài, biểu trưng văn hóa truyền thống theo suốt chiều dài lịch sử của dân tộc Việt.
+                              </p>
+                            </div>
+                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/project/langsen/congvien-bv.jpg" height="262" width="468">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="scale-item">
+                        <div class="row">
+                          <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                              <p>
+                                <strong>CÔNG VIÊN BÁCH VIỆT</strong> <br />
+                                Nơi hội tụ tinh hoa văn hóa Việt, lưu giữ những nét văn hóa truyền thống dân tộc trong nhịp sống văn minh hiện đại với những tượng đài, biểu trưng văn hóa truyền thống theo suốt chiều dài lịch sử của dân tộc Việt.
+                              </p>
+                            </div>
+                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/project/langsen/congvien-bv.jpg" height="262" width="468">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="scale-item">
+                        <div class="row">
+                          <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                              <p>
+                                <strong>CÔNG VIÊN BÁCH VIỆT</strong> <br />
+                                Nơi hội tụ tinh hoa văn hóa Việt, lưu giữ những nét văn hóa truyền thống dân tộc trong nhịp sống văn minh hiện đại với những tượng đài, biểu trưng văn hóa truyền thống theo suốt chiều dài lịch sử của dân tộc Việt.
+                              </p>
+                            </div>
+                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                                <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/project/langsen/congvien-bv.jpg" height="262" width="468">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+          <div class="clearfix"></div>
+
+          </div>
+
+        </div>
+
         </div>
 
         <div id="picture" class="project-detail">
-
 
             <div class="picture-wrap">
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -119,10 +199,10 @@
                     data-cycle-pager-template="<li class='slide-nav'><a href=#></a></li>"
                     >
 
-                  <div class="cycle-prev"></div>
-                  <div class="cycle-next"></div>
-
-
+                  <div class="cycle-prev">
+                  </div>
+                  <div class="cycle-next">
+                  </div>
 
                   <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/slider/bg1.jpg" height="433" width="1261" class="img-responsive" alt="Mặt bằng phân lô Làng Sen Việt Nam">
 

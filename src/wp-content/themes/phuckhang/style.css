@@ -468,6 +468,14 @@ ol.project-indicators li.active, ol.project-indicators li.cycle-pager-active {
     border: 1px solid #209347;
 }
 
+.scale-pager{
+    display: inline;
+}
+    .scale-pager ol.project-indicators {
+        display: inline;
+    }
+
+
 /* End Project */
 
 /**
@@ -650,6 +658,37 @@ ol.project-indicators li.active, ol.project-indicators li.cycle-pager-active {
     #alt-caption{
         padding:20px;
     }
+
+.scale-wrap{
+    padding-top: 24px;
+}
+
+    .scale-bottom{
+        padding-top: 34px;
+    }
+
+.text-utility{
+    color: #1d8740;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.scale-item{
+    display: block;
+    min-height: 400px;
+}
+
+.cycle-prev, .cycle-next {
+  position: absolute;
+  top: 0;
+  width: 10%;
+  z-index: 800;
+  height: 100%;
+  cursor: pointer;
+}
+
+.cycle-prev { left: 0;  background: url('images/btn-prev.png') 50% 50% no-repeat;}
+.cycle-next { right: 0; background: url('images/btn-next.png') 50% 50% no-repeat;}
 
 
 /* Sub navigation */
